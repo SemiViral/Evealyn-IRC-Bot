@@ -1,0 +1,7 @@
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.YouTube\obj\Debug\Eve.YouTube.csprojResolveAssemblyReference.cache
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\logs.txt
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\Eve.YouTube.dll.config
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\Eve.YouTube.dll
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\Eve.YouTube.pdb
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.YouTube\obj\Debug\Eve.YouTube.dll
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.YouTube\obj\Debug\Eve.YouTube.pdb

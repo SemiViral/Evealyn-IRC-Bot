@@ -1,0 +1,7 @@
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\logs.txt
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\Eve.Core.dll.config
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\Eve.Core.dll
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\Eve.Core.pdb
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.Core\obj\Debug\Eve.Core.csprojResolveAssemblyReference.cache
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.Core\obj\Debug\Eve.Core.dll
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.Core\obj\Debug\Eve.Core.pdb

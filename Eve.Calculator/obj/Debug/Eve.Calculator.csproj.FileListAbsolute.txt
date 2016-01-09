@@ -1,0 +1,9 @@
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\logs.txt
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\Eve.Calculator.dll
+C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\Eve.Calculator.pdb
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Calculator\obj\Debug\Eve.Calculator.csprojResolveAssemblyReference.cache
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Calculator\obj\Debug\Eve.Calculator.dll
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Calculator\obj\Debug\Eve.Calculator.pdb
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.Calculator\obj\Debug\Eve.Calculator.csprojResolveAssemblyReference.cache
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.Calculator\obj\Debug\Eve.Calculator.dll
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.Calculator\obj\Debug\Eve.Calculator.pdb

@@ -1,0 +1,4 @@
+C:\Users\semiv\OneDrive\Documents\Visual Studio 2015\Projects\IRCBot\IRCBot\bin\Release\IRCBot.exe.config
+C:\Users\semiv\OneDrive\Documents\Visual Studio 2015\Projects\IRCBot\IRCBot\obj\Release\IRCBot.exe
+C:\Users\semiv\OneDrive\Documents\Visual Studio 2015\Projects\IRCBot\IRCBot\obj\Release\IRCBot.pdb
+C:\Users\semiv\OneDrive\Documents\Visual Studio 2015\Projects\IRCBot\IRCBot\obj\Release\IRCBot.csprojResolveAssemblyReference.cache

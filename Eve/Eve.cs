@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace Eve {
 			Messages = new List<Message>();
 		}
 
-		public int ID { get; set; }
+		public int Id { get; set; }
 		public string Nickname { get; set; }
 		public string Realname { get; set; }
 		public int Access { get; set; }
@@ -41,15 +40,93 @@ namespace Eve {
 	}
 
 	public class Variables : IDisposable {
-		#region Variable initializations
-		public SQLiteConnection db;
-		public User currentUser = new User();
-		public string info = "Evealyn is a utility IRC bot created by SemiViral as a primary learning project for C#. Version 2.0";
+		public Variables(bool initDb) {
+			if (!initDb) return;
+			if (!File.Exists("users.sqlite")) {
+				Console.WriteLine("||| Users database does not exist. Creating database.");
 
-		public List<User> users = new List<User>();
-		public readonly List<string> channels = new List<string>();
-		public readonly List<string> ignoreList = new List<string>
-		{
+				SQLiteConnection.CreateFile("users.sqlite");
+
+				Db = new SQLiteConnection("Data Source=users.sqlite;Version=3;");
+				Db.Open();
+
+				SQLiteCommand com = new SQLiteCommand(
+					"CREATE TABLE users (int id, string nickname, string realname, int access, string seen)", Db);
+				SQLiteCommand com2 =
+					new SQLiteCommand("CREATE TABLE messages (int id, string sender, string message, string datetime)", Db);
+				com.ExecuteNonQuery();
+				com2.ExecuteNonQuery();
+			}
+			else
+				try {
+					Db = new SQLiteConnection("Data Source=users.sqlite;Version=3;");
+					Db.Open();
+				}
+				catch (Exception e) {
+					Console.WriteLine("||| Unable to connec to database, error: " + e);
+				}
+
+			using (SQLiteCommand a = new SQLiteCommand("SELECT COUNT(id) FROM users", Db))
+				if (Convert.ToInt32(a.ExecuteScalar()) == 0) {
+					Console.WriteLine("||| Users table in database is empty. Creating initial record.");
+
+					using (
+						SQLiteCommand b =
+							new SQLiteCommand("INSERT INTO users (id, nickname, realname, access) VALUES (0, 'semiviral', 'semiviral', 0) ",
+								Db))
+						b.ExecuteNonQuery();
+				}
+
+			using (SQLiteDataReader d = new SQLiteCommand("SELECT * FROM users", Db).ExecuteReader()) {
+				while (d.Read())
+					Users.Add(new User {
+						Id = (int) d["id"],
+						Nickname = (string) d["nickname"],
+						Realname = (string) d["realname"],
+						Access = (int) d["access"],
+						Seen = DateTime.Parse((string) d["seen"])
+					});
+
+				try {
+					using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", Db).ExecuteReader())
+						while (m.Read())
+							Users.FirstOrDefault(e => e.Id == Int64.Parse(m["id"].ToString()))?.Messages.Add(new Message {
+								Sender = (string) m["sender"],
+								Contents = (string) m["message"],
+								Date = DateTime.Parse((string) m["datetime"])
+							});
+				}
+				catch (NullReferenceException) {
+					Console.WriteLine(
+						"||| NullReferenceException occured upon loading messages from database. This most likely means a user record was deleted and the ID cannot be referenced from the message entry.");
+				}
+
+				if (Users != null) return;
+
+				Console.WriteLine("||| Failed to read from database.");
+			}
+		}
+
+		public void Dispose() {
+			Db?.Close();
+		}
+
+		public User QueryName(string name) {
+			return Users.FirstOrDefault(e => e.Realname == name);
+		}
+
+		#region Variable initializations
+
+		public SQLiteConnection Db;
+		public User CurrentUser = new User();
+
+		public string Info =
+			"Evealyn is a utility IRC bot created by SemiViral as a primary learning project for C#. Version 2.0";
+
+		public List<User> Users = new List<User>();
+		public readonly List<string> Channels = new List<string>();
+
+		public readonly List<string> IgnoreList = new List<string> {
 			"eve",
 			"nickserv",
 			"chanserv",
@@ -60,165 +137,103 @@ namespace Eve {
 			"staticfree.foonetic.net"
 		};
 
-		public readonly Dictionary<string, List<string>> userChannelList = new Dictionary<string, List<string>>();
-		public readonly Dictionary<string, int> userAttempts = new Dictionary<string, int>();
-		public readonly Dictionary<string, string> commands = new Dictionary<string, string>();
+		public readonly Dictionary<string, List<string>> UserChannelList = new Dictionary<string, List<string>>();
+		public readonly Dictionary<string, int> UserAttempts = new Dictionary<string, int>();
+		public readonly Dictionary<string, string> Commands = new Dictionary<string, string>();
+
 		#endregion
-
-		public Variables(bool initDB) {
-			if (initDB) {
-				if (!File.Exists("users.sqlite")) {
-					Console.WriteLine("||| Users database does not exist. Creating database.");
-
-					SQLiteConnection.CreateFile("users.sqlite");
-
-					db = new SQLiteConnection("Data Source=users.sqlite;Version=3;");
-					db.Open();
-
-					var com = new SQLiteCommand("CREATE TABLE users (int id, string nickname, string realname, int access, string seen)", db);
-					var com2 = new SQLiteCommand("CREATE TABLE messages (int id, string sender, string message, string datetime)", db);
-					com.ExecuteNonQuery();
-					com2.ExecuteNonQuery();
-				} else {
-					try {
-						db = new SQLiteConnection("Data Source=users.sqlite;Version=3;");
-						db.Open();
-					} catch (Exception e) {
-						Console.WriteLine("||| Unable to connec to database, error: " + e);
-					}
-				}
-
-				using (SQLiteCommand a = new SQLiteCommand("SELECT COUNT(id) FROM users", db))
-					if (Convert.ToInt32(a.ExecuteScalar()) == 0) {
-						Console.WriteLine("||| Users table in database is empty. Creating initial record.");
-
-						using (SQLiteCommand b = new SQLiteCommand("INSERT INTO users (id, nickname, realname, access) VALUES (0, 'semiviral', 'semiviral', 0) ", db))
-							b.ExecuteNonQuery();
-					}
-
-				using (SQLiteDataReader d = new SQLiteCommand("SELECT * FROM users", db).ExecuteReader()) {
-					while (d.Read()) {
-						users.Add(new User() {
-							ID = (int)d["id"],
-							Nickname = (string)d["nickname"],
-							Realname = (string)d["realname"],
-							Access = (int)d["access"],
-							Seen = DateTime.Parse((string)d["seen"])
-						});
-					}
-
-					try {
-						using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", db).ExecuteReader()) {
-							while (m.Read()) {
-								users.FirstOrDefault(e => e.ID == Int64.Parse(m["id"].ToString())).Messages.Add(new Message() {
-									Sender = (string)m["sender"],
-									Contents = (string)m["message"],
-									Date = DateTime.Parse((string)m["datetime"])
-								});
-							}
-						}
-					} catch (NullReferenceException) {
-						Console.WriteLine("||| NullReferenceException occured upon loading messages from database. This most likely means a user record was deleted and the ID cannot be referenced from the message entry.");
-					}
-
-					if (users == null) {
-						Console.WriteLine("||| Failed to read from database.");
-						return;
-					}
-				}
-			}
-		}
-
-		public User QueryName(string name) {
-			return users.FirstOrDefault(e => e.Realname == name);
-		}
-
-		public void Dispose() {
-			db?.Close();
-		}
 	}
 
-	public class IRCBot : IDisposable, IModule {
-		private Config config;
-		private TcpClient connection;
-		private StreamWriter log;
-		private NetworkStream networkStream;
-		private StreamReader streamReader;
-		private StreamWriter streamWriter;
-
-		private static Variables _v = new Variables(true);
-		public static Variables v {
-			get { return _v; }
-			set { _v = value; }
-		}
-
-		private static Dictionary<string, Type> _modules = LoadModules();
-		public static Dictionary<string, Type> modules {
-			get { return _modules; }
-			set { _modules = value; }
-		}
-
-		public Dictionary<string, string> def { get { return null; } }
+	public class IrcBot : IDisposable, IModule {
+		private Config _config;
+		private TcpClient _connection;
+		private StreamWriter _log;
+		private NetworkStream _networkStream;
+		private StreamReader _streamReader;
+		private StreamWriter _streamWriter;
 
 		// set config
-		public IRCBot(Config config) {
-			this.config = config;
+		public IrcBot(Config config) {
+			_config = config;
 		}
 
+		public static Variables V { get; set; } = new Variables(true);
+
+		public static Dictionary<string, Type> Modules { get; set; } = LoadModules();
+		
 		public void Dispose() {
-			streamReader?.Close();
-			streamWriter?.Close();
-			networkStream?.Close();
-			log?.Close();
-			connection?.Close();
+			_streamReader?.Close();
+			_streamWriter?.Close();
+			_networkStream?.Close();
+			_log?.Close();
+			_connection?.Close();
 		}
+
+		public Dictionary<String, String> Def => null;
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			c._Args = (c.Args != null) ?
-				c.Args.Trim().Split(new[] { ' ' }, 4).ToList() : null;
+			c._Args = c.Args?.Trim().Split(new[] {' '}, 4).ToList();
 
 			try {
-				foreach (Type m in modules.Values) {
-					ChannelMessage cm = ((IModule)Activator.CreateInstance(m)).OnChannelMessage(c);
+				foreach (ChannelMessage cm in Modules.Values
+					.Select(m => ((IModule) Activator.CreateInstance(m)).OnChannelMessage(c))) {
+					if (cm == null) return null;
 
-					if (cm != null && !_v.ignoreList.Contains(c.Realname)) {
-						if (cm._Args != null)
-							foreach (string s in cm._Args)
-								SendData(cm.Type, $"{cm.Nickname} {s}");
-						else if (!String.IsNullOrEmpty(cm.Args))
-							SendData(cm.Type, $"{cm.Nickname} {cm.Args}");
+					var stopLoop = false;
+					switch (cm.ExitType) {
+						case 0: // Immediately end loop
+							stopLoop = true;
+							break;
+						case 1: // End loop after sending message
+							SendData("PRIVMSG", $"{cm.Nickname} {cm.Args}");
+							stopLoop = true;
+							break;
 					}
+
+					if (stopLoop) break;
+
+					if (cm._Args.Any())
+						foreach (string s in cm._Args)
+							SendData(cm.Type, $"{cm.Nickname} {s}");
+					else if (!String.IsNullOrEmpty(cm.Args))
+						SendData(cm.Type, $"{cm.Nickname} {cm.Args}");
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				Console.WriteLine($"||| Error: {e}");
 			}
 
-			if (c.Type == "MODE" && !config.Identified) {
-				SendData("PRIVMSG", "NICKSERV IDENTIFY evepass");
-				SendData("MODE", "Eve +B");
+			// 376 is end of MOTD command
+			if (c.Type != "376" || _config.Identified) return null;
 
-				foreach (string s in config.Channels) {
-					SendData("JOIN", s);
-					_v.channels.Add(s);
-				}
+			SendData("PRIVMSG", "NICKSERV IDENTIFY evepass");
+			SendData("MODE", "Eve +B");
 
-				config.Identified = true;
-			} return null;
+			foreach (string s in _config.Channels) {
+				SendData("JOIN", s);
+				V.Channels.Add(s);
+			}
+
+			_config.Joined = true;
+			_config.Identified = true;
+			return null;
 		}
 
 		// send raw data to server
 		private void SendData(string cmd, string param) {
 			try {
 				if (param == null) {
-					streamWriter.WriteLine(cmd);
-					streamWriter.Flush();
+					_streamWriter.WriteLine(cmd);
+					_streamWriter.Flush();
 					Console.WriteLine(cmd);
-				} else {
-					streamWriter.WriteLine($"{cmd} {param}");
-					streamWriter.Flush();
+				}
+				else {
+					_streamWriter.WriteLine($"{cmd} {param}");
+					_streamWriter.Flush();
 					Console.WriteLine($"{cmd} {param}");
-                }
-			} catch {
+				}
+			}
+			catch {
 				Console.WriteLine("||| Failed to send message to server. Attempting reconnection.");
 				Dispose();
 				InitializeConnections();
@@ -230,51 +245,53 @@ namespace Eve {
 		// </summary>
 		public void InitializeConnections() {
 			try {
-				connection = new TcpClient(config.Server, config.Port);
-			} catch {
+				_connection = new TcpClient(_config.Server, _config.Port);
+			}
+			catch {
 				Console.WriteLine("||| Connection failed.");
 				return;
 			}
 
 			try {
-				networkStream = connection.GetStream();
-				streamReader = new StreamReader(networkStream);
-				streamWriter = new StreamWriter(networkStream);
-				log = new StreamWriter("./logs.txt", true);
+				_networkStream = _connection.GetStream();
+				_streamReader = new StreamReader(_networkStream);
+				_streamWriter = new StreamWriter(_networkStream);
+				_log = new StreamWriter("./logs.txt", true);
 
-				SendData("USER", $"{config.Nick} 0 * {config.Name}");
-				SendData("NICK", config.Nick);
-			} catch {
+				SendData("USER", $"{_config.Nick} 0 * {_config.Name}");
+				SendData("NICK", _config.Nick);
+			}
+			catch {
 				Console.WriteLine("||| Communication error.");
-				return;
 			}
 		}
 
-		// <summary>
-		// Recieves input from stream and identifies it,
-		// parsing the message into an array from regex
-		// </summary>
+		/// <summary>
+		///     Recieves incoming data, parses it, and passes it to <see cref="OnChannelMessage(ChannelMessage)" />
+		/// </summary>
 		public void Runtime() {
-			var data = streamReader.ReadLine(); // raw data from stream
-			var messageTime = DateTime.UtcNow;
-			var messageRegex = new Regex(@"^:(?<Sender>[^\s]+)\s(?<Type>[^\s]+)\s(?<Recipient>[^\s]+)\s?:?(?<Args>.*)",
+			String data = _streamReader.ReadLine(); // raw data from stream
+			if (data == null) return;
+
+			DateTime messageTime = DateTime.UtcNow;
+			Regex messageRegex = new Regex(@"^:(?<Sender>[^\s]+)\s(?<Type>[^\s]+)\s(?<Recipient>[^\s]+)\s?:?(?<Args>.*)",
 				RegexOptions.Compiled);
 			//var argMessageRegex = new Regex(@"^:(?<Arg1>[^\s]+)\s(?<Arg2>[^\s]+)\s(?<Arg3>[^\s]+)\s?:?(?<Arg4>.*)", RegexOptions.Compiled);
-			var senderRegex = new Regex(@"^(?<Nickname>[^\s]+)!(?<Realname>[^\s]+)@(?<Hostname>[^\s]+)", RegexOptions.Compiled);
-			var pingRegex = new Regex(@"^PING :(?<Message>.+)", RegexOptions.None);
+			Regex senderRegex = new Regex(@"^(?<Nickname>[^\s]+)!(?<Realname>[^\s]+)@(?<Hostname>[^\s]+)", RegexOptions.Compiled);
+			Regex pingRegex = new Regex(@"^PING :(?<Message>.+)", RegexOptions.None);
 
 			// write raw data if conditions not met
 			if (pingRegex.IsMatch(data))
 				Console.WriteLine(data);
 
 			// write timestamp and raw data to log
-			log.WriteLine($"({DateTime.Now}) {data}");
-			log.Flush();
+			_log.WriteLine($"({DateTime.Now}) {data}");
+			_log.Flush();
 
 			if (messageRegex.IsMatch(data)) {
-				var mVal = messageRegex.Match(data);
-				var mSender = mVal.Groups["Sender"].Value;
-				var sMatch = senderRegex.Match(mSender);
+				Match mVal = messageRegex.Match(data);
+				String mSender = mVal.Groups["Sender"].Value;
+				Match sMatch = senderRegex.Match(mSender);
 
 				// initialise new ChannelMessage to passed into OnChannelMessage()
 				ChannelMessage c = new ChannelMessage {
@@ -282,151 +299,174 @@ namespace Eve {
 					Realname = mSender.ToLower(),
 					Hostname = mSender,
 					Type = mVal.Groups["Type"].Value,
-					Recipient = mVal.Groups["Recipient"].Value.StartsWith(":")  // Checks if first argument starts with a colon
-						? mVal.Groups["Recipient"].Value.Substring(1)           // if so, remove it
+					Recipient = mVal.Groups["Recipient"].Value.StartsWith(":") // Checks if first argument starts with a colon
+						? mVal.Groups["Recipient"].Value.Substring(1) // if so, remove it
 						: mVal.Groups["Recipient"].Value,
 					Args = mVal.Groups["Args"].Value,
-					Time = DateTime.UtcNow
+					Time = messageTime
 				};
 
 				// if mVal["Sender"] matches Sender regex, reset the values of ChannelMessage c
 				if (sMatch.Success) {
-					var realname = sMatch.Groups["Realname"].Value;
+					String realname = sMatch.Groups["Realname"].Value;
 					c.Nickname = sMatch.Groups["Nickname"].Value;
 					c.Realname = realname.StartsWith("~") ? realname.Substring(1) : realname;
 					c.Hostname = sMatch.Groups["Hostname"].Value;
 				}
 
 				// if user exists in database, update their last seen datetime
-				if (_v.QueryName(c.Realname) != null) {
-					_v.users.First(e => e.Realname == c.Realname).Seen = DateTime.UtcNow;
-					using (var com = new SQLiteCommand($"UPDATE users SET seen='{DateTime.UtcNow}' WHERE realname='{c.Realname}'", _v.db))
+				if (V.QueryName(c.Realname) != null) {
+					V.Users.First(e => e.Realname == c.Realname).Seen = messageTime;
+					using (
+						SQLiteCommand com = new SQLiteCommand($"UPDATE users SET seen='{messageTime}' WHERE realname='{c.Realname}'",
+							V.Db))
 						com.ExecuteNonQuery();
-				} else if (_v.QueryName(c.Realname) == null
-					&& !_v.ignoreList.Contains(c.Realname)) { // checks if user exists and is also not in the ignoreList
+				}
+				else if (V.QueryName(c.Realname) == null
+						 && !V.IgnoreList.Contains(c.Realname)) {
+					// checks if user exists and is also not in the ignoreList
 					Console.WriteLine($"||| User {c.Realname} currently not in database. Creating database entry for user.");
 
 					int id = -1;
 
 					// create data adapter to obtain all id's from users table
-					using (var x = new SQLiteCommand("SELECT MAX(id) FROM users", v.db).ExecuteReader())
+					using (SQLiteDataReader x = new SQLiteCommand("SELECT MAX(id) FROM users", V.Db).ExecuteReader())
 						while (x.Read())
-							Int32.TryParse(x.GetValue(0).ToString(), out id);
+							id = Convert.ToInt32(x.GetValue(0)) + 1;
 
 					// insert new user record into database
-					using (var com = new SQLiteCommand($"INSERT INTO users (id, nickname, realname, access, seen) VALUES ({id + 1}, '{c.Nickname}', '{c.Realname}', 3, '{DateTime.UtcNow}')", _v.db))
+					using (
+						SQLiteCommand com =
+							new SQLiteCommand(
+								$"INSERT INTO users (id, nickname, realname, access, seen) VALUES ({id}, '{c.Nickname}', '{c.Realname}', 3, '{messageTime}')",
+								V.Db))
 						com.ExecuteNonQuery();
 
 					// add new User instance to the list of users
-					_v.users.Add(new User() {
-						ID = id,
+					V.Users.Add(new User {
+						Id = id,
 						Nickname = c.Nickname.ToLower(),
 						Realname = c.Realname,
 						Access = 2,
-						Seen = DateTime.UtcNow
+						Seen = messageTime
 					});
 				}
 
 				// if current user doesn't exist in userAttempts, add it
-				if (!_v.userAttempts.ContainsKey(c.Realname))
-					_v.userAttempts.Add(c.Realname, 0);
+				if (!V.UserAttempts.ContainsKey(c.Realname))
+					V.UserAttempts.Add(c.Realname, 0);
 
 				// add new channel to the channel list if not contained
-				if (!_v.userChannelList.ContainsKey(c.Recipient)
+				if (!V.UserChannelList.ContainsKey(c.Recipient)
 					&& c.Recipient.StartsWith("#"))
-					_v.userChannelList.Add(c.Recipient, new List<string>());
+					V.UserChannelList.Add(c.Recipient, new List<string>());
 
-				// set currentUser to the current user or null if it doesn't exist
-				_v.currentUser = _v.users.FirstOrDefault(e => e.Realname == c.Realname);
+				// set currentUser to the current user
+				V.CurrentUser = V.Users.FirstOrDefault(e => e.Realname == c.Realname);
 
 				// Write data to console in a more readable format
-				Console.WriteLine($"[{c.Recipient}]({DateTime.UtcNow.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}");
+				Console.WriteLine($"[{c.Recipient}]({messageTime.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}");
 
 				// queue OnChannelMessage into threadpool
 				ThreadPool.QueueUserWorkItem(e => OnChannelMessage(c));
-			} else if (pingRegex.IsMatch(data)) {
-				SendData("PONG", pingRegex.Match(data).Groups["Message"].Value);
 			}
+			else if (pingRegex.IsMatch(data)) SendData("PONG", pingRegex.Match(data).Groups["Message"].Value);
 		}
 
+		/// <summary>
+		///     Loads all Type assemblies in ./modules/ into memory
+		/// </summary>
+		/// <returns>void</returns>
 		public static Dictionary<string, Type> LoadModules() {
-			Dictionary<string, Type> modules = new Dictionary<string, Type>();
+			var modules = new Dictionary<string, Type>();
 
 			if (!Directory.Exists("modules")) {
 				Console.WriteLine("||| Modules directory not found. Creating directory.");
 				Directory.CreateDirectory("modules");
 			}
 
-			foreach (string f in Directory.EnumerateFiles("modules", "Eve.*.dll")) {
-				RecursiveAssemblyLoader r = new RecursiveAssemblyLoader();
-				Assembly file = r.GetAssembly(Path.GetFullPath(f));
+			try {
+				foreach (KeyValuePair<String, Type> kvp in Assembly.LoadFrom(Path.GetFullPath("modules/Eve.Core.dll")).GetTypes()
+					.Select(t => TypeCheckAndDo(t, modules)).Where(kvp => !kvp.Equals(default(KeyValuePair<string, Type>))))
+					modules.Add(kvp.Key, kvp.Value);
 
-				try {
-					foreach (Type t in file.GetTypes()) {
-						if (t.GetInterface("IModule") == null) continue;
-
-						if (t.GetInterface("IModule").IsEquivalentTo(typeof(IModule))) {
-							if (modules.ContainsValue(t)) continue;
-							modules.Add(t.Name.ToLower(), t); // add module to module dictionary
-
-							// instance the current type and set it's def clause equal to def
-							var def = ((IModule)Activator.CreateInstance(t)).def;
-
-							if (def != null)
-								foreach (var s in def)
-									if (!_v.commands.Contains(s))
-										_v.commands.Add(s.Key, s.Value);
-						}
+				foreach (KeyValuePair<String, Type> kvp in from f in Directory.EnumerateFiles("modules", "Eve.*.dll")
+					let r = new RecursiveAssemblyLoader()
+					select r.GetAssembly(Path.GetFullPath(f))
+					into file
+					from t in file.GetTypes()
+					select TypeCheckAndDo(t, modules)
+					into kvp
+					where !kvp.Equals(default(KeyValuePair<string, Type>))
+					select kvp)
+					modules.Add(kvp.Key, kvp.Value);
+			}
+			catch (InvalidCastException e) {
+				Console.WriteLine(e.ToString());
+			}
+			catch (NullReferenceException e) {
+				Console.WriteLine(e.ToString());
+			}
+			catch (ReflectionTypeLoadException ex) {
+				StringBuilder sb = new StringBuilder();
+				foreach (Exception exSub in ex.LoaderExceptions) {
+					sb.AppendLine(exSub.Message);
+					FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+					if (!string.IsNullOrEmpty(exFileNotFound?.FusionLog)) {
+						sb.AppendLine("Fusion Log:");
+						sb.AppendLine(exFileNotFound.FusionLog);
 					}
-				} catch (InvalidCastException e) {
-					Console.WriteLine(e.ToString());
-				} catch (NullReferenceException e) {
-					Console.WriteLine(e.ToString());
-				} catch (ReflectionTypeLoadException ex) {
-					StringBuilder sb = new StringBuilder();
-					foreach (Exception exSub in ex.LoaderExceptions) {
-						sb.AppendLine(exSub.Message);
-						FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
-						if (exFileNotFound != null) {
-							if (!string.IsNullOrEmpty(exFileNotFound.FusionLog)) {
-								sb.AppendLine("Fusion Log:");
-								sb.AppendLine(exFileNotFound.FusionLog);
-							}
-						}
-						sb.AppendLine();
-					}
-					string errorMessage = sb.ToString();
-					Console.WriteLine(errorMessage);
+					sb.AppendLine();
 				}
+				string errorMessage = sb.ToString();
+				Console.WriteLine(errorMessage);
 			}
 
 			Console.WriteLine($"||| Loaded modules: {String.Join(", ", modules.Keys)}");
-            return modules;
+			return modules;
+		}
+
+		/// <summary>
+		///     Handles interface checks on the Types and adds them to the module list.
+		///     Commands are also added to list.
+		/// </summary>
+		/// <param name="type">Type to be checked against IModule interface</param>
+		/// <param name="checker">Dictionary to be checked against</param>
+		private static KeyValuePair<string, Type> TypeCheckAndDo(Type type, Dictionary<string, Type> checker) {
+			if (type.GetInterface("IModule") == null) return new KeyValuePair<string, Type>();
+
+			if (!type.GetInterface("IModule").IsEquivalentTo(typeof(IModule)))
+				return new KeyValuePair<string, Type>(type.Name.ToLower(), type);
+			if (checker.ContainsValue(type)) return new KeyValuePair<string, Type>();
+			// instance the current type and set it's def clause equal to def
+			Dictionary<String, String> def = ((IModule) Activator.CreateInstance(type)).Def;
+
+			if (def == null) return new KeyValuePair<string, Type>(type.Name.ToLower(), type);
+			foreach (KeyValuePair<String, String> s in def.Where(s => !V.Commands.Contains(s)))
+				V.Commands.Add(s.Key, s.Value);
+
+			return new KeyValuePair<string, Type>(type.Name.ToLower(), type);
 		}
 	}
 
 	internal class Eve {
-		private static bool Run = true;
-		public static bool shouldRun {
-			get { return Run; }
-			set { Run = value; }
-		}
+		public static bool ShouldRun { get; set; } = true;
 
-		private static void Main(string[] args) {
+		private static void Main() {
 			Config conf = new Config {
 				Name = "SemiViral",
 				Nick = "Eve",
 				Port = 6667,
 				Server = "irc6.foonetic.net",
-				Channels = new string[] { "#testgrounds2" },// "#ministryofsillywalks" },
+				Channels = new[] {"#testgrounds2", "#ministryofsillywalks" },
 				Joined = false,
 				Identified = false
 			};
 
-			using (IRCBot bot = new IRCBot(conf)) {
+			using (IrcBot bot = new IrcBot(conf)) {
 				bot.InitializeConnections();
 
-				while (Run)
+				while (ShouldRun)
 					bot.Runtime();
 			}
 
@@ -438,6 +478,18 @@ namespace Eve {
 	public class RecursiveAssemblyLoader : MarshalByRefObject {
 		public Assembly GetAssembly(string path) {
 			return Assembly.LoadFrom(path);
+		}
+	}
+
+	public static class Extentions {
+		/// <summary>
+		///     Compares the object to a string with default ignorance of casing
+		/// </summary>
+		/// <param name="query">string to compare</param>
+		/// <param name="ignoreCase">whether or not to ignore case</param>
+		/// <returns>true: strings equal; false: strings unequal</returns>
+		public static bool CaseEquals(this string obj, string query, bool ignoreCase = true) {
+			return obj.Equals(query, ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture);
 		}
 	}
 }

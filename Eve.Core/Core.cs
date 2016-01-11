@@ -7,242 +7,219 @@ using Eve.Utilities;
 
 namespace Eve.Core {
 	public class Core : Utils, IModule {
-		private ChannelMessage o = new ChannelMessage {
+		private readonly Variables _v = IrcBot.V;
+
+		public ChannelMessage O { get; set; } = new ChannelMessage {
 			Type = "PRIVMSG",
-			Args = null
+			Args = String.Empty
 		};
 
-		private Variables v = Eve.IRCBot.v;
-
-		public Dictionary<String, String> def {
-			get {
-				return null;
-			}
-		}
+		public Dictionary<string, string> Def => null;
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			o.Nickname = c.Recipient;
+			O.Nickname = c.Recipient;
 
 			switch (c.Type) {
-				case "PRIVMSG":
-					if (c._Args[0].Replace(",", string.Empty) != "eve")
-						return o;
-
-					if (GetUserTimeout(c.Realname))
-						return o;
-
-					if (c._Args.Count < 2) {
-						o.Args = "Please provide a command. Type 'eve help' to view my command list.";
-						return o;
-					} else if (!v.commands.ContainsKey(c._Args[1].ToLower())) {
-						o.Args = "Invalid command. Type 'eve help' to view my command list.";
-						return o;
-					}
-					break;
 				case "JOIN":
-					if (c.Realname == "Eve") return null;
+					O.ExitType = 0;
+					if (c.Realname == "Eve") return O;
 
-					if (v.QueryName(c.Realname) != null
-						&& v.currentUser.Messages != null) {
-						foreach (Eve.Message m in v.currentUser.Messages)
-							o._Args.Add($"({m.Date}) {m.Sender}: {Regex.Unescape(m.Contents)}");
+					if (_v.QueryName(c.Realname) != null
+						&& _v.CurrentUser.Messages != null) {
+						foreach (Eve.Message m in _v.CurrentUser.Messages)
+							O._Args.Add($"({m.Date}) {m.Sender}: {Regex.Unescape(m.Contents)}");
 
-						v.users.First(e => e.Realname == c.Realname).Messages = null;
+						_v.Users.First(e => e.Realname == c.Realname).Messages = null;
 
-						var x = new SQLiteCommand($"DELETE FROM messages WHERE id={v.currentUser.ID}", v.db);
+						SQLiteCommand x = new SQLiteCommand($"DELETE FROM messages WHERE id={_v.CurrentUser.Id}", _v.Db);
 						x.ExecuteNonQuery();
 					}
 
-					if (!v.userChannelList.ContainsKey(c.Recipient))
-						v.userChannelList.Add(c.Recipient, new List<string>());
-					
-					v.userChannelList[c.Recipient].Add(c.Realname);
+					if (!_v.UserChannelList.ContainsKey(c.Recipient))
+						_v.UserChannelList.Add(c.Recipient, new List<string>());
+
+					_v.UserChannelList[c.Recipient].Add(c.Realname);
 					break;
 				case "PART":
-					v.userChannelList[c.Recipient].Remove(c.Realname);
+					O.ExitType = 0;
+					_v.UserChannelList[c.Recipient].Remove(c.Realname);
 					break;
 				case "353":
-					if (!v.userChannelList.ContainsKey(c.Recipient))
-						v.userChannelList.Add(c.Recipient, new List<string>());
-
-					// 353 is the IRC command response for a channel's user list
-					MatchCollection key = Regex.Matches(c.Args, @"(#\w+)");
-					List<string> list = key.Cast<Match>().Select(match => match.Value).ToList();
+					O.ExitType = 0;
+					if (!_v.UserChannelList.ContainsKey(c.Recipient))
+						_v.UserChannelList.Add(c.Recipient, new List<string>());
 
 					// splits the channel user list in half by the :, then splits each user into an array object to iterated
 					foreach (string s in c.Args.Split(':')[1].Split(' '))
-						v.userChannelList[c.Recipient].Add(s);
+						_v.UserChannelList[c.Recipient].Add(s);
+					break;
+				default:
+					if (!c._Args[0].Replace(",", String.Empty).CaseEquals("eve")
+						|| _v.IgnoreList.Contains(c.Realname)
+						|| GetUserTimeout(c.Realname)) {
+						O.ExitType = 0;
+						return O;
+					}
+
+					if (c._Args.Count < 2) {
+						O.ExitType = 1;
+						O.Args = "Please provide a command. Type 'eve help' to view my command list.";
+					}
+					else if (!_v.Commands.ContainsKey(c._Args[1].ToLower())) {
+						O.ExitType = 1;
+						O.Args = "Invalid command. Type 'eve help' to view my command list.";
+					}
+
 					break;
 			}
 
-			Eve.IRCBot.v = v;
-			return o;
+			IrcBot.V = _v;
+			return O;
 		}
 	}
 
 	public class Join : IModule {
-		ChannelMessage o = new ChannelMessage { Type = "JOIN" };
-		Variables v = Eve.IRCBot.v;
+		private readonly ChannelMessage _o = new ChannelMessage {Type = "JOIN"};
+		private readonly Variables _v = IrcBot.V;
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "join", "(<channel>) — joins specified channel." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"join", "(<channel>) — joins specified channel."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| !c._Args[1].Equals("join", StringComparison.OrdinalIgnoreCase))
-				return null;
+			if (!c._Args[1].CaseEquals("join"))
+				return _o;
 
-			if (v.currentUser.Access > 1)
-				o.Args = "Insufficient permissions.";
+			if (_v.CurrentUser.Access > 1)
+				_o.Args = "Insufficient permissions.";
 			else if (String.IsNullOrEmpty(c._Args[2]))
-				o.Args = "Insufficient parameters. Type 'eve help join' to view ccommand's help index.";
+				_o.Args = "Insufficient parameters. Type 'eve help join' to view ccommand's help index.";
 			else if (!c._Args[2].StartsWith("#"))
-				o.Args = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (v.channels.Contains(c._Args[2].ToLower()))
-				o.Args = "I'm already in that channel.";
+				_o.Args = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
+			else if (_v.Channels.Contains(c._Args[2].ToLower()))
+				_o.Args = "I'm already in that channel.";
 
-			if (!String.IsNullOrEmpty(o.Args))
-				return o;
+			if (!String.IsNullOrEmpty(_o.Args)) {
+				_o.Type = "PRIVMSG";
+				return _o;
+			}
 
-			Eve.IRCBot.v.channels.Add(c._Args[2].ToLower());
-			o.Args = c._Args[2];
-			return o;
+			IrcBot.V.Channels.Add(c._Args[2].ToLower());
+			_o.Args = c._Args[2];
+			return _o;
 		}
 	}
 
 	public class Part : IModule {
-		ChannelMessage o = new ChannelMessage { Type = "PART" };
-		Variables v = Eve.IRCBot.v;
+		private readonly ChannelMessage _o = new ChannelMessage {Type = "PART"};
+		private readonly Variables _v = IrcBot.V;
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "part", "(<channel> *<message>) — parts from specified channel." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			["part"] = "(<channel> *<message>) — parts from specified channel."
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| !c._Args[1].Equals("part", StringComparison.OrdinalIgnoreCase))
-				return null;
+			if (!c._Args[1].CaseEquals("part"))
+				return _o;
 
-			if (v.currentUser.Access > 1)
-				o.Args = "Insufficient permissions.";
+			if (_v.CurrentUser.Access > 1)
+				_o.Args = "Insufficient permissions.";
 			else if (String.IsNullOrEmpty(c._Args[2]))
-				o.Args = "Insufficient parameters. Type 'eve help part' to view ccommand's help index.";
+				_o.Args = "Insufficient parameters. Type 'eve help part' to view ccommand's help index.";
 			else if (!c._Args[2].StartsWith("#"))
-				o.Args = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (!v.channels.Contains(c._Args[2].ToLower()))
-				o.Args = "I'm not in that channel.";
+				_o.Args = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
+			else if (!_v.Channels.Contains(c._Args[2].ToLower()))
+				_o.Args = "I'm not in that channel.";
 
-			if (!String.IsNullOrEmpty(o.Args))
-				return o;
+			if (!String.IsNullOrEmpty(_o.Args)) {
+				_o.Type = "PRIVMSG";
+				return _o;
+			}
 
-			o.Args = (c._Args.Count > 3) ? $"{c._Args[2]} {c._Args[3]}" : c._Args[2];
+			_o.Args = c._Args.Count > 3 ? $"{c._Args[2]} {c._Args[3]}" : c._Args[2];
 
-			v.channels.Remove(c._Args[2]);
-			v.userChannelList.Remove(c._Args[2]);
-			Eve.IRCBot.v = v;
+			_v.Channels.Remove(c._Args[2]);
+			_v.UserChannelList.Remove(c._Args[2]);
+			IrcBot.V = _v;
 
-			return o;
+			return _o;
 		}
 	}
 
 	public class Say : IModule {
-		ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };
+		private readonly ChannelMessage _o = new ChannelMessage {Type = "PRIVMSG"};
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "say", "(*<channel> <message>) — returns specified message to (optionally) specified channel." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"say", "(*<channel> <message>) — returns specified message to (optionally) specified channel."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| !c._Args[1].Equals("say", StringComparison.OrdinalIgnoreCase))
-				return null;
+			if (!c._Args[1].CaseEquals("say"))
+				return _o;
 
-			o.Nickname = c.Recipient;
-
+			_o.Nickname = c.Recipient;
+			Console.WriteLine(c._Args.Count);
 			if (c._Args.Count < 3
 				|| (c._Args[2].StartsWith("#")
-				&& c._Args.Count < 4)) {
-				o.Args = "Insufficient parameters. Type 'eve help say' to view ccommand's help index.";
-				return o;
+					&& c._Args.Count < 4)) {
+				_o.Args = "Insufficient parameters. Type 'eve help say' to view ccommand's help index.";
+				return _o;
 			}
 
-			string msg = !c._Args[2].StartsWith("#")
-				? $"{c._Args[2]} {c._Args[3]}" : c._Args[2];
-			string chan = (c._Args[2].StartsWith("#")) ? c._Args[2] : null;
+			string msg = c._Args[2].StartsWith("#")
+				? $"{c._Args[2]} {c._Args[3]}"
+				: c._Args[2];
+			string chan = c._Args[2].StartsWith("#") ? c._Args[2] : String.Empty;
 
-			o.Args = (String.IsNullOrEmpty(chan)) ? msg : $"{chan} {msg}";
-			return o;
+			_o.Args = String.IsNullOrEmpty(chan) ? msg : $"{chan} {msg}";
+			return _o;
 		}
 	}
 
 	public class Channels : IModule {
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "channels", "ouputs a list of channels currently connected to." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"channels", "ouputs a list of channels currently connected to."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "chanlist")
+			if (!c._Args[1].CaseEquals("channels"))
 				return null;
 
 			return new ChannelMessage {
 				Type = "PRIVMSG",
-				Recipient = c.Recipient,
-				Args = string.Join(", ", Eve.IRCBot.v.channels)
+				Nickname = c.Recipient,
+				Args = string.Join(", ", IrcBot.V.Channels)
 			};
 		}
 	}
 
 	public class Message : IModule {
-		ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };
-		Variables v = Eve.IRCBot.v;
+		private readonly ChannelMessage _o = new ChannelMessage {Type = "PRIVMSG"};
+		private readonly Variables _v = IrcBot.V;
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "message", "(<recipient> <message>) — saves message to be sent to specified recipient upon their rejoining a channel." }
-				};
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{
+				"message",
+				"(<recipient> <message>) — saves message to be sent to specified recipient upon their rejoining a channel."
 			}
-		}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "message")
-				return null;
+			if (!c._Args[1].CaseEquals("message"))
+				return _o;
 
-			o.Nickname = c.Recipient;
+			_o.Nickname = c.Recipient;
+			c._Args[2] = c._Args[2] ?? c._Args[2].ToLower();
 
 			if (c._Args.Count < 4)
-				o.Args = "Insufficient parameters. Type 'eve help message' to view correct usage.";
-			else if (v.QueryName(c._Args[2]) == null)
-				o.Args = "User does not exist in database.";
-			else if (v.userChannelList.ContainsKey(c._Args[2]))
-				o.Args = "User is already online.";
+				_o.Args = "Insufficient parameters. Type 'eve help message' to view correct usage.";
+			else if (_v.QueryName(c._Args[2]) == null)
+				_o.Args = "User does not exist in database.";
+			else if (_v.UserChannelList.ContainsKey(c._Args[2]))
+				_o.Args = "User is already online.";
 
-			if (!String.IsNullOrEmpty(o.Args))
-				return o;
+			if (!String.IsNullOrEmpty(_o.Args))
+				return _o;
 
 			string who = Regex.Escape(c._Args[3]);
 			Eve.Message m = new Eve.Message {
@@ -251,278 +228,236 @@ namespace Eve.Core {
 				Date = DateTime.UtcNow
 			};
 
-			if (v.QueryName(who).Messages == null)
-				v.users.First(e => e.Realname == who).Messages = new List<Eve.Message> { m };
+			if (_v.QueryName(who).Messages == null)
+				_v.Users.First(e => e.Realname == who).Messages = new List<Eve.Message> {m};
 			else
-				v.users.First(e => e.Realname == who).Messages.Add(m);
+				_v.Users.First(e => e.Realname == who).Messages.Add(m);
 
-			using (var x = new SQLiteCommand($"INSERT INTO messages (id, sender, message, datetime) VALUES ({v.currentUser.ID}, '{m.Sender}', '{m.Contents}', '{m.Date}')", v.db))
+			using (
+				SQLiteCommand x =
+					new SQLiteCommand(
+						$"INSERT INTO messages (id, sender, message, datetime) VALUES ({_v.CurrentUser.Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')",
+						_v.Db))
 				x.ExecuteNonQuery();
 
-			o.Args = $"Message recorded and will be sent to {who}";
-			Eve.IRCBot.v = v;
-			return o;
+			_o.Args = $"Message recorded and will be sent to {who}";
+			IrcBot.V = _v;
+			return _o;
 		}
 	}
 
 	public class Help : IModule {
-		ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };
-		Variables v = Eve.IRCBot.v;
+		private readonly ChannelMessage _o = new ChannelMessage {Type = "PRIVMSG"};
+		private readonly Variables _v = IrcBot.V;
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "help", "(*<command>) — prints the definition index for specified command." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"help", "(*<command>) — prints the definition index for specified command."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "help")
-				return null;
+			if (!c._Args[1].CaseEquals("help"))
+				return _o;
 
-			o.Nickname = c.Recipient;
+			_o.Nickname = c.Recipient;
 
-			if (c._Args.Count > 3
-				&& !v.commands.ContainsKey(c._Args[2])) {
-				o.Args = "Command does not exist.";
-				return o;
+			if (c._Args.Count > 2
+				&& !_v.Commands.ContainsKey(c._Args[2])) {
+				_o.Args = "Command does not exist.";
+				return _o;
 			}
-			
-			string cmd = c._Args[2] ?? c._Args[2];
-			o.Args = (String.IsNullOrEmpty(cmd)) ?
-				$"My commands: {String.Join(", ", v.commands.Keys)}"
-				: $"{cmd}: {v.commands[cmd]}";
 
-			Eve.IRCBot.v = v;
-			return o;
+			_o.Args = String.IsNullOrEmpty(c._Args[2])
+				? $"My commands: {String.Join(", ", _v.Commands.Keys)}"
+				: $"{c._Args[2]}: {_v.Commands[c._Args[2]]}";
+
+			return _o;
 		}
 	}
 
 	public class User : IModule {
-		ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };
-		Variables v = Eve.IRCBot.v;
+		private readonly ChannelMessage _o = new ChannelMessage {Type = "PRIVMSG"};
+		private readonly Variables _v = IrcBot.V;
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "user", "(<user>) — returns stored nickname and access level of specified user." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"user", "(<user>) — returns stored nickname and access level of specified user."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "user")
-				return null;
+			if (c._Args[1] != "user")
+				return _o;
 
-			o.Nickname = c.Recipient;
+			_o.Nickname = c.Recipient;
+			c._Args[2] = c._Args[2].ToLower();
 
 			if (c._Args.Count < 3)
-				o.Args = "Insufficient parameters. Type 'eve help user' to view command's help index.";
-			else if (v.QueryName(c._Args[2]) == null)
-				o.Args = $"User {c._Args[2]} does not exist in database.";
+				_o.Args = "Insufficient parameters. Type 'eve help user' to view command's help index.";
+			else if (_v.QueryName(c._Args[2]) == null)
+				_o.Args = $"User {c._Args[2]} does not exist in database.";
 
-			if (!String.IsNullOrEmpty(o.Args))
-				return o;
+			if (!String.IsNullOrEmpty(_o.Args))
+				return _o;
 
-			o.Args = ($"{v.QueryName(c._Args[2]).Realname}({v.QueryName(c._Args[2]).Access})");
+			_o.Args = $"{_v.QueryName(c._Args[2]).Realname}({_v.QueryName(c._Args[2]).Access})";
 
-			Eve.IRCBot.v = v;
-			return o;
+			return _o;
 		}
 	}
 
 	public class Seen : IModule {
-		ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };
-		Variables v = Eve.IRCBot.v;
+		private readonly ChannelMessage _o = new ChannelMessage {Type = "PRIVMSG"};
+		private readonly Variables _v = IrcBot.V;
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "seen", "(<user>) — returns a DateTime of the last message by user in any channel." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"seen", "(<user>) — returns a DateTime of the last message by user in any channel."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "seen")
-				return null;
+			if (!c._Args[1].CaseEquals("seen"))
+				return _o;
 
-			o.Nickname = c.Recipient;
+			_o.Nickname = c.Recipient;
+			c._Args[2] = c._Args[2].ToLower();
+
 			if (c._Args.Count < 3)
-				o.Args = "Insufficient parameters. Type 'eve help message' to view correct usage.";
-			else if (v.QueryName(c._Args[2]) == null)
-				o.Args = "User does not exist in database.";
+				_o.Args = "Insufficient parameters. Type 'eve help message' to view correct usage.";
+			else if (_v.QueryName(c._Args[2]) == null)
+				_o.Args = "User does not exist in database.";
 
-			if (!String.IsNullOrEmpty(o.Args))
-				return o;
+			if (!String.IsNullOrEmpty(_o.Args))
+				return _o;
 
-			Eve.User u = v.QueryName(c._Args[2]);
-			o.Args = $"{u.Realname} was last seen on: {u.Seen} (UTC)";
+			Eve.User u = _v.QueryName(c._Args[2]);
+			_o.Args = $"{u.Realname} was last seen on: {u.Seen} (UTC)";
 
-			return o;
+			return _o;
 		}
 	}
 
 	public class SetAccess : IModule {
-		ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };
-		Variables v = Eve.IRCBot.v;
+		private readonly ChannelMessage _o = new ChannelMessage {Type = "PRIVMSG"};
+		private readonly Variables _v = IrcBot.V;
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "setaccess", "(<user> <new access>) — updates specified user's access level." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"setaccess", "(<user> <new access>) — updates specified user's access level."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "setaccess")
-				return null;
+			if (!c._Args[1].CaseEquals("setaccess"))
+				return _o;
 
-			int i = 2;
-			o.Nickname = c.Recipient;
+			var i = 2;
+			_o.Nickname = c.Recipient;
+			c._Args[2] = c._Args[2].ToLower();
 
 			if (c._Args.Count < 4)
-				o.Args = "Insuffient parameters. Type 'eve help setaccess' to view command's help index.";
-			else if (v.QueryName(c._Args[2]) == null)
-				o.Args = "User does not exist in database.";
+				_o.Args = "Insuffient parameters. Type 'eve help setaccess' to view command's help index.";
+			else if (_v.QueryName(c._Args[2]) == null)
+				_o.Args = "User does not exist in database.";
 			else if (!Int32.TryParse(c._Args[3], out i))
-				o.Args = "Invalid access parameter.";
+				_o.Args = "Invalid access parameter.";
 			else if (i > 9 || i < 1)
-				o.Args = "Invalid access setting. Please use a number between 1 and 9.";
-			else if (v.currentUser.Access > 1)
-				o.Args = "Insufficient permissions. Only users with an access level of 1 or 0 can promote.";
+				_o.Args = "Invalid access setting. Please use a number between 1 and 9.";
+			else if (_v.CurrentUser.Access > 1)
+				_o.Args = "Insufficient permissions. Only users with an access level of 1 or 0 can promote.";
 
-			if (!String.IsNullOrEmpty(o.Args))
-				return o;
-			
-			var com = new SQLiteCommand($"UPDATE users SET access={i} WHERE id={v.QueryName(c._Args[2]).ID}", v.db);
+			if (!String.IsNullOrEmpty(_o.Args))
+				return _o;
+
+			SQLiteCommand com = new SQLiteCommand($"UPDATE users SET access={i} WHERE id={_v.QueryName(c._Args[2]).Id}", _v.Db);
 			com.ExecuteNonQuery();
 
-			v.users.First(e => e.Realname == c._Args[2]).Access = i;
-			o.Args = $"User {c._Args[2]}'s access changed to ({i}).";
+			_v.Users.First(e => e.Realname == c._Args[2]).Access = i;
+			_o.Args = $"User {c._Args[2]}'s access changed to ({i}).";
 
-			Eve.IRCBot.v = v;
-			return o;
+			IrcBot.V = _v;
+			return _o;
 		}
 	}
 
 	public class About : IModule {
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "about", "returns general information about Evealyn IRCBot." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"about", "returns general information about Evealyn IRCBot."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "about")
+			if (!c._Args[1].CaseEquals("about"))
 				return null;
 
 			return new ChannelMessage {
 				Type = "PRIVMSG",
 				Nickname = c.Recipient,
-				Args = Eve.IRCBot.v.info
+				Args = IrcBot.V.Info
 			};
 		}
 	}
 
 	public class Modules : IModule {
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "modules", "returns a list of all currently active modules." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"modules", "returns a list of all currently active modules."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "modules")
+			if (c._Args[1] != "modules")
 				return null;
 
 			return new ChannelMessage {
 				Type = "PRIVMSG",
 				Nickname = c.Recipient,
-				Args = $"Active modules: {String.Join(", ", Eve.IRCBot.modules.Keys)}"
+				Args = $"Active modules: {String.Join(", ", IrcBot.Modules.Keys)}"
 			};
 		}
 	}
 
 	public class Reload : IModule {
-		ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };
-		Dictionary<string, Type> modules = Eve.IRCBot.modules;
-		Variables v = Eve.IRCBot.v;
+		private readonly ChannelMessage _o = new ChannelMessage {Type = "PRIVMSG"};
+		private readonly Variables _v = IrcBot.V;
+		private Dictionary<string, Type> _modules = IrcBot.Modules;
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "reload", "(<module>) — reloads specified module." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"reload", "(<module>) — reloads specified module."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "reload")
-				return null;
+			if (!c._Args[1].CaseEquals("reload"))
+				return _o;
 
-			o.Nickname = c.Recipient;
-			if (v.currentUser.Access > 1) {
-				o.Args = "Insufficient permissions.";
-				return o;
+			_o.Nickname = c.Recipient;
+			if (_v.CurrentUser.Access > 1) {
+				_o.Args = "Insufficient permissions.";
+				return _o;
 			}
 
-			modules.Clear();
-			v.commands.Clear();
-			Eve.IRCBot.v = v;
+			_modules.Clear();
+			_v.Commands.Clear();
+			IrcBot.V = _v;
 
-			modules = Eve.IRCBot.LoadModules();
-			Eve.IRCBot.modules = modules;
+			_modules = IrcBot.LoadModules();
+			IrcBot.Modules = _modules;
 
-			o.Args = "Modules reloaded.";
-			return o;
+			_o.Args = "Modules reloaded.";
+			return _o;
 		}
 	}
 
 	public class Quit : IModule {
-		ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };
+		private readonly ChannelMessage _o = new ChannelMessage {Type = "PRIVMSG"};
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "quit", "ends program's execution." }
-				};
-			}
-		}
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			{"quit", "ends program's execution."}
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "quit")
-				return null;
-			
-			if (Eve.IRCBot.v.currentUser.Access < 1) {
-				o.Args = "Goodybe.";
-				Environment.Exit(0);
-			} else o.Args = "Insufficient permissions.";
+			if (!c._Args[1].CaseEquals("quit"))
+				return _o;
 
-			o.Nickname = c.Recipient;
-			return o;
+			if (IrcBot.V.CurrentUser.Access < 1) {
+				_o.Args = "Goodybe.";
+				Environment.Exit(0);
+			}
+			else _o.Args = "Insufficient permissions.";
+
+			_o.Nickname = c.Recipient;
+			return _o;
 		}
 	}
 }

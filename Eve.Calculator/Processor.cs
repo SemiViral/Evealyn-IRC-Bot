@@ -17,7 +17,7 @@ namespace Eve.Calculator {
 					case Token.Root:		res = Math.Pow(op2, 1 / op1); break;
 				}
 
-				operands.Push(PostProcess(res));
+				_operands.Push(PostProcess(res));
 			} catch (Exception e) {
 				ThrowException(e.Message);
 			}
@@ -44,7 +44,7 @@ namespace Eve.Calculator {
 						break;
 				}
 
-				operands.Push(PostProcess(res));
+				_operands.Push(PostProcess(res));
 			} catch (Exception e) {
 				ThrowException(e.Message);
 			}

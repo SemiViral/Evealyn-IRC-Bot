@@ -7,45 +7,34 @@ using Newtonsoft.Json.Linq;
 
 namespace Eve.Reference {
 	public class Define : Utils, IModule {
-		private ChannelMessage o = new ChannelMessage {
+		private readonly ChannelMessage _o = new ChannelMessage {
 			Type = "PRIVMSG",
-			Args = null
+			Args = String.Empty
 		};
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "define", "(<word> *<part of speech>) — returns definition for given word." }
-				};
-			}
-		}
+		public Dictionary<String, String> Def => new Dictionary<string, string> {
+			{ "define", "(<word> *<part of speech>) — returns definition for given word." }
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
+			if (!c._Args[0].Replace(",", String.Empty).CaseEquals("eve")
 				|| c._Args.Count < 2
-				|| c._Args[1] != "define")
+				|| !c._Args[1].CaseEquals("define"))
 				return null;
 
-			o.Nickname = c.Recipient;
-			string pos = c._Args.Count < 4 ? null : c._Args[3],
-				url;
+			_o.Nickname = c.Recipient;
 			
 			if (c._Args.Count < 3) {
-				o.Args = "Insufficient parameters. Type 'eve help lookup' to view correct usage.";
-				return o;
+				_o.Args = "Insufficient parameters. Type 'eve help lookup' to view correct usage.";
+				return _o;
 			}
 
-			url = $"https://api.pearson.com:443/v2/dictionaries/lasde/entries?headword={c._Args[2]}&limit=1";
-
-			if (!String.IsNullOrEmpty(pos))
-				url += "&part_of_speech={pos}";
-
-			JObject entry = JObject.Parse(HttpGET(url));
-			var _out = new Dictionary<string, string>();
+			JObject entry = JObject.Parse(HttpGet($"https://api.pearson.com:443/v2/dictionaries/lasde/entries?headword={c._Args[2]}&limit=1&part_of_speech={(c._Args.Count > 3 ? c._Args[3] : null)}"));
+			Dictionary<String, String> _out = new Dictionary<string, string>();
 
 			if ((int)entry.SelectToken("count") < 1) {
-				o.Args = "Query returned no results.";
-				return o;
+				_o.Args = "Query returned no results.";
+				return _o;
 			}
 
 			_out.Add("word", (string)entry.SelectToken("results[0].headword"));
@@ -57,51 +46,47 @@ namespace Eve.Reference {
 			if (String.IsNullOrEmpty(_out["ex"]))
 				sOut += $" (ex. {_out["ex"]})";
 
-			o.Args = sOut;
-			return o;
+			_o.Args = sOut;
+			return _o;
 		}
 	}
 
 	public class Lookup : Utils, IModule {
-		private ChannelMessage o = new ChannelMessage {
+		private readonly ChannelMessage _o = new ChannelMessage {
 			Type = "PRIVMSG",
-			Args = null
+			Args = String.Empty
 		};
 
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "lookup", "(<term/phrase>) — returns the wikipedia summary of given term or phrase." }
-				};
-			}
-		}
+		public Dictionary<String, String> Def => new Dictionary<string, string> {
+			{ "lookup", "(<term/phrase>) — returns the wikipedia summary of given term or phrase." }
+		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
+			if (!c._Args[0].Replace(",", String.Empty).CaseEquals("eve")
 				|| c._Args.Count < 2
-				|| c._Args[1] != "lookup")
+				|| !c._Args[1].CaseEquals("lookup"))
 				return null;
 
-			o.Nickname = c.Nickname;
+			_o.Nickname = c.Nickname;
 			string query = c._Args.Count < 4 ? c._Args[2] : $"{c._Args[2]}%20{c._Args[3]}".Replace(" ", "%20"),
-				response = HttpGET("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=" +
+				response = HttpGet("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=" +
 						query);
 
 			if (c._Args.Count < 3) {
-				o.Args = "Insufficient parameters. Type 'eve help lookup' to view correct usage.";
-				return o;
+				_o.Args = "Insufficient parameters. Type 'eve help lookup' to view correct usage.";
+				return _o;
 			}
 
 			JToken pages = JObject.Parse(response)["query"]["pages"].Values().First();
 			if (String.IsNullOrEmpty((string)pages["extract"])) {
-				o.Args = "Query failed to return results. Perhaps try a different term?";
-				return o;
+				_o.Args = "Query failed to return results. Perhaps try a different term?";
+				return _o;
 			}
 
-			o._Args = new List<string>() { $"\x02{(string)pages["title"]}\x0F — " };
-			o._Args.AddRange(SplitStr(Regex.Replace((string)pages["extract"], @"\n\n?|\n", " "), 440));
+			_o._Args = new List<string>() { $"\x02{(string)pages["title"]}\x0F — " };
+			_o._Args.AddRange(SplitStr(Regex.Replace((string)pages["extract"], @"\n\n?|\n", " "), 440));
 			
-			return o;
+			return _o;
 		}
 	}
 }

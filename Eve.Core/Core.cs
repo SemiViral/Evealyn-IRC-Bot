@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Eve.Utilities;
 
 namespace Eve.Core {
-	public class Core : IModule {
+	public class Core : Utils, IModule {
 		private ChannelMessage o = new ChannelMessage {
 			Type = "PRIVMSG",
 			Args = null
@@ -25,6 +24,21 @@ namespace Eve.Core {
 			o.Nickname = c.Recipient;
 
 			switch (c.Type) {
+				case "PRIVMSG":
+					if (c._Args[0].Replace(",", string.Empty) != "eve")
+						return o;
+
+					if (GetUserTimeout(c.Realname))
+						return o;
+
+					if (c._Args.Count < 2) {
+						o.Args = "Please provide a command. Type 'eve help' to view my command list.";
+						return o;
+					} else if (!v.commands.ContainsKey(c._Args[1].ToLower())) {
+						o.Args = "Invalid command. Type 'eve help' to view my command list.";
+						return o;
+					}
+					break;
 				case "JOIN":
 					if (c.Realname == "Eve") return null;
 
@@ -55,6 +69,7 @@ namespace Eve.Core {
 					MatchCollection key = Regex.Matches(c.Args, @"(#\w+)");
 					List<string> list = key.Cast<Match>().Select(match => match.Value).ToList();
 
+					// splits the channel user list in half by the :, then splits each user into an array object to iterated
 					foreach (string s in c.Args.Split(':')[1].Split(' '))
 						v.userChannelList[c.Recipient].Add(s);
 					break;
@@ -80,7 +95,7 @@ namespace Eve.Core {
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
 			if (c._Args[0].Replace(",", string.Empty) != "eve"
 				|| c._Args.Count < 2
-				|| c._Args[1] != "join")
+				|| !c._Args[1].Equals("join", StringComparison.OrdinalIgnoreCase))
 				return null;
 
 			if (v.currentUser.Access > 1)
@@ -89,13 +104,13 @@ namespace Eve.Core {
 				o.Args = "Insufficient parameters. Type 'eve help join' to view ccommand's help index.";
 			else if (!c._Args[2].StartsWith("#"))
 				o.Args = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (v.channels.Contains(c._Args[2]))
+			else if (v.channels.Contains(c._Args[2].ToLower()))
 				o.Args = "I'm already in that channel.";
 
 			if (!String.IsNullOrEmpty(o.Args))
 				return o;
 
-			Eve.IRCBot.v.channels.Add(c._Args[2]);
+			Eve.IRCBot.v.channels.Add(c._Args[2].ToLower());
 			o.Args = c._Args[2];
 			return o;
 		}
@@ -116,7 +131,7 @@ namespace Eve.Core {
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
 			if (c._Args[0].Replace(",", string.Empty) != "eve"
 				|| c._Args.Count < 2
-				|| c._Args[1] != "part")
+				|| !c._Args[1].Equals("part", StringComparison.OrdinalIgnoreCase))
 				return null;
 
 			if (v.currentUser.Access > 1)
@@ -125,7 +140,7 @@ namespace Eve.Core {
 				o.Args = "Insufficient parameters. Type 'eve help part' to view ccommand's help index.";
 			else if (!c._Args[2].StartsWith("#"))
 				o.Args = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (!v.channels.Contains(c._Args[2]))
+			else if (!v.channels.Contains(c._Args[2].ToLower()))
 				o.Args = "I'm not in that channel.";
 
 			if (!String.IsNullOrEmpty(o.Args))
@@ -155,7 +170,7 @@ namespace Eve.Core {
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
 			if (c._Args[0].Replace(",", string.Empty) != "eve"
 				|| c._Args.Count < 2
-				|| c._Args[1] != "say")
+				|| !c._Args[1].Equals("say", StringComparison.OrdinalIgnoreCase))
 				return null;
 
 			o.Nickname = c.Recipient;
@@ -167,12 +182,11 @@ namespace Eve.Core {
 				return o;
 			}
 
-			string msg = !c._Args[2].StartsWith("#") && c._Args.Count > 3
+			string msg = !c._Args[2].StartsWith("#")
 				? $"{c._Args[2]} {c._Args[3]}" : c._Args[2];
-
 			string chan = (c._Args[2].StartsWith("#")) ? c._Args[2] : null;
-			o.Args = (String.IsNullOrEmpty(chan)) ? msg : $"{chan} {msg}";
 
+			o.Args = (String.IsNullOrEmpty(chan)) ? msg : $"{chan} {msg}";
 			return o;
 		}
 	}
@@ -277,37 +291,13 @@ namespace Eve.Core {
 				return o;
 			}
 			
-			string cmd = c._Args.Count < 3 ? null : c._Args[2];
+			string cmd = c._Args[2] ?? c._Args[2];
 			o.Args = (String.IsNullOrEmpty(cmd)) ?
 				$"My commands: {String.Join(", ", v.commands.Keys)}"
 				: $"{cmd}: {v.commands[cmd]}";
 
 			Eve.IRCBot.v = v;
 			return o;
-		}
-	}
-
-	public class Users: IModule {
-		public Dictionary<String, String> def {
-			get {
-				return new Dictionary<string, string> {
-					{ "users", "returns a list of users in database." }
-				};
-			}
-		}
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| c._Args[1] != "users")
-				return null;
-
-			return new ChannelMessage {
-				Type = "PRIVMSG",
-				Nickname = c.Recipient,
-				Args = String.Join(", ", Eve.IRCBot.v.users.
-					Select(e => $"{e.Nickname}({e.Access})"))
-			};
 		}
 	}
 
@@ -364,6 +354,7 @@ namespace Eve.Core {
 				|| c._Args[1] != "seen")
 				return null;
 
+			o.Nickname = c.Recipient;
 			if (c._Args.Count < 3)
 				o.Args = "Insufficient parameters. Type 'eve help message' to view correct usage.";
 			else if (v.QueryName(c._Args[2]) == null)
@@ -471,42 +462,42 @@ namespace Eve.Core {
 		}
 	}
 
-	//public class Reload : IModule {
-	//	ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };
-	//	Dictionary<string, Type> modules = Eve.IRCBot.modules;
-	//	Variables v = Eve.IRCBot.v;
+	public class Reload : IModule {
+		ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };
+		Dictionary<string, Type> modules = Eve.IRCBot.modules;
+		Variables v = Eve.IRCBot.v;
 
-	//	public Dictionary<String, String> def {
-	//		get {
-	//			return new Dictionary<string, string> {
-	//				{ "reload", "(<module>) — reloads specified module." }
-	//			};
-	//		}
-	//	}
+		public Dictionary<String, String> def {
+			get {
+				return new Dictionary<string, string> {
+					{ "reload", "(<module>) — reloads specified module." }
+				};
+			}
+		}
 
-	//	public ChannelMessage OnChannelMessage(ChannelMessage c) {
-	//		if (c._Args[0].Replace(",", string.Empty) != "eve"
-	//			|| c._Args.Count < 2
-	//			|| c._Args[1] != "reload")
-	//			return null;
+		public ChannelMessage OnChannelMessage(ChannelMessage c) {
+			if (c._Args[0].Replace(",", string.Empty) != "eve"
+				|| c._Args.Count < 2
+				|| c._Args[1] != "reload")
+				return null;
 
-	//		o.Nickname = c.Recipient;
-	//		if (v.currentUser.Access > 1) {
-	//			o.Args = "Insufficient permissions.";
-	//			return o;
-	//		}
+			o.Nickname = c.Recipient;
+			if (v.currentUser.Access > 1) {
+				o.Args = "Insufficient permissions.";
+				return o;
+			}
 
-	//		modules.Clear();
-	//		v.commands.Clear();
-	//		Eve.IRCBot.v = v;
+			modules.Clear();
+			v.commands.Clear();
+			Eve.IRCBot.v = v;
 
-	//		modules = Eve.IRCBot.LoadModules();
-	//		Eve.IRCBot.modules = modules;
+			modules = Eve.IRCBot.LoadModules();
+			Eve.IRCBot.modules = modules;
 
-	//		o.Args = "Module reloaded.";
-	//		return o;
-	//	}
-	//}
+			o.Args = "Modules reloaded.";
+			return o;
+		}
+	}
 
 	public class Quit : IModule {
 		ChannelMessage o = new ChannelMessage { Type = "PRIVMSG" };

@@ -40,7 +40,7 @@ namespace Eve.Calculator {
 		public double Evaluate(string expr) {
 			Clear();
 			expression = expr;
-			Console.WriteLine(expression);
+
 			if (Normalize(ref expression)) {
 				double result = Parse();
 				SetVariable(AnswerVar, result);
@@ -229,6 +229,7 @@ namespace Eve.Calculator {
 
 			string evalArgs = (c._Args.Count > 3) ?
 				c._Args[2] + c._Args[3] : c._Args[2];
+
 			try {
 				o.Args = Evaluate(evalArgs).ToString();
 			} catch (Exception e) {

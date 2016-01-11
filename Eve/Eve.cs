@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -31,12 +32,12 @@ namespace Eve {
 
 	public struct Config {
 		public bool Joined;
+		public bool Identified;
 		public string Server;
 		public string[] Channels;
 		public string Nick;
 		public string Name;
 		public int Port;
-		public int Timeout;
 	}
 
 	public class Variables : IDisposable {
@@ -65,46 +66,46 @@ namespace Eve {
 		#endregion
 
 		public Variables(bool initDB) {
-				if (initDB) {
-					if (!File.Exists("users.sqlite")) {
-						Console.WriteLine("||| Users database does not exist. Creating database.");
+			if (initDB) {
+				if (!File.Exists("users.sqlite")) {
+					Console.WriteLine("||| Users database does not exist. Creating database.");
 
-						SQLiteConnection.CreateFile("users.sqlite");
+					SQLiteConnection.CreateFile("users.sqlite");
 
+					db = new SQLiteConnection("Data Source=users.sqlite;Version=3;");
+					db.Open();
+
+					var com = new SQLiteCommand("CREATE TABLE users (int id, string nickname, string realname, int access, string seen)", db);
+					var com2 = new SQLiteCommand("CREATE TABLE messages (int id, string sender, string message, string datetime)", db);
+					com.ExecuteNonQuery();
+					com2.ExecuteNonQuery();
+				} else {
+					try {
 						db = new SQLiteConnection("Data Source=users.sqlite;Version=3;");
 						db.Open();
+					} catch (Exception e) {
+						Console.WriteLine("||| Unable to connec to database, error: " + e);
+					}
+				}
 
-						var com = new SQLiteCommand("CREATE TABLE users (int id, string nickname, string realname, int access, string seen)", db);
-						var com2 = new SQLiteCommand("CREATE TABLE messages (int id, string sender, string message, string datetime)", db);
-						com.ExecuteNonQuery();
-						com2.ExecuteNonQuery();
-					} else {
-						try {
-							db = new SQLiteConnection("Data Source=users.sqlite;Version=3;");
-							db.Open();
-						} catch (Exception e) {
-							Console.WriteLine("||| Unable to connec to database, error: " + e);
-						}
+				using (SQLiteCommand a = new SQLiteCommand("SELECT COUNT(id) FROM users", db))
+					if (Convert.ToInt32(a.ExecuteScalar()) == 0) {
+						Console.WriteLine("||| Users table in database is empty. Creating initial record.");
+
+						using (SQLiteCommand b = new SQLiteCommand("INSERT INTO users (id, nickname, realname, access) VALUES (0, 'semiviral', 'semiviral', 0) ", db))
+							b.ExecuteNonQuery();
 					}
 
-					using (SQLiteCommand a = new SQLiteCommand("SELECT COUNT(id) FROM users", db))
-						if (Convert.ToInt32(a.ExecuteScalar()) == 0) {
-							Console.WriteLine("||| Users table in database is empty. Creating initial record.");
-
-							using (SQLiteCommand b = new SQLiteCommand("INSERT INTO users (id, nickname, realname, access) VALUES (0, 'semiviral', 'semiviral', 0) ", db))
-								b.ExecuteNonQuery();
-						}
-
-					using (SQLiteDataReader d = new SQLiteCommand("SELECT * FROM users", db).ExecuteReader()) {
-						while (d.Read()) {
-							users.Add(new User() {
-								ID = (int)d["id"],
-								Nickname = (string)d["nickname"],
-								Realname = (string)d["realname"],
-								Access = (int)d["access"],
-								Seen = DateTime.Parse((string)d["seen"])
-							});
-						}
+				using (SQLiteDataReader d = new SQLiteCommand("SELECT * FROM users", db).ExecuteReader()) {
+					while (d.Read()) {
+						users.Add(new User() {
+							ID = (int)d["id"],
+							Nickname = (string)d["nickname"],
+							Realname = (string)d["realname"],
+							Access = (int)d["access"],
+							Seen = DateTime.Parse((string)d["seen"])
+						});
+					}
 
 					try {
 						using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", db).ExecuteReader()) {
@@ -126,7 +127,7 @@ namespace Eve {
 					}
 				}
 			}
-		} 
+		}
 
 		public User QueryName(string name) {
 			return users.FirstOrDefault(e => e.Realname == name);
@@ -144,8 +145,6 @@ namespace Eve {
 		private NetworkStream networkStream;
 		private StreamReader streamReader;
 		private StreamWriter streamWriter;
-
-		private bool canWrite = false;
 
 		private static Variables _v = new Variables(true);
 		public static Variables v {
@@ -176,87 +175,35 @@ namespace Eve {
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
 			c._Args = (c.Args != null) ?
-				c.Args.Trim().ToLower().Split(new[] { ' ' }, 4).ToList() : null;
-
-			switch (c.Type) {
-				case "PRIVMSG":
-					if (canWrite)
-						Console.WriteLine($"[{c.Recipient}]({DateTime.UtcNow.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}");
-
-					if (c._Args[0].Replace(",", string.Empty) != "eve")
-						return null;
-
-					if (GetUserTimeout(c.Realname))
-						return null;
-
-					if (c._Args.Count < 2) {
-						SendData("PRIVMSG", $"{c.Recipient} Please provide a command. Type 'eve help' to view my command list.");
-						return null;
-					} else if (!_v.commands.ContainsKey(c._Args[1])) {
-						SendData("PRIVMSG", $"{c.Recipient} Invalid command. Type 'eve help' to view my command list.");
-						return null;
-                    }
-					break;
-				case "MODE":
-					if (!config.Joined) {
-						config.Joined = true;
-						SendData("PRIVMSG", "NICKSERV IDENTIFY evepass");
-						SendData("MODE", "Eve +B");
-
-						foreach (string s in config.Channels) {
-							SendData("JOIN", s);
-							_v.channels.Add(s);
-						}
-
-						canWrite = true;
-					}
-					break;
-			}
+				c.Args.Trim().Split(new[] { ' ' }, 4).ToList() : null;
 
 			try {
 				foreach (Type m in modules.Values) {
-					Thread t = new Thread(() => {
-						ChannelMessage cm = ((IModule)Activator.CreateInstance(m)).OnChannelMessage(c);
+					ChannelMessage cm = ((IModule)Activator.CreateInstance(m)).OnChannelMessage(c);
 
-						if (cm != null && !_v.ignoreList.Contains(c.Realname)) {
-							if (cm._Args != null) {
-								foreach (string s in cm._Args)
-									SendData(cm.Type, $"{cm.Nickname} {s}");
-							} else if (!String.IsNullOrEmpty(cm.Args)) {
-								SendData(cm.Type, $"{cm.Nickname} {cm.Args}");
-							}
-						}
-					});
-					t.IsBackground = true;
-					t.Name = m.Name;
-					t.Start();
-					if (!t.Join(5000)) {
-						t.Abort();
-						Console.WriteLine($"||| Module {m.Name} failed to respond and was aborted.");
+					if (cm != null && !_v.ignoreList.Contains(c.Realname)) {
+						if (cm._Args != null)
+							foreach (string s in cm._Args)
+								SendData(cm.Type, $"{cm.Nickname} {s}");
+						else if (!String.IsNullOrEmpty(cm.Args))
+							SendData(cm.Type, $"{cm.Nickname} {cm.Args}");
 					}
 				}
 			} catch (Exception e) {
 				Console.WriteLine($"||| Error: {e}");
 			}
-			return null;
-		}
 
-		// check whether or not respond to user by
-		// identifying the amount of commands they've
-		// issued in the past minute
-		private bool GetUserTimeout(string who) {
-			bool doTimeout = false;
+			if (c.Type == "MODE" && !config.Identified) {
+				SendData("PRIVMSG", "NICKSERV IDENTIFY evepass");
+				SendData("MODE", "Eve +B");
 
-			if (_v.QueryName(who) == null)
-				return false;
+				foreach (string s in config.Channels) {
+					SendData("JOIN", s);
+					_v.channels.Add(s);
+				}
 
-			if (_v.userAttempts[who] == config.Timeout)
-				if (_v.QueryName(who).Seen.AddMinutes(1) < DateTime.UtcNow)
-					_v.userAttempts[who] = 0;
-				else doTimeout = true;
-			else if (_v.QueryName(who).Access > 1)
-				_v.userAttempts[who] += 1;
-			return doTimeout;
+				config.Identified = true;
+			} return null;
 		}
 
 		// send raw data to server
@@ -267,10 +214,10 @@ namespace Eve {
 					streamWriter.Flush();
 					Console.WriteLine(cmd);
 				} else {
-					streamWriter.WriteLine(cmd + " " + param);
+					streamWriter.WriteLine($"{cmd} {param}");
 					streamWriter.Flush();
-					Console.WriteLine(cmd + " " + param);
-				}
+					Console.WriteLine($"{cmd} {param}");
+                }
 			} catch {
 				Console.WriteLine("||| Failed to send message to server. Attempting reconnection.");
 				Dispose();
@@ -317,10 +264,9 @@ namespace Eve {
 			var pingRegex = new Regex(@"^PING :(?<Message>.+)", RegexOptions.None);
 
 			// write raw data if conditions not met
-			if (!canWrite
-				|| pingRegex.IsMatch(data))
+			if (pingRegex.IsMatch(data))
 				Console.WriteLine(data);
-			
+
 			// write timestamp and raw data to log
 			log.WriteLine($"({DateTime.Now}) {data}");
 			log.Flush();
@@ -331,13 +277,13 @@ namespace Eve {
 				var sMatch = senderRegex.Match(mSender);
 
 				// initialise new ChannelMessage to passed into OnChannelMessage()
-				var c = new ChannelMessage {
+				ChannelMessage c = new ChannelMessage {
 					Nickname = mSender,
 					Realname = mSender.ToLower(),
 					Hostname = mSender,
 					Type = mVal.Groups["Type"].Value,
-					Recipient = mVal.Groups["Recipient"].Value.StartsWith(":")	// Checks if first argument starts with a colon
-						? mVal.Groups["Recipient"].Value.Substring(1)			// if so, remove it
+					Recipient = mVal.Groups["Recipient"].Value.StartsWith(":")  // Checks if first argument starts with a colon
+						? mVal.Groups["Recipient"].Value.Substring(1)           // if so, remove it
 						: mVal.Groups["Recipient"].Value,
 					Args = mVal.Groups["Args"].Value,
 					Time = DateTime.UtcNow
@@ -347,7 +293,7 @@ namespace Eve {
 				if (sMatch.Success) {
 					var realname = sMatch.Groups["Realname"].Value;
 					c.Nickname = sMatch.Groups["Nickname"].Value;
-					c.Realname = realname.StartsWith("~") ? realname.Substring(1).ToLower() : realname.ToLower();
+					c.Realname = realname.StartsWith("~") ? realname.Substring(1) : realname;
 					c.Hostname = sMatch.Groups["Hostname"].Value;
 				}
 
@@ -360,30 +306,22 @@ namespace Eve {
 					&& !_v.ignoreList.Contains(c.Realname)) { // checks if user exists and is also not in the ignoreList
 					Console.WriteLine($"||| User {c.Realname} currently not in database. Creating database entry for user.");
 
-					List<int> numList = new List<int>();
-					int id = Int16.MaxValue;
+					int id = -1;
 
 					// create data adapter to obtain all id's from users table
-					using (var a = new SQLiteDataAdapter("SELECT id FROM users", _v.db)) {
-						DataSet d = new DataSet();
-						a.Fill(d, "users"); // create dataset and use it to fill the data adapter
-
-						foreach (DataRow r in d.Tables["users"].Rows)
-							numList.Add((int)r["id"]); // iterate over all rows of 'id' column and add to idList
-
-						// equate 'id' variable to the first missing number of the sequence in numList
-						id = Enumerable.Range(0, numList.Last()).Except(numList).First();
-					}
+					using (var x = new SQLiteCommand("SELECT MAX(id) FROM users", v.db).ExecuteReader())
+						while (x.Read())
+							Int32.TryParse(x.GetValue(0).ToString(), out id);
 
 					// insert new user record into database
-					using (var com = new SQLiteCommand($"INSERT INTO users (id, nickname, realname, access, seen) VALUES ({id}, '{c.Nickname}', '{c.Realname}', 2, '{DateTime.UtcNow}')", _v.db))
+					using (var com = new SQLiteCommand($"INSERT INTO users (id, nickname, realname, access, seen) VALUES ({id + 1}, '{c.Nickname}', '{c.Realname}', 3, '{DateTime.UtcNow}')", _v.db))
 						com.ExecuteNonQuery();
-					
+
 					// add new User instance to the list of users
 					_v.users.Add(new User() {
 						ID = id,
 						Nickname = c.Nickname.ToLower(),
-						Realname = c.Realname.ToLower(),
+						Realname = c.Realname,
 						Access = 2,
 						Seen = DateTime.UtcNow
 					});
@@ -397,10 +335,13 @@ namespace Eve {
 				if (!_v.userChannelList.ContainsKey(c.Recipient)
 					&& c.Recipient.StartsWith("#"))
 					_v.userChannelList.Add(c.Recipient, new List<string>());
-				
+
 				// set currentUser to the current user or null if it doesn't exist
 				_v.currentUser = _v.users.FirstOrDefault(e => e.Realname == c.Realname);
-				
+
+				// Write data to console in a more readable format
+				Console.WriteLine($"[{c.Recipient}]({DateTime.UtcNow.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}");
+
 				// queue OnChannelMessage into threadpool
 				ThreadPool.QueueUserWorkItem(e => OnChannelMessage(c));
 			} else if (pingRegex.IsMatch(data)) {
@@ -422,6 +363,8 @@ namespace Eve {
 
 				try {
 					foreach (Type t in file.GetTypes()) {
+						if (t.GetInterface("IModule") == null) continue;
+
 						if (t.GetInterface("IModule").IsEquivalentTo(typeof(IModule))) {
 							if (modules.ContainsValue(t)) continue;
 							modules.Add(t.Name.ToLower(), t); // add module to module dictionary
@@ -437,10 +380,23 @@ namespace Eve {
 					}
 				} catch (InvalidCastException e) {
 					Console.WriteLine(e.ToString());
-				} catch (ReflectionTypeLoadException e) {
-					Console.WriteLine(e.ToString());
 				} catch (NullReferenceException e) {
 					Console.WriteLine(e.ToString());
+				} catch (ReflectionTypeLoadException ex) {
+					StringBuilder sb = new StringBuilder();
+					foreach (Exception exSub in ex.LoaderExceptions) {
+						sb.AppendLine(exSub.Message);
+						FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+						if (exFileNotFound != null) {
+							if (!string.IsNullOrEmpty(exFileNotFound.FusionLog)) {
+								sb.AppendLine("Fusion Log:");
+								sb.AppendLine(exFileNotFound.FusionLog);
+							}
+						}
+						sb.AppendLine();
+					}
+					string errorMessage = sb.ToString();
+					Console.WriteLine(errorMessage);
 				}
 			}
 
@@ -462,9 +418,9 @@ namespace Eve {
 				Nick = "Eve",
 				Port = 6667,
 				Server = "irc6.foonetic.net",
-				Channels = new string[] { "#testgrounds2" },// "#ministryofsillywalks", "#lingubender" },
+				Channels = new string[] { "#testgrounds2" },// "#ministryofsillywalks" },
 				Joined = false,
-				Timeout = 4
+				Identified = false
 			};
 
 			using (IRCBot bot = new IRCBot(conf)) {

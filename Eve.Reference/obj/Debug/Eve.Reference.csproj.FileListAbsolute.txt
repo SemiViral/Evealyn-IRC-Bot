@@ -5,3 +5,14 @@ C:\Users\semiv\Source\Repos\evealyn-ircbot\IRCBot\bin\Debug\modules\Eve.Referenc
 C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.Reference\obj\Debug\Eve.Reference.csprojResolveAssemblyReference.cache
 C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.Reference\obj\Debug\Eve.Reference.dll
 C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve.Reference\obj\Debug\Eve.Reference.pdb
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve\bin\Debug\modules\logs.txt
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve\bin\Debug\modules\Eve.Reference.dll.config
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve\bin\Debug\modules\Eve.Reference.dll
+C:\Users\semiv\Source\Repos\evealyn-ircbot\Eve\bin\Debug\modules\Eve.Reference.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\modules\logs.txt
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\modules\Eve.Reference.dll.config
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\modules\Eve.Reference.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\modules\Eve.Reference.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Reference\obj\Debug\Eve.Reference.csprojResolveAssemblyReference.cache
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Reference\obj\Debug\Eve.Reference.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Reference\obj\Debug\Eve.Reference.pdb

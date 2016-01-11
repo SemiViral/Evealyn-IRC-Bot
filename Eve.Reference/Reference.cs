@@ -100,8 +100,7 @@ namespace Eve.Reference {
 
 			o._Args = new List<string>() { $"\x02{(string)pages["title"]}\x0F — " };
 			o._Args.AddRange(SplitStr(Regex.Replace((string)pages["extract"], @"\n\n?|\n", " "), 440));
-
-			o._Args.ForEach(Console.WriteLine);
+			
 			return o;
 		}
 	}

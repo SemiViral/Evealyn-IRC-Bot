@@ -29,14 +29,14 @@ namespace Eve {
 		public DateTime Date { get; set; }
 	}
 
-	public struct Config {
-		public bool Joined;
-		public bool Identified;
-		public string Server;
-		public string[] Channels;
-		public string Nick;
-		public string Name;
-		public int Port;
+	public class Config {
+		public bool Joined { get; set; }
+		public bool Identified { get; set; }
+		public string Server { get; set; }
+		public string[] Channels { get; set; }
+		public string Nick { get; set; }
+		public string Name { get; set; }
+		public int Port { get; set; }
 	}
 
 	public class Variables : IDisposable {

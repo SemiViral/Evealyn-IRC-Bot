@@ -19,5 +19,23 @@ namespace Eve {
 			Type,
 			Recipient,
 			Args;
+		
+		public List<string> MultiMessage = new List<String>(); 
+		public string
+			Target,
+			Message;
+		
+		/// <summary>
+		/// Resets this ChannelMessage's output variables
+		/// </summary>
+		/// <param name="newTarget">new string for this.Target to equate to</param>
+		public void Reset(string newTarget = null) {
+			MultiMessage = new List<string>();
+			ExitType = Int32.MaxValue;
+			Target = Message = String.Empty;
+
+			Target = newTarget ?? newTarget;
+
+		}
 	}
 }

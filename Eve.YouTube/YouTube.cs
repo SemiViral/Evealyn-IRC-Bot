@@ -7,19 +7,14 @@ using Newtonsoft.Json.Linq;
 namespace Eve.YouTube {
 	public class YouTube : Utils, IModule {
 		public Dictionary<String, String> Def => new Dictionary<string, string> {
-			{"youtube", "returns video information for any given YouTube link in messages."}
+			["youtube"] = "outputs video information for any given YouTube link in messages."
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
 			Regex youtubeRegex =
 				new Regex(@"(?i)http(?:s?)://(?:www\.)?youtu(?:be\.com/watch\?v=|\.be/)(?<ID>[\w\-]+)(&(amp;)?[\w\?=‌​]*)?",
 					RegexOptions.Compiled);
-			ChannelMessage o = new ChannelMessage {
-				Type = "PRIVMSG",
-				Nickname = c.Recipient,
-				Args = null
-			};
-
+			
 			if (!youtubeRegex.IsMatch(c.Args)) return null;
 
 			string get =
@@ -41,8 +36,8 @@ namespace Eve.YouTube {
 				description += "....";
 			}
 
-			o.Args = $"{title} (by {channel}) — {description}";
-			return o;
+			c.Message = $"{title} (by {channel}) — {description}";
+			return c;
 		}
 	}
 }

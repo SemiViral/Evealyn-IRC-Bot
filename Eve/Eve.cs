@@ -42,6 +42,7 @@ namespace Eve {
 	public class Variables : IDisposable {
 		public Variables(bool initDb) {
 			if (!initDb) return;
+
 			if (!File.Exists("users.sqlite")) {
 				Console.WriteLine("||| Users database does not exist. Creating database.");
 
@@ -72,7 +73,7 @@ namespace Eve {
 
 					using (
 						SQLiteCommand b =
-							new SQLiteCommand("INSERT INTO users (id, nickname, realname, access) VALUES (0, 'semiviral', 'semiviral', 0) ",
+							new SQLiteCommand("INSERT INTO users VALUES (0, 'semiviral', 'semiviral', 0) ",
 								Db))
 						b.ExecuteNonQuery();
 				}
@@ -90,7 +91,7 @@ namespace Eve {
 				try {
 					using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", Db).ExecuteReader())
 						while (m.Read())
-							Users.FirstOrDefault(e => e.Id == Int64.Parse(m["id"].ToString()))?.Messages.Add(new Message {
+							Users.FirstOrDefault(e => e.Id == Convert.ToInt32(m["id"]))?.Messages.Add(new Message {
 								Sender = (string) m["sender"],
 								Contents = (string) m["message"],
 								Date = DateTime.Parse((string) m["datetime"])
@@ -170,14 +171,29 @@ namespace Eve {
 		}
 
 		public Dictionary<String, String> Def => null;
-
+		
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
+			// 376 is end of MOTD command
+			if (c.Type == "376" && !_config.Identified) {
+				SendData("PRIVMSG", "NICKSERV IDENTIFY evepass");
+				SendData("MODE", "Eve +B");
+
+				foreach (string s in _config.Channels) {
+					SendData("JOIN", s);
+					V.Channels.Add(s);
+				}
+
+				_config.Joined = true;
+				_config.Identified = true;
+			}
+
 			c._Args = c.Args?.Trim().Split(new[] {' '}, 4).ToList();
+			c.Target = c.Recipient;
 
 			try {
 				foreach (ChannelMessage cm in Modules.Values
 					.Select(m => ((IModule) Activator.CreateInstance(m)).OnChannelMessage(c))) {
-					if (cm == null) return null;
+					if (cm == null) continue;
 
 					var stopLoop = false;
 					switch (cm.ExitType) {
@@ -185,43 +201,32 @@ namespace Eve {
 							stopLoop = true;
 							break;
 						case 1: // End loop after sending message
-							SendData("PRIVMSG", $"{cm.Nickname} {cm.Args}");
+							SendData("PRIVMSG", $"{cm.Target} {cm.Message}");
 							stopLoop = true;
 							break;
 					}
 
 					if (stopLoop) break;
 
-					if (cm._Args.Any())
-						foreach (string s in cm._Args)
-							SendData(cm.Type, $"{cm.Nickname} {s}");
-					else if (!String.IsNullOrEmpty(cm.Args))
-						SendData(cm.Type, $"{cm.Nickname} {cm.Args}");
+					if (cm.MultiMessage.Any())
+						foreach (string s in cm.MultiMessage)
+							SendData(cm.Type, $"{cm.Target} {s}");
+					else if (!String.IsNullOrEmpty(cm.Message))
+						SendData(cm.Type, $"{cm.Target} {cm.Message}");
+
+					c.Reset(c.Recipient);
 				}
 			}
 			catch (Exception e) {
 				Console.WriteLine($"||| Error: {e}");
 			}
-
-			// 376 is end of MOTD command
-			if (c.Type != "376" || _config.Identified) return null;
-
-			SendData("PRIVMSG", "NICKSERV IDENTIFY evepass");
-			SendData("MODE", "Eve +B");
-
-			foreach (string s in _config.Channels) {
-				SendData("JOIN", s);
-				V.Channels.Add(s);
-			}
-
-			_config.Joined = true;
-			_config.Identified = true;
 			return null;
 		}
 
 		// send raw data to server
 		private void SendData(string cmd, string param) {
 			try {
+
 				if (param == null) {
 					_streamWriter.WriteLine(cmd);
 					_streamWriter.Flush();
@@ -230,7 +235,8 @@ namespace Eve {
 				else {
 					_streamWriter.WriteLine($"{cmd} {param}");
 					_streamWriter.Flush();
-					Console.WriteLine($"{cmd} {param}");
+					
+					Console.WriteLine(cmd == "PONG" ? "Pong" : $"{cmd} {param}");
 				}
 			}
 			catch {
@@ -282,7 +288,7 @@ namespace Eve {
 
 			// write raw data if conditions not met
 			if (pingRegex.IsMatch(data))
-				Console.WriteLine(data);
+				Console.Write("Ping ... ");
 
 			// write timestamp and raw data to log
 			_log.WriteLine($"({DateTime.Now}) {data}");
@@ -314,16 +320,23 @@ namespace Eve {
 					c.Hostname = sMatch.Groups["Hostname"].Value;
 				}
 
-				// if user exists in database, update their last seen datetime
+				// if user exists in database, update their last seen datetime and check if their nickname has changed
 				if (V.QueryName(c.Realname) != null) {
 					V.Users.First(e => e.Realname == c.Realname).Seen = messageTime;
 					using (
 						SQLiteCommand com = new SQLiteCommand($"UPDATE users SET seen='{messageTime}' WHERE realname='{c.Realname}'",
 							V.Db))
 						com.ExecuteNonQuery();
+			
+					if (V.CurrentUser != null)
+						if (V.CurrentUser.Nickname != c.Nickname)
+							using (
+								SQLiteCommand com = new SQLiteCommand($"UPDATE users SET nickname='{c.Nickname}' WHERE realname='{c.Realname}'",
+									V.Db))
+								com.ExecuteNonQuery();
 				}
 				else if (V.QueryName(c.Realname) == null
-						 && !V.IgnoreList.Contains(c.Realname)) {
+						 && !V.IgnoreList.Contains(c.Realname.ToLower())) {
 					// checks if user exists and is also not in the ignoreList
 					Console.WriteLine($"||| User {c.Realname} currently not in database. Creating database entry for user.");
 
@@ -338,7 +351,7 @@ namespace Eve {
 					using (
 						SQLiteCommand com =
 							new SQLiteCommand(
-								$"INSERT INTO users (id, nickname, realname, access, seen) VALUES ({id}, '{c.Nickname}', '{c.Realname}', 3, '{messageTime}')",
+								$"INSERT INTO users VALUES ({id}, '{c.Nickname}', '{c.Realname}', 3, '{messageTime}')",
 								V.Db))
 						com.ExecuteNonQuery();
 
@@ -366,11 +379,12 @@ namespace Eve {
 
 				// Write data to console in a more readable format
 				Console.WriteLine($"[{c.Recipient}]({messageTime.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}");
-
+			
 				// queue OnChannelMessage into threadpool
 				ThreadPool.QueueUserWorkItem(e => OnChannelMessage(c));
 			}
-			else if (pingRegex.IsMatch(data)) SendData("PONG", pingRegex.Match(data).Groups["Message"].Value);
+			else if (pingRegex.IsMatch(data))
+				SendData("PONG", pingRegex.Match(data).Groups["Message"].Value);
 		}
 
 		/// <summary>
@@ -436,12 +450,14 @@ namespace Eve {
 			if (type.GetInterface("IModule") == null) return new KeyValuePair<string, Type>();
 
 			if (!type.GetInterface("IModule").IsEquivalentTo(typeof(IModule)))
-				return new KeyValuePair<string, Type>(type.Name.ToLower(), type);
+				return new KeyValuePair<string, Type>();
+		
 			if (checker.ContainsValue(type)) return new KeyValuePair<string, Type>();
 			// instance the current type and set it's def clause equal to def
 			Dictionary<String, String> def = ((IModule) Activator.CreateInstance(type)).Def;
 
 			if (def == null) return new KeyValuePair<string, Type>(type.Name.ToLower(), type);
+		
 			foreach (KeyValuePair<String, String> s in def.Where(s => !V.Commands.Contains(s)))
 				V.Commands.Add(s.Key, s.Value);
 
@@ -458,7 +474,7 @@ namespace Eve {
 				Nick = "Eve",
 				Port = 6667,
 				Server = "irc6.foonetic.net",
-				Channels = new[] {"#testgrounds2", "#ministryofsillywalks" },
+				Channels = new[] {"#testgrounds2" },//, "#ministryofsillywalks" },
 				Joined = false,
 				Identified = false
 			};

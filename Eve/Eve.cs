@@ -5,37 +5,13 @@ using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Reflection;
-using System.Text;
+using Eve.Managers.Modules;
+using Eve.Enums;
+using Eve.Managers.Classes;
 using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Eve {
-	public class User {
-		public User() {
-			Messages = new List<Message>();
-		}
-
-		public int Id { get; set; }
-		public string Nickname { get; set; }
-		public string Realname { get; set; }
-		public int Access { get; set; }
-		public DateTime Seen { get; set; }
-		public List<Message> Messages { get; set; }
-		public int Attempts { get; set; }
-	}
-
-	public class Message {
-		public string Sender { get; set; }
-		public string Contents { get; set; }
-		public DateTime Date { get; set; }
-	}
-
-	public class Channel {
-		public string Name { get; set; }
-		public List<string> UserList { get; set; }
-	}
-
 	public class IrcConfig {
 		public List<string> IgnoreList { get; set; }
 
@@ -51,129 +27,7 @@ namespace Eve {
 
 		public int Port { get; set; }
 	}
-
-	public class Variables : IDisposable {
-		/// <summary>
-		///     Initialise connections to database and fill collections
-		/// </summary>
-		/// <param name="database">database to be assigned to</param>
-		public Variables(string database) {
-			if (!File.Exists(database))
-				CreateDatabase(database);
-
-			try {
-				Db = new SQLiteConnection($"Data Source={database};Version=3;");
-				Db.Open();
-			} catch (Exception e) {
-				Console.WriteLine("||| Unable to connect to database, error: " + e);
-				return;
-			}
-
-			CheckUsersTableForEmptyAndFill();
-			ReadUsers();
-			ReadMessagesIntoUsers();
-
-			if (Users != null) return;
-
-			Console.WriteLine("||| Failed to read from database.");
-			Eve.ShouldRun = false;
-		}
-
-		public void Dispose() {
-			Db?.Close();
-		}
-
-		/// <summary>
-		///     Creates a database at specified location
-		/// </summary>
-		/// <param name="database">name and/or path for the database to be made at</param>
-		/// <returns>true: database created; false: database not created</returns>
-		private void CreateDatabase(string database) {
-			if (File.Exists(database)) {
-				Console.WriteLine("||| Specified database already exists.");
-				return;
-			}
-
-			database = database.EndsWith(".sqlite") ? database : $"{database}.sqlite";
-
-			try {
-				Db = new SQLiteConnection($"Data Source={database};Version=3;");
-				Db.Open();
-
-				using (SQLiteCommand com = new SQLiteCommand(
-					"CREATE TABLE users (int id, string nickname, string realname, int access, string seen)", Db))
-					com.ExecuteNonQuery();
-
-				using (SQLiteCommand com2 =
-					new SQLiteCommand("CREATE TABLE messages (int id, string sender, string message, string datetime)", Db))
-					com2.ExecuteNonQuery();
-			} catch (Exception e) {
-				Console.WriteLine($"||| Error occured: {e}");
-			}
-		}
-
-		private void CheckUsersTableForEmptyAndFill() {
-			using (SQLiteCommand a = new SQLiteCommand("SELECT COUNT(id) FROM users", Db))
-				if (Convert.ToInt32(a.ExecuteScalar()) == 0) {
-					Console.WriteLine("||| Users table in database is empty. Creating initial record.");
-
-					using (
-						SQLiteCommand b =
-							new SQLiteCommand($"INSERT INTO users VALUES (0, '000000000', '000000000', 3, '{DateTime.UtcNow}')",
-								Db))
-						b.ExecuteNonQuery();
-				}
-		}
-
-		private void ReadUsers() {
-			using (SQLiteDataReader d = new SQLiteCommand("SELECT * FROM users", Db).ExecuteReader())
-				while (d.Read())
-					Users.Add(new User {
-						Id = (int) d["id"],
-						Nickname = (string) d["nickname"],
-						Realname = (string) d["realname"],
-						Access = (int) d["access"],
-						Seen = DateTime.Parse((string) d["seen"]),
-						Attempts = 0
-					});
-		}
-
-		private void ReadMessagesIntoUsers() {
-			try {
-				using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", Db).ExecuteReader())
-					while (m.Read())
-						Users.FirstOrDefault(e => e.Id == Convert.ToInt32(m["id"]))?.Messages.Add(new Message {
-							Sender = (string) m["sender"],
-							Contents = (string) m["message"],
-							Date = DateTime.Parse((string) m["datetime"])
-						});
-			} catch (NullReferenceException) {
-				Console.WriteLine(
-					"||| NullReferenceException occured upon loading messages from database. This most likely means a user record was deleted and the ID cannot be referenced from the message entry.");
-			}
-		}
-
-		public User QueryName(string name) {
-			return Users.FirstOrDefault(e => e.Realname == name);
-		}
-
-		#region Variable initializations
-
-		public SQLiteConnection Db;
-		public User CurrentUser = new User();
-
-		public string Info =
-			"Evealyn is a utility IRC bot created by SemiViral as a primary learning project for C#. Version 2.0";
-
-		public List<string> IgnoreList = new List<string>();
-		public List<User> Users = new List<User>();
-		public readonly List<Channel> Channels = new List<Channel>();
-
-		public readonly Dictionary<string, string> Commands = new Dictionary<string, string>();
-
-		#endregion
-	}
-
+	
 	public class IrcBot : IDisposable, IModule {
 		private static IrcConfig _config;
 
@@ -194,6 +48,10 @@ namespace Eve {
 		private StreamReader _streamReader;
 		private StreamWriter _streamWriter;
 
+		public static Variables V { get; set; }
+
+		public Dictionary<string, string> Def => null;
+
 		/// <summary>
 		///     initialises class
 		/// </summary>
@@ -206,12 +64,9 @@ namespace Eve {
 				IgnoreList = _config.IgnoreList
 			};
 
-			Modules = LoadModules();
+			ModuleManager moduleManager = new ModuleManager();
+			V.Modules = moduleManager.LoadModules(V.Commands);
 		}
-
-		public static Variables V { get; set; }
-
-		public static Dictionary<string, Type> Modules { get; set; }
 
 		/// <summary>
 		///     Dispose of all streams
@@ -221,23 +76,22 @@ namespace Eve {
 			GC.SuppressFinalize(this);
 		}
 
-		public Dictionary<string, string> Def => null;
+		
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, Variables v) {
 			c._Args = c.Args?.Trim().Split(new[] {' '}, 4).ToList();
 			c.Target = c.Recipient;
 
 			try {
-				foreach (ChannelMessage cm in Modules.Values
-					.Select(m => ((IModule) Activator.CreateInstance(m)).OnChannelMessage(c))) {
-					if (cm == null) continue;
+				foreach (ChannelMessage cm in V.Modules.Values
+					.Select(m => ((IModule)Activator.CreateInstance(m)).OnChannelMessage(c, V)).Where(cm => cm != null)) {
 
 					bool stopLoop = false;
 					switch (cm.ExitType) {
-						case ExitType.Exit: // Immediately end loop
+						case ExitType.Exit:
 							stopLoop = true;
 							break;
-						case ExitType.MessageAndExit: // End loop after sending message
+						case ExitType.MessageAndExit:
 							SendData("PRIVMSG", $"{cm.Target} {cm.Message}");
 							stopLoop = true;
 							break;
@@ -253,8 +107,10 @@ namespace Eve {
 
 					c.Reset(c.Recipient);
 				}
-			} catch (Exception e) {
-				Console.WriteLine($"||| Error: {e}");
+			} catch (MissingMemberException e) {
+				Console.WriteLine(e);
+
+				Console.ReadLine();
 			}
 
 			return null;
@@ -303,6 +159,11 @@ namespace Eve {
 			}
 		}
 
+		private void DoPing(string data) {
+			Console.Write("Ping ...");
+			SendData("PONG", _pingRegex.Match(data).Groups["Message"].Value);
+		}
+
 		/// <summary>
 		///     Writes to log
 		/// </summary>
@@ -325,15 +186,7 @@ namespace Eve {
 			Match sMatch = _senderRegex.Match(mSender);
 
 			ChannelMessage c = new ChannelMessage {
-				Nickname = mSender,
-				Realname = mSender.ToLower(),
-				Hostname = mSender,
-				Type = mVal.Groups["Type"].Value,
-				Recipient = mVal.Groups["Recipient"].Value.StartsWith(":")
-					? mVal.Groups["Recipient"].Value.Substring(1)
-					: mVal.Groups["Recipient"].Value,
-				Args = mVal.Groups["Args"].Value,
-				Time = DateTime.UtcNow
+				Nickname = mSender, Realname = mSender.ToLower(), Hostname = mSender, Type = mVal.Groups["Type"].Value, Recipient = mVal.Groups["Recipient"].Value.StartsWith(":") ? mVal.Groups["Recipient"].Value.Substring(1) : mVal.Groups["Recipient"].Value, Args = mVal.Groups["Args"].Value, Time = DateTime.UtcNow
 			};
 			if (!sMatch.Success) return c;
 
@@ -361,18 +214,13 @@ namespace Eve {
 		private static void UpdateUserInfo(ChannelMessage c) {
 			V.Users.First(e => e.Realname == c.Realname).Seen = c.Time;
 
-			using (
-				SQLiteCommand com = new SQLiteCommand($"UPDATE users SET seen='{c.Time}' WHERE realname='{c.Realname}'",
-					V.Db))
+			using (SQLiteCommand com = new SQLiteCommand($"UPDATE users SET seen='{c.Time}' WHERE realname='{c.Realname}'", V.Db))
 				com.ExecuteNonQuery();
 
-			if (V.CurrentUser == null
-				|| V.CurrentUser.Nickname != c.Nickname)
+			if (V.CurrentUser == null || V.CurrentUser.Nickname != c.Nickname)
 				return;
 
-			using (
-				SQLiteCommand com = new SQLiteCommand($"UPDATE users SET nickname='{c.Nickname}' WHERE realname='{c.Realname}'",
-					V.Db))
+			using (SQLiteCommand com = new SQLiteCommand($"UPDATE users SET nickname='{c.Nickname}' WHERE realname='{c.Realname}'", V.Db))
 				com.ExecuteNonQuery();
 		}
 
@@ -390,11 +238,7 @@ namespace Eve {
 				while (x.Read())
 					id = Convert.ToInt32(x.GetValue(0)) + 1;
 
-			using (
-				SQLiteCommand com =
-					new SQLiteCommand(
-						$"INSERT INTO users VALUES ({id}, '{u.Nickname}', '{u.Realname}', {u.Access}, '{u.Seen}')",
-						V.Db))
+			using (SQLiteCommand com = new SQLiteCommand($"INSERT INTO users VALUES ({id}, '{u.Nickname}', '{u.Realname}', {u.Access}, '{u.Seen}')", V.Db))
 				com.ExecuteNonQuery();
 
 			V.Users.Add(u);
@@ -414,8 +258,7 @@ namespace Eve {
 			foreach (string s in _config.Channels) {
 				SendData("JOIN", s);
 				V.Channels.Add(new Channel {
-					Name = s,
-					UserList = new List<string>()
+					Name = s, UserList = new List<string>()
 				});
 			}
 
@@ -423,76 +266,8 @@ namespace Eve {
 			_config.Identified = true;
 		}
 
-		/// <summary>
-		///     Loads all Type assemblies in ./modules/ into memory
-		/// </summary>
-		/// <returns>void</returns>
-		public static Dictionary<string, Type> LoadModules() {
-			var modules = new Dictionary<string, Type>();
-
-			if (!Directory.Exists("modules")) {
-				Console.WriteLine("||| Modules directory not found. Creating directory.");
-				Directory.CreateDirectory("modules");
-			}
-
-			try {
-				foreach (KeyValuePair<string, Type> kvp in Assembly.LoadFrom(Path.GetFullPath("modules/Eve.Core.dll")).GetTypes()
-					.Select(t => CheckTypeAndLoad(t, modules)).Where(kvp => !kvp.Equals(default(KeyValuePair<string, Type>))))
-					modules.Add(kvp.Key, kvp.Value);
-
-				foreach (KeyValuePair<string, Type> kvp in from f in Directory.EnumerateFiles("modules", "Eve.*.dll")
-					let r = new RecursiveAssemblyLoader()
-					select r.GetAssembly(Path.GetFullPath(f))
-					into file
-					from t in file.GetTypes()
-					select CheckTypeAndLoad(t, modules)
-					into kvp
-					where !kvp.Equals(default(KeyValuePair<string, Type>))
-					select kvp)
-					modules.Add(kvp.Key, kvp.Value);
-			} catch (ReflectionTypeLoadException ex) {
-				StringBuilder sb = new StringBuilder();
-
-				foreach (Exception exSub in ex.LoaderExceptions) {
-					sb.AppendLine(exSub.Message);
-					FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
-					if (!string.IsNullOrEmpty(exFileNotFound?.FusionLog)) {
-						sb.AppendLine("Fusion Log:");
-						sb.AppendLine(exFileNotFound.FusionLog);
-					}
-
-					sb.AppendLine();
-				}
-				string errorMessage = sb.ToString();
-				Console.WriteLine(errorMessage);
-			}
-
-			Console.WriteLine($"||| Loaded modules: {string.Join(", ", modules.Keys)}");
-			return modules;
-		}
-
-		/// <summary>
-		///     Handles interface checks on the Types and adds them to the module list.
-		///     Commands are also added to list.
-		/// </summary>
-		/// <param name="type">Type to be checked against IModule interface</param>
-		/// <param name="checker">Dictionary to be checked against</param>
-		private static KeyValuePair<string, Type> CheckTypeAndLoad(Type type, Dictionary<string, Type> checker) {
-			if (type.GetInterface("IModule") == null) return new KeyValuePair<string, Type>();
-
-			if (!type.GetInterface("IModule").IsEquivalentTo(typeof(IModule)))
-				return new KeyValuePair<string, Type>();
-
-			if (checker.ContainsValue(type)) return new KeyValuePair<string, Type>();
-
-			Dictionary<string, string> def = ((IModule) Activator.CreateInstance(type)).Def;
-
-			if (def == null) return new KeyValuePair<string, Type>(type.Name.ToLower(), type);
-
-			foreach (KeyValuePair<string, string> s in def.Where(s => !V.Commands.Contains(s)))
-				V.Commands.Add(s.Key, s.Value);
-
-			return new KeyValuePair<string, Type>(type.Name.ToLower(), type);
+		public void CheckChannelExistsAndAdd(Channel chan) {
+			V.Channels.Add(chan);
 		}
 
 		/// <summary>
@@ -520,7 +295,7 @@ namespace Eve {
 		}
 
 		/// <summary>
-		///     Recieves incoming data, parses it, and passes it to <see cref="OnChannelMessage(ChannelMessage)" />
+		///     Recieves incoming data, parses it, and passes it to <see cref="OnChannelMessage(ChannelMessage, Variables)" />
 		/// </summary>
 		public void Runtime() {
 			string data = _streamReader.ReadLine();
@@ -528,13 +303,13 @@ namespace Eve {
 
 			try {
 				if (_pingRegex.IsMatch(data)) {
-					Console.Write("Ping ...");
-					SendData("PONG", _pingRegex.Match(data).Groups["Message"].Value);
+					DoPing(data);
 					return;
 				}
 
-				c = ParseMessage(data); // raw data from stream
+				c = ParseMessage(data);
 			} catch (NullReferenceException) {
+				// Stream has disconnected
 				Console.WriteLine("||| Stream disconnected. Attempting to reconnect.");
 
 				Dispose();
@@ -544,39 +319,28 @@ namespace Eve {
 
 			if (c.Nickname.Equals(_config.Nickname)) return;
 
-			// Write data to console in a readable format
-			Console.WriteLine(
-				$"[{(c.Recipient.Equals(_config.Nickname) ? c.Type : c.Recipient)}]({c.Time.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}");
+			// Write data to console & log in a readable format
+			Console.WriteLine($"[{(c.Type.Equals("PRIVMSG") ? c.Recipient : c.Type)}]({c.Time.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}");
+			WriteToLog($"({DateTime.Now}) {data}");
 
 			CheckDoIdentifyAndJoin(c.Type);
 
-			// write timestamp and raw data to log
-			WriteToLog($"({DateTime.Now}) {data}");
-
-			// add new channel to the channel list if not contained
-			if (V.Channels.All(e => e.Name != c.Recipient)
-				&& c.Recipient.StartsWith("#"))
-				V.Channels.Add(new Channel {
-					Name = c.Recipient,
-					UserList = new List<string>()
+			if (V.Channels.All(e => e.Name != c.Recipient) && c.Recipient.StartsWith("#"))
+				CheckChannelExistsAndAdd(new Channel {
+					Name = c.Recipient, UserList = new List<string>()
 				});
 
-			// set currentUser to the current user
-			V.CurrentUser = V.Users.FirstOrDefault(e => e.Realname == c.Realname);
-
-			if (CheckUserExists(c.Realname))
+			if (CheckUserExists(c.Realname)) {
 				UpdateUserInfo(c);
-			else if (!V.IgnoreList.Contains(c.Realname.ToLower()))
+
+				V.CurrentUser = V.Users.FirstOrDefault(e => e.Realname == c.Realname);
+			} else if (!V.IgnoreList.Contains(c.Realname.ToLower()))
 				CreateUserAndUpdateCollections(new User {
-					Access = 3,
-					Nickname = c.Nickname,
-					Realname = c.Realname,
-					Seen = DateTime.UtcNow,
-					Attempts = 0
+					Access = 3, Nickname = c.Nickname, Realname = c.Realname, Seen = DateTime.UtcNow, Attempts = 0
 				});
 
 			// queue OnChannelMessage into threadpool
-			ThreadPool.QueueUserWorkItem(e => OnChannelMessage(c));
+			ThreadPool.QueueUserWorkItem(e => OnChannelMessage(c, V));
 		}
 	}
 
@@ -592,25 +356,11 @@ namespace Eve {
 
 		private static void Main() {
 			IrcConfig conf = new IrcConfig {
-				Realname = "SemiViral",
-				Nickname = "Eve",
-				Password = "evepass",
-				Port = 6667,
-				Server = "irc6.foonetic.net",
-				Channels = new[] {"#testgrounds", "#ministryofsillywalks" },
-				Database = "users.sqlite",
-				IgnoreList = new List<string> {
-					"nickserv",
-					"chanserv",
-					"vervet.foonetic.net",
-					"belay.foonetic.net",
-					"anchor.foonetic.net",
-					"daemonic.foonetic.net",
-					"staticfree.foonetic.net",
-					"services.foonetic.net"
+				Realname = "SemiViral", Nickname = "Eve", Password = "evepass", Port = 6667, Server = "irc6.foonetic.net", Channels = new[] {"#testgrounds"}, //, "#ministryofsillywalks" },
+				Database = "users.sqlite", IgnoreList = new List<string> {
+					"nickserv", "chanserv", "vervet.foonetic.net", "belay.foonetic.net", "anchor.foonetic.net", "daemonic.foonetic.net", "staticfree.foonetic.net", "services.foonetic.net"
 				},
-				Joined = false,
-				Identified = false
+				Joined = false, Identified = false
 			};
 
 			try {
@@ -629,29 +379,5 @@ namespace Eve {
 			Console.WriteLine("||| Bot has shutdown.");
 			Console.ReadLine();
 		}
-	}
-
-	public class RecursiveAssemblyLoader : MarshalByRefObject {
-		public Assembly GetAssembly(string path) {
-			return Assembly.LoadFrom(path);
-		}
-	}
-
-	public static class Extentions {
-		/// <summary>
-		///     Compares the object to a string with default ignorance of casing
-		/// </summary>
-		/// <param name="query">string to compare</param>
-		/// <param name="ignoreCase">whether or not to ignore case</param>
-		/// <returns>true: strings equal; false: strings unequal</returns>
-		public static bool CaseEquals(this string obj, string query, bool ignoreCase = true) {
-			return obj.Equals(query, ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture);
-		}
-	}
-
-	public enum ExitType {
-		Exit,
-		MessageAndExit,
-		DoNotExit
 	}
 }

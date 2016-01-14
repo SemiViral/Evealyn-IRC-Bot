@@ -1,0 +1,5 @@
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Extensions\bin\Debug\Eve.Extensions.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Extensions\bin\Debug\Eve.Extensions.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Extensions\obj\Debug\Eve.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Extensions\obj\Debug\Eve.Extensions.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Extensions\obj\Debug\Eve.Extensions.pdb

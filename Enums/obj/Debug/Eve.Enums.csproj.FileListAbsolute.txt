@@ -1,0 +1,5 @@
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Enums\bin\Debug\Eve.Enums.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Enums\bin\Debug\Eve.Enums.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Enums\obj\Debug\Eve.Enums.csprojResolveAssemblyReference.cache
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Enums\obj\Debug\Eve.Enums.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve.Enums\obj\Debug\Eve.Enums.pdb

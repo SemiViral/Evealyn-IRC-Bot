@@ -1,0 +1,4 @@
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Extensions\bin\Debug\Eve.Extensions.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Extensions\bin\Debug\Eve.Extensions.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Extensions\obj\Debug\Eve.Extensions.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Extensions\obj\Debug\Eve.Extensions.pdb

@@ -7,7 +7,7 @@ To-Do list:
 - Modify ChannelMessage object's `string Type` to `HandlerType Type`
 
 #DataWriting
-Create a new namespace for sending data (Eve.DataWriting, Eve.Messaging, something like that)
+- Create a new namespace for sending data (Eve.DataWriting, Eve.Messaging, something like that)
 
 #Modules
-Place module interface and module loading methods into new namespace, Eve.Modules
+- Place module interface and module loading methods into new namespace, Eve.Modules

@@ -12,7 +12,7 @@ namespace Eve.Core {
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
 			switch (c.Type) {
 				case "NICK":
-					c.ExitType = 0;
+					c.ExitType = ExitType.Exit;
 
 					using (
 						SQLiteCommand com =
@@ -20,8 +20,7 @@ namespace Eve.Core {
 						com.ExecuteNonQuery();
 					break;
 				case "JOIN":
-					c.ExitType = 0;
-					if (c.Realname == "Eve") return c;
+					c.ExitType = ExitType.Exit;
 
 					if (IrcBot.V.QueryName(c.Realname) != null
 						&& IrcBot.V.CurrentUser.Messages != null) {
@@ -36,38 +35,33 @@ namespace Eve.Core {
 							x.ExecuteNonQuery();
 					}
 
-					if (!IrcBot.V.UserChannelList.ContainsKey(c.Recipient))
-						IrcBot.V.UserChannelList.Add(c.Recipient, new List<string>());
-
-					IrcBot.V.UserChannelList[c.Recipient].Add(c.Realname);
+					AddUserToChannel(c.Recipient, c.Realname);
 					break;
 				case "PART":
-					c.ExitType = 0;
-					IrcBot.V.UserChannelList[c.Recipient].Remove(c.Realname);
+					c.ExitType = ExitType.Exit;
+					RemoveUserFromChannel(c.Recipient, c.Realname);
 					break;
 				case "353":
-					c.ExitType = 0;
-					if (!IrcBot.V.UserChannelList.ContainsKey(c.Recipient))
-						IrcBot.V.UserChannelList.Add(c.Recipient, new List<string>());
+					c.ExitType = ExitType.Exit;
 
 					// splits the channel user list in half by the :, then splits each user into an array object to iterated
 					foreach (string s in c.Args.Split(':')[1].Split(' '))
-						IrcBot.V.UserChannelList[c.Recipient].Add(s);
+						AddUserToChannel(c.Recipient, s);
 					break;
 				default:
-					if (!c._Args[0].Replace(",", String.Empty).CaseEquals("eve")
+					if (!c._Args[0].Replace(",", string.Empty).CaseEquals("eve")
 						|| IrcBot.V.IgnoreList.Contains(c.Realname)
 						|| GetUserTimeout(c.Realname)) {
-						c.ExitType = 0;
+						c.ExitType = ExitType.Exit;
 						return c;
 					}
 
 					if (c._Args.Count < 2) {
-						c.ExitType = 1;
+						c.ExitType = ExitType.MessageAndExit;
 						c.Message = "Please provide a command. Type 'eve help' to view my command list.";
 					}
 					else if (!IrcBot.V.Commands.ContainsKey(c._Args[1].ToLower())) {
-						c.ExitType = 1;
+						c.ExitType = ExitType.MessageAndExit;
 						c.Message = "Invalid command. Type 'eve help' to view my command list.";
 					}
 
@@ -80,7 +74,7 @@ namespace Eve.Core {
 
 	public class Join : IModule {
 		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			{"join", "(<channel>) — joins specified channel."}
+			["join"] = "(<channel>) — joins specified channel."
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
@@ -89,20 +83,19 @@ namespace Eve.Core {
 
 			if (IrcBot.V.CurrentUser.Access > 1)
 				c.Message = "Insufficient permissions.";
-			else if (String.IsNullOrEmpty(c._Args[2]))
+			else if (string.IsNullOrEmpty(c._Args[2]))
 				c.Message = "Insufficient parameters. Type 'eve help join' to view ccommand's help index.";
 			else if (!c._Args[2].StartsWith("#"))
 				c.Message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (IrcBot.V.Channels.Contains(c._Args[2].ToLower()))
+			else if (Utils.CheckChannelExists(c._Args[2].ToLower()))
 				c.Message = "I'm already in that channel.";
 
-			if (!String.IsNullOrEmpty(c.Message)) {
+			if (!string.IsNullOrEmpty(c.Message)) {
 				c.Type = "PRIVMSG";
 				return c;
 			}
 
-			IrcBot.V.Channels.Add(c._Args[2].ToLower());
-
+			c.Target = string.Empty;
 			c.Message = c._Args[2];
 			c.Type = "JOIN";
 			return c;
@@ -120,23 +113,22 @@ namespace Eve.Core {
 
 			if (IrcBot.V.CurrentUser.Access > 1)
 				c.Message = "Insufficient permissions.";
-			else if (String.IsNullOrEmpty(c._Args[2]))
+			else if (string.IsNullOrEmpty(c._Args[2]))
 				c.Message = "Insufficient parameters. Type 'eve help part' to view ccommand's help index.";
 			else if (!c._Args[2].StartsWith("#"))
 				c.Message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (!IrcBot.V.Channels.Contains(c._Args[2].ToLower()))
+			else if (!Utils.CheckChannelExists(c._Args[2].ToLower()))
 				c.Message = "I'm not in that channel.";
 
-			if (!String.IsNullOrEmpty(c.Message)) {
+			if (!string.IsNullOrEmpty(c.Message)) {
 				c.Type = "PRIVMSG";
 				return c;
 			}
 
+			IrcBot.V.Channels.RemoveAll(e => e.Name == c._Args[2].ToLower());
+
+			c.Target = string.Empty;
 			c.Message = c._Args.Count > 3 ? $"{c._Args[2]} {c._Args[3]}" : c._Args[2];
-
-			IrcBot.V.Channels.Remove(c._Args[2]);
-			IrcBot.V.UserChannelList.Remove(c._Args[2]);
-
 			c.Type = "PART";
 			return c;
 		}
@@ -161,9 +153,9 @@ namespace Eve.Core {
 			string msg = c._Args[2].StartsWith("#")
 				? $"{c._Args[2]} {c._Args[3]}"
 				: c._Args[2];
-			string chan = c._Args[2].StartsWith("#") ? c._Args[2] : String.Empty;
+			string chan = c._Args[2].StartsWith("#") ? c._Args[2] : string.Empty;
 
-			c.Message = String.IsNullOrEmpty(chan) ? msg : $"{chan} {msg}";
+			c.Message = string.IsNullOrEmpty(chan) ? msg : $"{chan} {msg}";
 			return c;
 		}
 	}
@@ -177,7 +169,7 @@ namespace Eve.Core {
 			if (!c._Args[1].CaseEquals("channels"))
 				return null;
 
-			c.Message = string.Join(", ", IrcBot.V.Channels);
+			c.Message = string.Join(", ", IrcBot.V.Channels.Select(e => e.Name).ToArray());
 			return c;
 		}
 	}
@@ -200,10 +192,8 @@ namespace Eve.Core {
 				c.Message = "Insufficient parameters. Type 'eve help message' to view correct usage.";
 			else if (IrcBot.V.QueryName(c._Args[2]) == null)
 				c.Message = "User does not exist in database.";
-			else if (IrcBot.V.UserChannelList.ContainsKey(c._Args[2]))
-				c.Message = "User is already online.";
 
-			if (!String.IsNullOrEmpty(c.Message))
+			if (!string.IsNullOrEmpty(c.Message))
 				return c;
 
 			string who = Regex.Escape(c._Args[2]);
@@ -245,8 +235,8 @@ namespace Eve.Core {
 				return c;
 			}
 			
-			c.Message = (c._Args.Count < 3)
-				? $"My commands: {String.Join(", ", IrcBot.V.Commands.Keys)}"
+			c.Message = c._Args.Count < 3
+				? $"My commands: {string.Join(", ", IrcBot.V.Commands.Keys)}"
 				: $"{c._Args[2]}: {IrcBot.V.Commands[c._Args[2]]}";
 
 			return c;
@@ -269,7 +259,7 @@ namespace Eve.Core {
 			else if (IrcBot.V.QueryName(c._Args[2]) == null)
 				c.Message = $"User {c._Args[2]} does not exist in database.";
 
-			if (!String.IsNullOrEmpty(c.Message))
+			if (!string.IsNullOrEmpty(c.Message))
 				return c;
 
 			c.Message = $"{IrcBot.V.QueryName(c._Args[2]).Realname}({IrcBot.V.QueryName(c._Args[2]).Access})";
@@ -294,7 +284,7 @@ namespace Eve.Core {
 			else if (IrcBot.V.QueryName(c._Args[2]) == null)
 				c.Message = "User does not exist in database.";
 
-			if (!String.IsNullOrEmpty(c.Message))
+			if (!string.IsNullOrEmpty(c.Message))
 				return c;
 
 			Eve.User u = IrcBot.V.QueryName(c._Args[2]);
@@ -313,7 +303,7 @@ namespace Eve.Core {
 			if (!c._Args[1].CaseEquals("setaccess"))
 				return null;
 
-			var i = 2;
+			int i = 2;
 			if (c._Args.Count > 2) {
 				c._Args[2] = c._Args[2].ToLower();
 			}
@@ -322,14 +312,14 @@ namespace Eve.Core {
 				c.Message = "Insuffient parameters. Type 'eve help setaccess' to view command's help index.";
 			else if (IrcBot.V.QueryName(c._Args[2]) == null)
 				c.Message = "User does not exist in database.";
-			else if (!Int32.TryParse(c._Args[3], out i))
+			else if (!int.TryParse(c._Args[3], out i))
 				c.Message = "Invalid access parameter.";
 			else if (i > 9 || i < 1)
 				c.Message = "Invalid access setting. Please use a number between 1 and 9.";
 			else if (IrcBot.V.CurrentUser.Access > 1)
 				c.Message = "Insufficient permissions. Only users with an access level of 1 or 0 can promote.";
 
-			if (!String.IsNullOrEmpty(c.Message))
+			if (!string.IsNullOrEmpty(c.Message))
 				return c;
 
 			SQLiteCommand com = new SQLiteCommand($"UPDATE users SET access={i} WHERE id={IrcBot.V.QueryName(c._Args[2]).Id}", IrcBot.V.Db);
@@ -366,7 +356,7 @@ namespace Eve.Core {
 			if (c._Args[1] != "modules")
 				return null;
 
-			c.Message = $"Active modules: {String.Join(", ", IrcBot.Modules.Keys)}";
+			c.Message = $"Active modules: {string.Join(", ", IrcBot.Modules.Keys)}";
 			return c;
 		}
 	}

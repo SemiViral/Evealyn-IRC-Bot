@@ -11,7 +11,6 @@ namespace Eve {
 		public List<string> _Args = new List<string>();
 		public DateTime Time;
 
-		public int ExitType = Int32.MaxValue;
 		public string
 			Nickname,
 			Realname,
@@ -19,8 +18,9 @@ namespace Eve {
 			Type,
 			Recipient,
 			Args;
-		
-		public List<string> MultiMessage = new List<String>(); 
+
+		public ExitType ExitType = ExitType.DoNotExit;
+		public List<string> MultiMessage = new List<string>(); 
 		public string
 			Target,
 			Message;
@@ -31,8 +31,8 @@ namespace Eve {
 		/// <param name="newTarget">new string for this.Target to equate to</param>
 		public void Reset(string newTarget = null) {
 			MultiMessage = new List<string>();
-			ExitType = Int32.MaxValue;
-			Target = Message = String.Empty;
+			ExitType = ExitType.DoNotExit;
+			Target = Message = string.Empty;
 
 			Target = newTarget ?? newTarget;
 

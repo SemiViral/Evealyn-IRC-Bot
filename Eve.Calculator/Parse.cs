@@ -13,7 +13,7 @@ namespace Eve.Calculator {
 		private int _tokenPos;
 		private string _expression;
 
-		public Dictionary<String, String> Def => new Dictionary<string, string> {
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
 			{ "eval", "(<expression>) — evaluates given mathematical expression." }
 		};
 
@@ -69,28 +69,36 @@ namespace Eve.Calculator {
 		}
 
 		private void ParsePrimary() {
-			if (Token.IsDigit(_token))
-				ParseDigit();
-			else if (Token.IsName(_token))
-				ParseName();
-			else if (Token.IsUnary(_token)) {
-				PushOperator(Token.ConvertOperator(_token));
-				NextToken();
-				ParsePrimary();
-			} else if (_token == Token.PLeft) {
-				NextToken();
-				_operators.Push(Token.Sentinel);
-				ParseBinary();
-				Expect(Token.PRight, Token.Seperator);
-				_operators.Pop();
+			while (true) {
+				if (Token.IsDigit(_token))
+					ParseDigit();
+				else if (Token.IsName(_token))
+					ParseName();
+				else if (Token.IsUnary(_token)) {
+					PushOperator(Token.ConvertOperator(_token));
+					NextToken();
+					continue;
+				} else
+					switch (_token) {
+						case Token.PLeft:
+							NextToken();
+							_operators.Push(Token.Sentinel);
+							ParseBinary();
+							Expect(Token.PRight, Token.Seperator);
+							_operators.Pop();
 
-				TryInsertMultiply();
-				TryRightSideOperator();
-			} else if (_token == Token.Seperator) {
-				NextToken();
-				ParsePrimary();
-			} else
-				ThrowException("Syntax error.");
+							TryInsertMultiply();
+							TryRightSideOperator();
+							break;
+						case Token.Seperator:
+							NextToken();
+							continue;
+						default:
+							ThrowException("Syntax error.");
+							break;
+					}
+				break;
+			}
 		}
 
 		private void ParseDigit() {
@@ -209,31 +217,23 @@ namespace Eve.Calculator {
 		}
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c) {
-			ChannelMessage o = new ChannelMessage {
-				Type = "PRIVMSG",
-				Nickname = c.Recipient,
-				Args = String.Empty
-			};
-
-			if (c._Args[0].Replace(",", string.Empty) != "eve"
-				|| c._Args.Count < 2
-				|| !c._Args[1].CaseEquals("eval"))
-				return o;
+			if (!c._Args[1].CaseEquals("eval"))
+				return null;
 
 			if (c._Args.Count < 3) {
-				o.Args = "Not enough parameters.";
+				c.Message = "Not enough parameters.";
 			}
 
-			string evalArgs = (c._Args.Count > 3) ?
+			string evalArgs = c._Args.Count > 3 ?
 				c._Args[2] + c._Args[3] : c._Args[2];
 
 			try {
-				o.Args = Evaluate(evalArgs).ToString(CultureInfo.CurrentCulture);
+				c.Message = Evaluate(evalArgs).ToString(CultureInfo.CurrentCulture);
 			} catch (Exception e) {
-				o.Args = e.Message;
+				c.Message = e.Message;
 			}
 			
-			return o;
+			return c;
 		}
 	}
 

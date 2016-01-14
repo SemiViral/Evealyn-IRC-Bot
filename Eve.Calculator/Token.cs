@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -119,7 +118,7 @@ namespace Eve.Calculator {
 				}
 			}
 
-			private static bool Contains(string token, IEnumerable<String> array) {
+			private static bool Contains(string token, IEnumerable<string> array) {
 				return array.Any(s => s == token);
 			}
 

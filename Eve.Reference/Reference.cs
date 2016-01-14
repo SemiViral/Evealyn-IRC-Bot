@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Eve.Utilities;
@@ -7,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Eve.Reference {
 	public class Define : Utils, IModule {
-		public Dictionary<String, String> Def => new Dictionary<string, string> {
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
 			["define"] = "(<word> *<part of speech>) — returns definition for given word."
 		};
 
@@ -34,7 +33,7 @@ namespace Eve.Reference {
 			_out.Add("ex", (string)entry.SelectToken("results[0].senses[0].examples[0].text"));
 
 			string sOut = $"{_out["word"]} [{_out["pos"]}] — {_out["def"]}";
-			if (String.IsNullOrEmpty(_out["ex"]))
+			if (string.IsNullOrEmpty(_out["ex"]))
 				sOut += $" (ex. {_out["ex"]})";
 
 			c.Message = sOut;
@@ -62,7 +61,7 @@ namespace Eve.Reference {
 			}
 
 			JToken pages = JObject.Parse(response)["query"]["pages"].Values().First();
-			if (String.IsNullOrEmpty((string)pages["extract"])) {
+			if (string.IsNullOrEmpty((string)pages["extract"])) {
 				c.Message = "Query failed to return results. Perhaps try a different term?";
 				return c;
 			}

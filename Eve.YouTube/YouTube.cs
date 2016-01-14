@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Eve.Utilities;
 using Newtonsoft.Json.Linq;
 
 namespace Eve.YouTube {
 	public class YouTube : Utils, IModule {
-		public Dictionary<String, String> Def => new Dictionary<string, string> {
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
 			["youtube"] = "outputs video information for any given YouTube link in messages."
 		};
 
@@ -22,15 +21,15 @@ namespace Eve.YouTube {
 					$"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={youtubeRegex.Match(c.Args).Groups["ID"]}&key=AIzaSyDnKtEZGuv3PgmePOSe6xBvoXKbrEMVxx8");
 
 			JToken video = JObject.Parse(get)["items"][0]["snippet"];
-			var channel = (string) video["channelTitle"];
-			var title = (string) video["title"];
+			string channel = (string) video["channelTitle"];
+			string title = (string) video["title"];
 			string description = video["description"].ToString().Split('\n')[0];
 			string[] descArray = description.Split(' ');
 
 			if (description.Length > 200) {
 				description = "";
 
-				for (var i = 0; description.Length < 200; i++)
+				for (int i = 0; description.Length < 200; i++)
 					description += $" {descArray[i]}";
 
 				description += "....";

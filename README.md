@@ -20,5 +20,7 @@ Example: Dictionary<string, string> def => new Dictionary<string, string> { ["jo
 
 That is all. Obviously, your whole class (that implements IModule interface) will be loaded, and not single methods. If you don't understand Types and how classes/methods/fields work, you should learn that before trying to change things in this solution or adding modules to it.
 
+It is reccomended (by myself, at least) that you make a different class for each seperate command, as it tends to make everything run smoother (and I don't know if it will mess anything up, but it shouldn't). It's also a lot quicker than a large SWITCH statement.
+
 # Ending note
-I'm quite bad at doing comprehensive ReadMe's, so 
+I'm quite bad at doing comprehensive ReadMe's, so if I've missed anything feel free to e-mail me at semiviral@gmail.com, or I can be found on IRC at: irc.foonetic.net/#ministryofsillywalks

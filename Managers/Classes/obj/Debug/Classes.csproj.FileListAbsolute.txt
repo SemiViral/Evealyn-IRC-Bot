@@ -14,3 +14,5 @@ C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\obj\Debug\Eve.
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\obj\Debug\Eve.Managers.Classes.pdb
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\bin\Debug\Eve.Data.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\bin\Debug\Eve.Data.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\bin\Debug\Eve.Translators.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\bin\Debug\Eve.Translators.pdb

@@ -77,6 +77,10 @@
       <Project>{4023b915-ed33-46cd-bc24-3a8383d71fc4}</Project>
       <Name>EnumsAndModes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Translators\Translators.csproj">
+      <Project>{2931dd78-45ff-4547-a992-7f465ff3f364}</Project>
+      <Name>Translators</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.99.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.99.0\build\net451\System.Data.SQLite.Core.targets')" />

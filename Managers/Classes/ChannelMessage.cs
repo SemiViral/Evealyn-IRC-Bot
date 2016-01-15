@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Eve.Data.Protocols;
+using Eve.Translators;
 
 namespace Eve.Managers.Classes {
 	public class ChannelMessage {
@@ -14,11 +16,11 @@ namespace Eve.Managers.Classes {
 		public string Realname { get; private set; }
 		public string Hostname { get; private set; }
 		public string Recipient { get; private set; }
+		public string Type { get; set; }
 		public string Args { get; private set; }
 		public List<string> _Args { get; private set; }
 
 		// Response variables
-		public string Type { get; set; }
 		public string Target { get; set; }
 		public string Message { get; set; }
 		public List<string> MultiMessage { get; set; }
@@ -38,7 +40,7 @@ namespace Eve.Managers.Classes {
 
 		public void ParseMessage(string rawData) {
 			if (_pingRegex.IsMatch(RawMessage)) {
-				Type = "PONG";
+				Type = IrcProtocol.Pong;
 				Message = _pingRegex.Match(RawMessage).Groups["Message"].Value;
 				Console.Write("Ping ... ");
 				return;
@@ -62,7 +64,8 @@ namespace Eve.Managers.Classes {
 			_Args = Args?.Trim().Split(new[] { ' ' }, 4).ToList();
 
 			Time = DateTime.UtcNow;
-	
+			MultiMessage = new List<string>();
+
 			if (!sMatch.Success) return;
 
 			string realname = sMatch.Groups["Realname"].Value;
@@ -77,7 +80,6 @@ namespace Eve.Managers.Classes {
 			Target = Message = string.Empty;
 
 			Target = target ?? Recipient;
-
 		}
 	}
 

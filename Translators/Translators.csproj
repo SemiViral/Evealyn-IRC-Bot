@@ -49,10 +49,6 @@
       <Project>{4023b915-ed33-46cd-bc24-3a8383d71fc4}</Project>
       <Name>EnumsAndModes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Managers\Modules\Modules.csproj">
-      <Project>{7066742c-3322-4c41-964c-24fbbed577a0}</Project>
-      <Name>Modules</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

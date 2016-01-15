@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Eve.Data.Protocols;
 using Eve.Extensions;
 using Eve.Managers.Modules;
 using Eve.Utilities;
@@ -14,7 +15,7 @@ namespace Eve.Core {
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, Variables v) {
 			switch (c.Type) {
-				case "NICK":
+				case IrcProtocol.Nick:
 					c.ExitType = ExitType.Exit;
 
 					using (
@@ -22,7 +23,7 @@ namespace Eve.Core {
 							new SQLiteCommand($"UPDATE users SET nickname='{c.Recipient}' WHERE realname='{c.Realname}'", v.Db))
 						com.ExecuteNonQuery();
 					break;
-				case "JOIN":
+				case IrcProtocol.Join:
 					c.ExitType = ExitType.Exit;
 
 					if (v.QueryName(c.Realname) != null
@@ -40,11 +41,11 @@ namespace Eve.Core {
 
 					AddUserToChannel(c.Recipient, c.Realname, v);
 					break;
-				case "PART":
+				case IrcProtocol.Part:
 					c.ExitType = ExitType.Exit;
 					RemoveUserFromChannel(c.Recipient, c.Realname, v);
 					break;
-				case "353":
+				case IrcProtocol.NameReply:
 					c.ExitType = ExitType.Exit;
 
 					// splits the channel user list in half by the :, then splits each user into an array object to iterated
@@ -92,13 +93,13 @@ namespace Eve.Core {
 				c.Message = "I'm already in that channel.";
 
 			if (!string.IsNullOrEmpty(c.Message)) {
-				c.Type = "PRIVMSG";
+				c.Type = IrcProtocol.Privmsg;
 				return c;
 			}
 
 			c.Target = string.Empty;
 			c.Message = c._Args[2];
-			c.Type = "JOIN";
+			c.Type = IrcProtocol.Join;
 			return c;
 		}
 	}
@@ -122,7 +123,7 @@ namespace Eve.Core {
 				c.Message = "I'm not in that channel.";
 
 			if (!string.IsNullOrEmpty(c.Message)) {
-				c.Type = "PRIVMSG";
+				c.Type = IrcProtocol.Privmsg;
 				return c;
 			}
 
@@ -130,7 +131,7 @@ namespace Eve.Core {
 
 			c.Target = string.Empty;
 			c.Message = c._Args.Count > 3 ? $"{c._Args[2]} {c._Args[3]}" : c._Args[2];
-			c.Type = "PART";
+			c.Type = IrcProtocol.Part;
 			return c;
 		}
 	}

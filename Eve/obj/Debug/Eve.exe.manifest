@@ -66,38 +66,38 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.exe" size="16832">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.exe" size="16320">
       <assemblyIdentity name="Eve" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>1c2nD5JOl7ceSVOUHPmBJUogd4PU1aYMvodRjvRW0Es=</dsig:DigestValue>
+        <dsig:DigestValue>esqA0ALJlSgNrhllRqkbcL9jloQSZYdNIxFo5Inc2sA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Data.dll" size="11264">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Data.dll" size="11776">
       <assemblyIdentity name="Eve.Data" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>EM5Sm7LoI0exIWblMmsnqodDACO1qkCi6HY8kDJO2fc=</dsig:DigestValue>
+        <dsig:DigestValue>gpwYRVOs1WlnIUSq4f3w9zC/m9BZMJ8ovauFWE3EDEM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Managers.Classes.dll" size="14848">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Managers.Classes.dll" size="15360">
       <assemblyIdentity name="Eve.Managers.Classes" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>zOcVunqavRzFbTFM7X2fSdVksvt1Bf0a73Sx+gL5irE=</dsig:DigestValue>
+        <dsig:DigestValue>j5F0ziiYkObYXZ0LIIAAzNp7pevKfwADeeLko+L9G+c=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -109,7 +109,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>LeChKy4aVuaPvaYX0CYPRA7pc/pcJAINEOLe2/p6iFo=</dsig:DigestValue>
+        <dsig:DigestValue>bNIgvk5cAcQrSofQz1V0YwRAS3TI90DIVi3I7P+7G/M=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

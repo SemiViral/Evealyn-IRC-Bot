@@ -68,35 +68,29 @@ namespace Eve {
 		
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, Variables v) {
-			try {
-				foreach (ChannelMessage cm in V.Modules.Values
-					.Select(m => ((IModule)Activator.CreateInstance(m)).OnChannelMessage(c, V)).Where(cm => cm != null)) {
+			foreach (ChannelMessage cm in V.Modules.Values
+				.Select(m => ((IModule) Activator.CreateInstance(m)).OnChannelMessage(c, V)).Where(e => e != null)) {
 
-					bool stopLoop = false;
-					switch (cm.ExitType) {
-						case ExitType.Exit:
-							stopLoop = true;
-							break;
-						case ExitType.MessageAndExit:
-							SendData("PRIVMSG", $"{cm.Target} {cm.Message}");
-							stopLoop = true;
-							break;
-					}
-
-					if (stopLoop) break;
-
-					if (cm.MultiMessage.Any())
-						foreach (string s in cm.MultiMessage)
-							SendData(cm.Type, $"{cm.Target} {s}");
-					else if (!string.IsNullOrEmpty(cm.Message))
-						SendData(cm.Type, $"{cm.Target} {cm.Message}");
-
-					c.Reset(c.Recipient);
+				bool stopLoop = false;
+				switch (cm.ExitType) {
+					case ExitType.Exit:
+						stopLoop = true;
+						break;
+					case ExitType.MessageAndExit:
+						SendData("PRIVMSG", $"{cm.Target} {cm.Message}");
+						stopLoop = true;
+						break;
 				}
-			} catch (MissingMemberException e) {
-				Console.WriteLine(e);
 
-				Console.ReadLine();
+				if (stopLoop) break;
+
+				if (cm.MultiMessage.Any())
+					foreach (string s in cm.MultiMessage)
+						SendData(cm.Type, $"{cm.Target} {s}");
+				else if (!string.IsNullOrEmpty(cm.Message))
+					SendData(cm.Type, $"{cm.Target} {cm.Message}");
+
+				c.Reset(c.Recipient);
 			}
 
 			return null;

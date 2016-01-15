@@ -15,7 +15,7 @@ namespace Eve.Managers.Modules
 		/// <returns>void</returns>
 		public Dictionary<string, Type> LoadModules(Dictionary<string, string> commands) {
 			var modules = new Dictionary<string, Type>();
-			var modulesPath = Path.GetFullPath(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName + "\\Modules\\Default\\");
+			string modulesPath = Path.GetFullPath(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName + "\\Modules\\Default\\");
 
 			if (!Directory.Exists(modulesPath)) {
 				Console.WriteLine("||| /Modules/Default/ directory not found. Creating directory.");

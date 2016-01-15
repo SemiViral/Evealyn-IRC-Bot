@@ -133,9 +133,9 @@ C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\obj\Debug\Eve.exe.manifest
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\obj\Debug\Eve.application
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\obj\Debug\Eve.exe
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\obj\Debug\Eve.pdb
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\Eve.Enums.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\Eve.Managers.Classes.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\Eve.Managers.Modules.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\Eve.Managers.Classes.pdb
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\Eve.Enums.pdb
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\Eve.Managers.Modules.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\Eve.Data.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Eve\bin\Debug\Eve.Data.pdb

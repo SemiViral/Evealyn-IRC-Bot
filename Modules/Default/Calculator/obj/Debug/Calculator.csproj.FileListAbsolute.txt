@@ -21,3 +21,5 @@ C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Calculator\bin\
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Calculator\obj\Debug\Calculator.csprojResolveAssemblyReference.cache
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Calculator\obj\Debug\Eve.Calculator.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Calculator\obj\Debug\Eve.Calculator.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Calculator\bin\Debug\Eve.Data.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Calculator\bin\Debug\Eve.Data.pdb

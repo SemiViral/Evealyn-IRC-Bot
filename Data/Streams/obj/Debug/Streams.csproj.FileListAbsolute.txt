@@ -1,0 +1,11 @@
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\bin\Debug\Eve.Data.Streams.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\bin\Debug\Eve.Data.Streams.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\bin\Debug\Eve.Managers.Classes.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\bin\Debug\System.Data.SQLite.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\bin\Debug\Eve.Managers.Classes.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\bin\Debug\System.Data.SQLite.xml
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\obj\Debug\Streams.csprojResolveAssemblyReference.cache
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\obj\Debug\Eve.Data.Streams.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\obj\Debug\Eve.Data.Streams.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\bin\Debug\Eve.Data.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Streams\bin\Debug\Eve.Data.pdb

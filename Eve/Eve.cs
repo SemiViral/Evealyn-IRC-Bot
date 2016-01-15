@@ -6,9 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using Eve.Managers.Modules;
-using Eve.Enums;
 using Eve.Managers.Classes;
-using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Eve {
@@ -30,15 +28,6 @@ namespace Eve {
 	
 	public class IrcBot : IDisposable, IModule {
 		private static IrcConfig _config;
-
-		private readonly Regex _messageRegex =
-			new Regex(@"^:(?<Sender>[^\s]+)\s(?<Type>[^\s]+)\s(?<Recipient>[^\s]+)\s?:?(?<Args>.*)",
-				RegexOptions.Compiled);
-
-		private readonly Regex _pingRegex = new Regex(@"^PING :(?<Message>.+)", RegexOptions.None);
-		//private readonly Regex _argMessageRegex = new Regex(@"^:(?<Arg1>[^\s]+)\s(?<Arg2>[^\s]+)\s(?<Arg3>[^\s]+)\s?:?(?<Arg4>.*)", RegexOptions.Compiled);
-		private readonly Regex _senderRegex = new Regex(@"^(?<Nickname>[^\s]+)!(?<Realname>[^\s]+)@(?<Hostname>[^\s]+)",
-			RegexOptions.Compiled);
 
 		private TcpClient _connection;
 
@@ -79,9 +68,6 @@ namespace Eve {
 		
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, Variables v) {
-			c._Args = c.Args?.Trim().Split(new[] {' '}, 4).ToList();
-			c.Target = c.Recipient;
-
 			try {
 				foreach (ChannelMessage cm in V.Modules.Values
 					.Select(m => ((IModule)Activator.CreateInstance(m)).OnChannelMessage(c, V)).Where(cm => cm != null)) {
@@ -150,7 +136,7 @@ namespace Eve {
 					_streamWriter.WriteLine($"{cmd} {param}");
 					_streamWriter.Flush();
 
-					Console.WriteLine(cmd.Equals("PONG") ? " Pong" : $"{cmd} {param}"); // Output PingPong in a more readable fashion
+					Console.WriteLine(cmd.Equals("PONG") ? "Pong" : $"{cmd} {param}"); // Output PingPong in a more readable fashion
 				}
 			} catch {
 				Console.WriteLine("||| Failed to send message to server. Attempting reconnection.");
@@ -159,10 +145,7 @@ namespace Eve {
 			}
 		}
 
-		private void DoPing(string data) {
-			Console.Write("Ping ...");
-			SendData("PONG", _pingRegex.Match(data).Groups["Message"].Value);
-		}
+
 
 		/// <summary>
 		///     Writes to log
@@ -171,31 +154,6 @@ namespace Eve {
 		private void WriteToLog(string text) {
 			_log.WriteLine(text);
 			_log.Flush();
-		}
-
-		/// <summary>
-		///     Parses data into a new ChannelMessage
-		/// </summary>
-		/// <param name="message">data to be parsed</param>
-		/// <returns>new ChannelMessage object</returns>
-		private ChannelMessage ParseMessage(string message) {
-			if (!_messageRegex.IsMatch(message)) return null;
-
-			Match mVal = _messageRegex.Match(message);
-			string mSender = mVal.Groups["Sender"].Value;
-			Match sMatch = _senderRegex.Match(mSender);
-
-			ChannelMessage c = new ChannelMessage {
-				Nickname = mSender, Realname = mSender.ToLower(), Hostname = mSender, Type = mVal.Groups["Type"].Value, Recipient = mVal.Groups["Recipient"].Value.StartsWith(":") ? mVal.Groups["Recipient"].Value.Substring(1) : mVal.Groups["Recipient"].Value, Args = mVal.Groups["Args"].Value, Time = DateTime.UtcNow
-			};
-			if (!sMatch.Success) return c;
-
-			string realname = sMatch.Groups["Realname"].Value;
-			c.Nickname = sMatch.Groups["Nickname"].Value;
-			c.Realname = realname.StartsWith("~") ? realname.Substring(1) : realname;
-			c.Hostname = sMatch.Groups["Hostname"].Value;
-
-			return c;
 		}
 
 		/// <summary>
@@ -298,29 +256,31 @@ namespace Eve {
 		///     Recieves incoming data, parses it, and passes it to <see cref="OnChannelMessage(ChannelMessage, Variables)" />
 		/// </summary>
 		public void Runtime() {
-			string data = _streamReader.ReadLine();
-			ChannelMessage c;
+			string data;
 
 			try {
-				if (_pingRegex.IsMatch(data)) {
-					DoPing(data);
-					return;
-				}
-
-				c = ParseMessage(data);
+				data = _streamReader.ReadLine();
 			} catch (NullReferenceException) {
-				// Stream has disconnected
 				Console.WriteLine("||| Stream disconnected. Attempting to reconnect.");
 
 				Dispose();
 				InitializeConnections();
 				return;
 			}
+	
+			ChannelMessage c = new ChannelMessage(data);
+			if (c.Type.Equals("PONG")) {
+				SendData(c.Type, c.Message);
+				return;
+			}
 
 			if (c.Nickname.Equals(_config.Nickname)) return;
 
 			// Write data to console & log in a readable format
-			Console.WriteLine($"[{(c.Type.Equals("PRIVMSG") ? c.Recipient : c.Type)}]({c.Time.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}");
+			Console.WriteLine(c.Type.Equals("PRIVMSG")
+				? $"[{c.Recipient}]({c.Time.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}"
+				: data);
+
 			WriteToLog($"({DateTime.Now}) {data}");
 
 			CheckDoIdentifyAndJoin(c.Type);
@@ -356,11 +316,25 @@ namespace Eve {
 
 		private static void Main() {
 			IrcConfig conf = new IrcConfig {
-				Realname = "SemiViral", Nickname = "Eve", Password = "evepass", Port = 6667, Server = "irc6.foonetic.net", Channels = new[] {"#testgrounds"}, //, "#ministryofsillywalks" },
-				Database = "users.sqlite", IgnoreList = new List<string> {
-					"nickserv", "chanserv", "vervet.foonetic.net", "belay.foonetic.net", "anchor.foonetic.net", "daemonic.foonetic.net", "staticfree.foonetic.net", "services.foonetic.net"
+				Realname = "SemiViral",
+				Nickname = "Eve",
+				Password = "evepass",
+				Port = 6667,
+				Server = "irc6.foonetic.net",
+				Channels = new[] {"#testgrounds"}, //, "#ministryofsillywalks" },
+				Database = "users.sqlite",
+				IgnoreList = new List<string> {
+					"nickserv",
+					"chanserv",
+					"vervet.foonetic.net",
+					"belay.foonetic.net",
+					"anchor.foonetic.net",
+					"daemonic.foonetic.net",
+					"staticfree.foonetic.net",
+					"services.foonetic.net"
 				},
-				Joined = false, Identified = false
+				Joined = false,
+				Identified = false
 			};
 
 			try {

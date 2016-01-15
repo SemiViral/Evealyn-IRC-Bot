@@ -50,7 +50,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Extensions\Extensions.csproj">
       <Project>{8ecc8e43-6e58-4e1d-865d-e87657cae090}</Project>
-      <Name>Eve.Extensions</Name>
+      <Name>Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Managers\Classes\Classes.csproj">
       <Project>{81a6d215-111f-427d-96e6-9e1b59e48435}</Project>
@@ -58,11 +58,11 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\Managers\Modules\Modules.csproj">
       <Project>{7066742c-3322-4c41-964c-24fbbed577a0}</Project>
-      <Name>Eve.Modules</Name>
+      <Name>Modules</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Utilities\Utilities.csproj">
       <Project>{b5b344c9-0251-40a1-b42e-08e283552f6f}</Project>
-      <Name>Eve.Utilities</Name>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

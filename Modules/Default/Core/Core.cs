@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Eve.Enums;
 using Eve.Extensions;
 using Eve.Managers.Modules;
 using Eve.Utilities;

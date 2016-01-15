@@ -3,7 +3,6 @@ C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Core.pdb
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\EntityFramework.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Enums.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Extensions.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Managers.Classes.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Managers.Modules.dll
@@ -12,7 +11,6 @@ C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\System.Data.SQLite.EF6.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\System.Data.SQLite.Linq.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Managers.Classes.pdb
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Enums.pdb
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Extensions.pdb
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Managers.Modules.pdb
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Utilities.pdb
@@ -23,3 +21,5 @@ C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\obj\Debug\
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\obj\Debug\Eve.Core.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\obj\Debug\Eve.Core.pdb
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\logs.txt
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Data.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Modules\Default\Core\bin\Debug\Eve.Data.pdb

@@ -7,3 +7,5 @@ C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Modules\bin\Debug\Eve.
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Modules\bin\Debug\System.Data.SQLite.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Modules\bin\Debug\Eve.Managers.Classes.pdb
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Modules\bin\Debug\System.Data.SQLite.xml
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Modules\bin\Debug\Eve.Data.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Modules\bin\Debug\Eve.Data.pdb

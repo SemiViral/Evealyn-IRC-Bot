@@ -12,3 +12,5 @@ C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\bin\Debug\Syst
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\obj\Debug\Classes.csprojResolveAssemblyReference.cache
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\obj\Debug\Eve.Managers.Classes.dll
 C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\obj\Debug\Eve.Managers.Classes.pdb
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\bin\Debug\Eve.Data.dll
+C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Managers\Classes\bin\Debug\Eve.Data.pdb

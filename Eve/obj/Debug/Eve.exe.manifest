@@ -66,50 +66,50 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.exe" size="18368">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.exe" size="16832">
       <assemblyIdentity name="Eve" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>m64K/galK1E8n7lQM1dI6UwYiR+7JTzDrKQDD5+hypE=</dsig:DigestValue>
+        <dsig:DigestValue>1c2nD5JOl7ceSVOUHPmBJUogd4PU1aYMvodRjvRW0Es=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Enums.dll" size="4096">
-      <assemblyIdentity name="Eve.Enums" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Data.dll" size="11264">
+      <assemblyIdentity name="Eve.Data" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>969EVD//cyg1XAdfciD4viDlNfhWW/OaxCWpnS4oTJs=</dsig:DigestValue>
+        <dsig:DigestValue>EM5Sm7LoI0exIWblMmsnqodDACO1qkCi6HY8kDJO2fc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Managers.Classes.dll" size="11264">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Managers.Classes.dll" size="14848">
       <assemblyIdentity name="Eve.Managers.Classes" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>xcTLNbvzkrktw3zXVx3cacRR6c9pwWzqclddIvD7NFo=</dsig:DigestValue>
+        <dsig:DigestValue>zOcVunqavRzFbTFM7X2fSdVksvt1Bf0a73Sx+gL5irE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Managers.Modules.dll" size="11264">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Managers.Modules.dll" size="10752">
       <assemblyIdentity name="Eve.Managers.Modules" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>XczaUYMq/9GEUdqzSXx1GVbneEn83b1gbVjXHxaJwSU=</dsig:DigestValue>
+        <dsig:DigestValue>LeChKy4aVuaPvaYX0CYPRA7pc/pcJAINEOLe2/p6iFo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

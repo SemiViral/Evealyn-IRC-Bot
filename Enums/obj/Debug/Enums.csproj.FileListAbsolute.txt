@@ -1,4 +1,0 @@
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Enums\bin\Debug\Eve.Enums.dll
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Enums\bin\Debug\Eve.Enums.pdb
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Enums\obj\Debug\Eve.Enums.dll
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Enums\obj\Debug\Eve.Enums.pdb

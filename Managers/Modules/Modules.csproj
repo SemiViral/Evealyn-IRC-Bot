@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\Enums&amp;Modes\EnumsAndModes.csproj">
+      <Project>{4023b915-ed33-46cd-bc24-3a8383d71fc4}</Project>
+      <Name>EnumsAndModes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Classes\Classes.csproj">
       <Project>{81a6d215-111f-427d-96e6-9e1b59e48435}</Project>
       <Name>Classes</Name>

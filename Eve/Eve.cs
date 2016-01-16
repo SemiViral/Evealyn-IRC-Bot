@@ -7,7 +7,9 @@ using System.Linq;
 using System.Net.Sockets;
 using Eve.Managers.Modules;
 using Eve.Managers.Classes;
-using System.Threading;
+using Eve.Data.Protocols;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Eve {
 	public class IrcConfig {
@@ -47,10 +49,9 @@ namespace Eve {
 		/// <param name="config">configuration for object variables</param>
 		public IrcBot(IrcConfig config) {
 			_config = config;
-			_config.IgnoreList.Add(_config.Nickname);
 
 			V = new Variables(_config.Database) {
-				IgnoreList = _config.IgnoreList
+				IgnoreList = new List<string>()
 			};
 
 			ModuleManager moduleManager = new ModuleManager();
@@ -65,9 +66,9 @@ namespace Eve {
 			GC.SuppressFinalize(this);
 		}
 
-		
-
 		public ChannelMessage OnChannelMessage(ChannelMessage c, Variables v) {
+			c.Target = c.Recipient;
+
 			foreach (ChannelMessage cm in V.Modules.Values
 				.Select(m => ((IModule) Activator.CreateInstance(m)).OnChannelMessage(c, V)).Where(e => e != null)) {
 
@@ -77,7 +78,7 @@ namespace Eve {
 						stopLoop = true;
 						break;
 					case ExitType.MessageAndExit:
-						SendData("PRIVMSG", $"{cm.Target} {cm.Message}");
+						SendData(IrcProtocol.Privmsg, $"{cm.Target} {cm.Message}");
 						stopLoop = true;
 						break;
 				}
@@ -130,7 +131,7 @@ namespace Eve {
 					_streamWriter.WriteLine($"{cmd} {param}");
 					_streamWriter.Flush();
 
-					Console.WriteLine(cmd.Equals("PONG") ? "Pong" : $"{cmd} {param}"); // Output PingPong in a more readable fashion
+					Console.WriteLine(cmd.Equals(IrcProtocol.Pong) ? "Pong" : $"{cmd} {param}"); // Output PingPong in a more readable fashion
 				}
 			} catch {
 				Console.WriteLine("||| Failed to send message to server. Attempting reconnection.");
@@ -138,9 +139,7 @@ namespace Eve {
 				InitializeConnections();
 			}
 		}
-
-
-
+		
 		/// <summary>
 		///     Writes to log
 		/// </summary>
@@ -163,7 +162,7 @@ namespace Eve {
 		///     Updates specified user's `seen` data
 		/// </summary>
 		/// <param name="c">ChannelMessage for information to be surmised</param>
-		private static void UpdateUserInfo(ChannelMessage c) {
+		private static void UpdateCurrentUserAndInfo(ChannelMessage c) {
 			V.Users.First(e => e.Realname == c.Realname).Seen = c.Time;
 
 			using (SQLiteCommand com = new SQLiteCommand($"UPDATE users SET seen='{c.Time}' WHERE realname='{c.Realname}'", V.Db))
@@ -174,18 +173,20 @@ namespace Eve {
 
 			using (SQLiteCommand com = new SQLiteCommand($"UPDATE users SET nickname='{c.Nickname}' WHERE realname='{c.Realname}'", V.Db))
 				com.ExecuteNonQuery();
+
+			V.CurrentUser = V.Users.FirstOrDefault(e => e.Realname == c.Realname);
 		}
 
 		/// <summary>
 		///     Creates a new user and updates the users & userTimeouts collections
 		/// </summary>
 		/// <param name="u">User object to surmise information from</param>
-		public static void CreateUserAndUpdateCollections(User u) {
+		private static void CreateUserAndUpdateCollections(User u) {
 			Console.WriteLine($"||| Creating database entry for {u.Realname}.");
 
 			int id = -1;
 
-			// create data adapter to obtain all id's from users table
+			// create data adapter to obtain all id's from users table, for setting new id
 			using (SQLiteDataReader x = new SQLiteCommand("SELECT MAX(id) FROM users", V.Db).ExecuteReader())
 				while (x.Read())
 					id = Convert.ToInt32(x.GetValue(0)) + 1;
@@ -200,15 +201,15 @@ namespace Eve {
 		///     Message NickServ to identify bot and set MODE +B
 		/// </summary>
 		/// <param name="type">Type to be checked against</param>
-		public void CheckDoIdentifyAndJoin(string type) {
+		private void CheckDoIdentifyAndJoin(string type) {
 			// 376 is end of MOTD command
-			if (_config.Identified || !type.Equals("376")) return;
+			if (_config.Identified || !type.Equals(IrcProtocol.MotdReplyEnd)) return;
 
-			SendData("PRIVMSG", "NICKSERV IDENTIFY evepass");
-			SendData("MODE", "Eve +B");
+			SendData(IrcProtocol.Privmsg, "NICKSERV IDENTIFY evepass");
+			SendData(IrcProtocol.Mode, "Eve +B");
 
 			foreach (string s in _config.Channels) {
-				SendData("JOIN", s);
+				SendData(IrcProtocol.Join, s);
 				V.Channels.Add(new Channel {
 					Name = s, UserList = new List<string>()
 				});
@@ -218,8 +219,16 @@ namespace Eve {
 			_config.Identified = true;
 		}
 
-		public void CheckChannelExistsAndAdd(Channel chan) {
-			V.Channels.Add(chan);
+		/// <summary>
+		///		Adds channel to list of currently connected channels
+		/// </summary>
+		/// <param name="channel">Channel name to be checked against and added</param>
+		private void CheckValidChannelAndAdd(string channel) {
+			if (V.Channels.All(e => e.Name != channel) && channel.StartsWith("#"))
+				V.Channels.Add(new Channel {
+					Name = channel,
+					UserList = new List<string>()
+				});
 		}
 
 		/// <summary>
@@ -239,8 +248,8 @@ namespace Eve {
 				_streamWriter = new StreamWriter(_networkStream);
 				_log = new StreamWriter("./logs.txt", true);
 
-				SendData("USER", $"{_config.Nickname} 0 * {_config.Realname}");
-				SendData("NICK", _config.Nickname);
+				SendData(IrcProtocol.User, $"{_config.Nickname} 0 * {_config.Realname}");
+				SendData(IrcProtocol.Nick, _config.Nickname);
 			} catch {
 				Console.WriteLine("||| Communication error.");
 			}
@@ -263,7 +272,7 @@ namespace Eve {
 			}
 	
 			ChannelMessage c = new ChannelMessage(data);
-			if (c.Type.Equals("PONG")) {
+			if (c.Type.Equals(IrcProtocol.Pong)) {
 				SendData(c.Type, c.Message);
 				return;
 			}
@@ -271,30 +280,28 @@ namespace Eve {
 			if (c.Nickname.Equals(_config.Nickname)) return;
 
 			// Write data to console & log in a readable format
-			Console.WriteLine(c.Type.Equals("PRIVMSG")
+			Console.WriteLine(c.Type.Equals(IrcProtocol.Privmsg)
 				? $"[{c.Recipient}]({c.Time.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}"
 				: data);
 
 			WriteToLog($"({DateTime.Now}) {data}");
 
 			CheckDoIdentifyAndJoin(c.Type);
+		
+			CheckValidChannelAndAdd(c.Recipient);
 
-			if (V.Channels.All(e => e.Name != c.Recipient) && c.Recipient.StartsWith("#"))
-				CheckChannelExistsAndAdd(new Channel {
-					Name = c.Recipient, UserList = new List<string>()
-				});
-
-			if (CheckUserExists(c.Realname)) {
-				UpdateUserInfo(c);
-
-				V.CurrentUser = V.Users.FirstOrDefault(e => e.Realname == c.Realname);
-			} else if (!V.IgnoreList.Contains(c.Realname.ToLower()))
+			if (CheckUserExists(c.Realname))
+				UpdateCurrentUserAndInfo(c);
+			else if (c.SenderIdentifiable)
 				CreateUserAndUpdateCollections(new User {
-					Access = 3, Nickname = c.Nickname, Realname = c.Realname, Seen = DateTime.UtcNow, Attempts = 0
+					Access = 3,
+					Nickname = c.Nickname,
+					Realname = c.Realname,
+					Seen = DateTime.UtcNow,
+					Attempts = 0
 				});
-
-			// queue OnChannelMessage into threadpool
-			ThreadPool.QueueUserWorkItem(e => OnChannelMessage(c, V));
+				
+			OnChannelMessage(c, V);
 		}
 	}
 
@@ -302,37 +309,47 @@ namespace Eve {
 		private static IrcBot _bot;
 
 		public static bool ShouldRun { get; set; } = true;
+		public static IrcConfig Config { get; set; }
 
 		private static void ParseAndDo(object sender, DoWorkEventArgs e) {
 			while (ShouldRun)
 				_bot.Runtime();
 		}
 
-		private static void Main() {
-			IrcConfig conf = new IrcConfig {
-				Realname = "SemiViral",
-				Nickname = "Eve",
-				Password = "evepass",
-				Port = 6667,
-				Server = "irc6.foonetic.net",
-				Channels = new[] {"#testgrounds"}, //, "#ministryofsillywalks" },
-				Database = "users.sqlite",
-				IgnoreList = new List<string> {
-					"nickserv",
-					"chanserv",
-					"vervet.foonetic.net",
-					"belay.foonetic.net",
-					"anchor.foonetic.net",
-					"daemonic.foonetic.net",
-					"staticfree.foonetic.net",
-					"services.foonetic.net"
-				},
-				Joined = false,
-				Identified = false
+		private static void CheckConfigAndLoad() {
+			const string baseConfig =
+				"{ \"Nickname\": \"Eve\", \"Realname\": \"SemiViral\", \"Password\": \"evepass\", \"Server\": \"irc.foonetic.net\", \"Port\": 6667, \"Channels\": [\"#testgrounds\"],  \"IgnoreList\": [], \"Database\": \"users.sqlite\" }";
+
+			if (!File.Exists("config.json"))
+				using (FileStream stream = new FileStream(@"config.json", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+					using (StreamWriter writer = new StreamWriter(stream)) {
+						writer.Write(baseConfig);
+						writer.Flush();
+					}
+				}
+
+			JObject config = JObject.Parse(File.ReadAllText("config.json"));
+
+			Config = new IrcConfig {
+				Nickname = (string)config.SelectToken("Nickname"),
+				Realname = (string)config.SelectToken("Realname"),
+				Password = (string)config.SelectToken("Password"),
+				Port = (int)config.SelectToken("Port"),
+				Server = (string)config.SelectToken("Server"),
+				Channels = config.SelectToken("Channels")
+					.Select(e => e.ToString())
+					.ToArray(),
+				Database = (string)config.SelectToken("Database"),
+				Identified = false,
+				Joined = false
 			};
+		}
+
+		private static void Main() {
+			CheckConfigAndLoad();
 
 			try {
-				_bot = new IrcBot(conf);
+				_bot = new IrcBot(Config);
 			} catch (TypeInitializationException e) {
 				Console.WriteLine(e);
 			}
@@ -342,7 +359,12 @@ namespace Eve {
 			backgroundDataParser.DoWork += ParseAndDo;
 			backgroundDataParser.RunWorkerAsync();
 
-			Console.ReadLine();
+			while (ShouldRun) {
+				string command = Console.ReadLine();
+
+				if (command.ToLower().Equals("quit"))
+					ShouldRun = false;
+			}
 
 			Console.WriteLine("||| Bot has shutdown.");
 			Console.ReadLine();

@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Eve.Data.Protocols;
-using Eve.Translators;
 
 namespace Eve.Managers.Classes {
 	public class ChannelMessage {
 		public string RawMessage { get; }
 
 		public DateTime Time { get; private set; }
+
+		// is it a server?
+		public bool SenderIdentifiable { get; private set; }
+		private readonly string[] _shortList = {
+			"nickserv",
+			"chanserv",
+		};
 
 		// Recievable variables
 		public string Nickname { get; private set; }
@@ -66,12 +72,17 @@ namespace Eve.Managers.Classes {
 			Time = DateTime.UtcNow;
 			MultiMessage = new List<string>();
 
-			if (!sMatch.Success) return;
+			if (!sMatch.Success) {
+				SenderIdentifiable = false;	
+				return;
+			}
 
 			string realname = sMatch.Groups["Realname"].Value;
 			Nickname = sMatch.Groups["Nickname"].Value;
 			Realname = realname.StartsWith("~") ? realname.Substring(1) : realname;
 			Hostname = sMatch.Groups["Hostname"].Value;
+
+			SenderIdentifiable = (!_shortList.Contains(Realname.ToLower()));
 		}
 
 		public void Reset(string target = null) {

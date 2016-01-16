@@ -48,7 +48,7 @@ namespace Eve.Core {
 				case IrcProtocol.NameReply:
 					c.ExitType = ExitType.Exit;
 
-					// splits the channel user list in half by the :, then splits each user into an array object to iterated
+					// splits the channel user list in half by the :, then splits each user into an array object to be iterated
 					foreach (string s in c.Args.Split(':')[1].Split(' '))
 						AddUserToChannel(c.Recipient, s, v);
 					break;

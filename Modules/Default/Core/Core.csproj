@@ -67,9 +67,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Data\Enums&amp;Modes\EnumsAndModes.csproj">
+    <ProjectReference Include="..\..\..\Data\IrcTypes\IrcTypes.csproj">
       <Project>{4023b915-ed33-46cd-bc24-3a8383d71fc4}</Project>
-      <Name>EnumsAndModes</Name>
+      <Name>IrcTypes</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Extensions\Extensions.csproj">
       <Project>{8ecc8e43-6e58-4e1d-865d-e87657cae090}</Project>

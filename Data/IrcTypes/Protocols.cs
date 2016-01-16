@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace Eve.Data.Protocols {
 	public static class IrcProtocol {
 		public const string Default =	"";
+		public const string User =		"USER";
 		public const string Nick =		"NICK";
 		public const string Quit =		"QUIT";
 		public const string Join =		"JOIN";

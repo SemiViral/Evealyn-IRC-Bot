@@ -1,0 +1,10 @@
+{
+	"Nickname": "Eve",
+	"Realname": "SemiViral",
+	"Password": "evepass",
+	"Server": "irc.foonetic.net",
+	"Port": 6667,
+	"Channels": [ "#testgrounds", "#ministryofsillywalks"],
+	"IgnoreList": [ ],
+	"Database": "users.sqlite"
+}

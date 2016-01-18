@@ -246,7 +246,14 @@ namespace Eve {
 				_networkStream = _connection.GetStream();
 				_streamReader = new StreamReader(_networkStream);
 				_streamWriter = new StreamWriter(_networkStream);
-				_log = new StreamWriter("./logs.txt", true);
+
+				if (!File.Exists("logs.txt")) {
+					Console.WriteLine("||| Log file not found, creating.");
+
+					File.Create("logs.txt");
+				}
+
+				_log = new StreamWriter("logs.txt", true);
 
 				SendData(IrcProtocol.User, $"{_config.Nickname} 0 * {_config.Realname}");
 				SendData(IrcProtocol.Nick, _config.Nickname);
@@ -319,9 +326,11 @@ namespace Eve {
 		private static void CheckConfigAndLoad() {
 			const string baseConfig =
 				"{ \"Nickname\": \"Eve\", \"Realname\": \"SemiViral\", \"Password\": \"evepass\", \"Server\": \"irc.foonetic.net\", \"Port\": 6667, \"Channels\": [\"#testgrounds\"],  \"IgnoreList\": [], \"Database\": \"users.sqlite\" }";
-
+				
 			if (!File.Exists("config.json"))
 				using (FileStream stream = new FileStream(@"config.json", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+					Console.WriteLine("||| Configuration file not found, creating.");
+				
 					using (StreamWriter writer = new StreamWriter(stream)) {
 						writer.Write(baseConfig);
 						writer.Flush();
@@ -343,6 +352,8 @@ namespace Eve {
 				Identified = false,
 				Joined = false
 			};
+
+			Console.WriteLine("||| Configuration file loaded.");
 		}
 
 		private static void Main() {

@@ -3,7 +3,7 @@ To-Do list:
 - ~~Add handlers for each message type (PRIVMSG, JOIN, PART, 376, etc.)~~
 - ~~Create Enum types for each handler type~~ abandoned enums
 - ~~Create TranslateHandler method to translate methods into their respective enums, and returning them~~
-- Possibly insert the handlers into a custom(?) or dictionary generic for referencing quicker
+- ~~Possibly insert the handlers into a custom(?) or dictionary generic for referencing quicker~~
 - ~~Modify ChannelMessage object's `string Type` to `HandlerType Type`~~ used IrcPtotocol
 
 #DataWriting

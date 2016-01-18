@@ -383,6 +383,7 @@ namespace Eve.Core {
 			ModuleManager moduleManager = new ModuleManager();
 			v.Modules = moduleManager.LoadModules(v.Commands);
 
+			c.ExitType = ExitType.MessageAndExit;
 			c.Message = "Modules reloaded.";
 			return c;
 		}

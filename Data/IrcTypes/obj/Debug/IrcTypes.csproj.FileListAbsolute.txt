@@ -1,5 +1,0 @@
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\IrcTypes\bin\Debug\Eve.Data.dll
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\IrcTypes\bin\Debug\Eve.Data.pdb
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\IrcTypes\obj\Debug\IrcTypes.csprojResolveAssemblyReference.cache
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\IrcTypes\obj\Debug\Eve.Data.dll
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\IrcTypes\obj\Debug\Eve.Data.pdb

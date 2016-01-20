@@ -1,7 +1,0 @@
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Translators\obj\Debug\Translators.csprojResolveAssemblyReference.cache
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Translators\bin\Debug\Eve.Translators.dll
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Translators\bin\Debug\Eve.Translators.pdb
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Translators\bin\Debug\Eve.Data.dll
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Translators\bin\Debug\Eve.Data.pdb
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Translators\obj\Debug\Eve.Translators.dll
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Translators\obj\Debug\Eve.Translators.pdb

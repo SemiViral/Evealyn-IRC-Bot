@@ -66,98 +66,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.exe" size="17344">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.exe" size="43456">
       <assemblyIdentity name="Eve" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>CGJ6A5SV+oWjr8thHMAk3caTRsfn2DzOzEaWPCBiFlk=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Data.dll" size="11776">
-      <assemblyIdentity name="Eve.Data" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>uFBRjUpEJuuCiHQwch2h9meiTy5H5M1nFeZjrCo1AzQ=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Managers.Classes.dll" size="15360">
-      <assemblyIdentity name="Eve.Managers.Classes" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ZK6yVEXWgMLf2NsXhWhTgDnzVAEvopuSULII7i7sfzc=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.Managers.Modules.dll" size="10752">
-      <assemblyIdentity name="Eve.Managers.Modules" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>tjkPc7XxnfV04lB43V5TnaytuoNQKcqP2cBih7N8kCI=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Apis.dll" size="58880">
-      <assemblyIdentity name="Google.Apis" version="1.10.0.25332" publicKeyToken="4B01FA6E34DB77AB" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>FF1rMjLdHJNXjCVNVHnWVGbO/jlP9nvUB1EntvXY1j8=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Apis.Core.dll" size="46592">
-      <assemblyIdentity name="Google.Apis.Core" version="1.10.0.25331" publicKeyToken="4B01FA6E34DB77AB" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>8a3KYBMOUvdj8Kv+7E5i1oEVuPxKuPEHT+xHZqFFbKM=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Google.Apis.PlatformServices.dll" size="7680">
-      <assemblyIdentity name="Google.Apis.PlatformServices" version="1.10.0.25332" publicKeyToken="4B01FA6E34DB77AB" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>GY5wz0Zh1Mm+yc3ktt9Vip7EYCgF+CuEoLv1FEiOuFw=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="log4net.dll" size="301056">
-      <assemblyIdentity name="log4net" version="1.2.13.0" publicKeyToken="669E0DDF0BB1AA2A" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>zm7k/ceDpb+QXyQBeKyW6ut+3iL/4GoGuhec0aBEK9M=</dsig:DigestValue>
+        <dsig:DigestValue>lUgMEKviUUq/WOGvXiho6RvA4OJK4pGmSPgpqlVvXCI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -198,14 +114,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="519168">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="521216">
       <assemblyIdentity name="Newtonsoft.Json" version="8.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>pGWQAsVZjlsOIMZeVj568Z5y0JSYelTrqyyOPWZQW0k=</dsig:DigestValue>
+        <dsig:DigestValue>pxPak1priJ2uuVQcJHuP5s1NzcMXy4Zijb95yNL0d48=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -269,25 +185,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Zlib.Portable.dll" size="81920">
-      <assemblyIdentity name="Zlib.Portable" version="1.11.0.0" publicKeyToken="431CBA815F6A8B5B" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>EhdRwdjYy8UnDApgbbyl1xTULhirPmtXf7uNKkpVacU=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <file name="Eve.exe.config" size="2378">
+  <file name="Eve.exe.config" size="2362">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>Pb5N22hciZpj5Q9h29Os7X3r+wYzKlsQoI+u1DrSzMM=</dsig:DigestValue>
+      <dsig:DigestValue>b+GKsuUvnRBZYJGrMb9qmcYI/0yKv2dUdxbfQTfKeWI=</dsig:DigestValue>
     </hash>
   </file>
   <file name="logs.txt" size="0">

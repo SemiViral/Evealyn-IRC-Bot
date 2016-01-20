@@ -1,5 +1,0 @@
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Enums&Modes\bin\Debug\Eve.Data.dll
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Enums&Modes\bin\Debug\Eve.Data.pdb
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Enums&Modes\obj\Debug\EnumsAndModes.csprojResolveAssemblyReference.cache
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Enums&Modes\obj\Debug\Eve.Data.dll
-C:\Users\semiv\OneDrive\Documents\GitHub\Evealyn\Data\Enums&Modes\obj\Debug\Eve.Data.pdb

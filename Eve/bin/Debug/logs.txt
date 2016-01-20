@@ -2493,3 +2493,554 @@
 (1/17/2016 7:53:49 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #ministryofsillywalks :eve, modules
 (1/17/2016 7:53:50 PM) :wally!~Jobot@ED24225B.F250ED5C.B92B1BFF.IP PRIVMSG #ministryofsillywalks :Usually, most males are led by an undeveloped third leg around this site.
 (1/17/2016 7:53:56 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #ministryofsillywalks :hmm
+(1/17/2016 10:55:02 PM) :Kris!Kris@hide-4EBC684F.dynamic.ip.windstream.net QUIT :Ping timeout: 188 seconds
+(1/17/2016 10:58:10 PM) :Kris!Kris@hide-AAB9355A.dynamic.ip.windstream.net JOIN :#ministryofsillywalks
+(1/17/2016 10:58:11 PM) :wally!~Jobot@ED24225B.F250ED5C.B92B1BFF.IP MODE #ministryofsillywalks +v Kris
+(1/18/2016 1:17:34 AM) :vervet.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/18/2016 1:17:34 AM) :vervet.foonetic.net NOTICE AUTH :*** Checking ident...
+(1/18/2016 1:17:34 AM) :vervet.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE AUTH :*** No ident response; username prefixed with ~
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!~Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 002 Eve :Your host is vervet.foonetic.net, running version Unreal3.2.10.4
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 003 Eve :This server was created Thu Jul 30 2015 at 03:07:08 EDT
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 004 Eve vervet.foonetic.net Unreal3.2.10.4 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 005 Eve CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 :are supported by this server
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 005 Eve MAXTARGETS=20 WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT :are supported by this server
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 005 Eve STATUSMSG=~&@%+ EXCEPTS INVEX :are supported by this server
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 251 Eve :There are 389 users and 788 invisible on 7 servers
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 252 Eve 15 :operator(s) online
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 254 Eve 404 :channels formed
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 255 Eve :I have 339 clients and 4 servers
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 265 Eve 339 487 :Current local users 339, max 487
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 266 Eve 1177 1910 :Current global users 1177, max 1910
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 375 Eve :- vervet.foonetic.net Message of the Day - 
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :- 30/7/2015 12:24
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-          __                        _   _      
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-         / _| ___   ___  _ __   ___| |_(_) ___ 
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-        | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-        |  _| (_) | (_) | | | |  __/ |_| | (__ 
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-        |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-                                   
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-         Welcome to Foonetic IRC @isomerica.net
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-                1 Summer St, Boston, MA
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-          
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-                      * WARNING *
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-          * Blitzed Open Proxy Monitor Active *
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-          * Email help@foonetic.net for help  *
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-              Native IPv6 Connectivity by
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-                        OCCAID
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-         (To force IPv6, use irc6.foonetic.net)
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-            
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-            Server Administrator:   spinfire
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-            Server Critter:         aelscha
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-              
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-              To get help or find IRCops:
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-                        #help
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-                 http://foonetic.net/
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-             Random server: irc.foonetic.net
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-            
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-            To see the rules, type /quote rules
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-            
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-            Ports: 6667, 6668, 6669, 7000
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 372 Eve :-            SSL Ports: 6697, 7001    
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net 376 Eve :End of /MOTD command.
+(1/18/2016 1:17:35 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/18/2016 1:17:35 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/18/2016 1:17:35 AM) :NickServ MODE Eve :+r
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- vervet.foonetic.net Bot Message of the Day - 
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- |      spam the network.
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:17:35 AM) :vervet.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :- ^
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net 353 Eve = #testgrounds :Eve ~SemiViral @ChanServ 
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net 332 Eve #ministryofsillywalks :https://www.youtube.com/watch?v=bDztRUnbTuc
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net 333 Eve #ministryofsillywalks izzy 1452407799
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net 353 Eve = #ministryofsillywalks :Eve +Kris +SemiViral +Asthralios +Revan343 +avid ~izzy +jercos rolandd @wally +goose124 +BytesAndCoffee &Joey 
+(1/18/2016 1:17:36 AM) :vervet.foonetic.net 366 Eve #ministryofsillywalks :End of /NAMES list.
+(1/18/2016 1:17:36 AM) :ChanServ!ChanServ@services.foonetic.net NOTICE Eve :[#ministryofsillywalks] "Non-Exotic Dancing is Forbidden!!!"
+(1/18/2016 1:17:36 AM) :wally!~Jobot@ED24225B.F250ED5C.B92B1BFF.IP MODE #ministryofsillywalks +v Eve
+(1/18/2016 1:17:59 AM) :vervet.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/18/2016 1:17:59 AM) :vervet.foonetic.net NOTICE AUTH :*** Checking ident...
+(1/18/2016 1:17:59 AM) :vervet.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net NOTICE AUTH :*** No ident response; username prefixed with ~
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!~Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 002 Eve :Your host is vervet.foonetic.net, running version Unreal3.2.10.4
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 003 Eve :This server was created Thu Jul 30 2015 at 03:07:08 EDT
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 004 Eve vervet.foonetic.net Unreal3.2.10.4 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 005 Eve CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 :are supported by this server
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 005 Eve MAXTARGETS=20 WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT :are supported by this server
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 005 Eve STATUSMSG=~&@%+ EXCEPTS INVEX :are supported by this server
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 251 Eve :There are 389 users and 789 invisible on 7 servers
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 252 Eve 15 :operator(s) online
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 254 Eve 404 :channels formed
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 255 Eve :I have 339 clients and 4 servers
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 265 Eve 339 487 :Current local users 339, max 487
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 266 Eve 1178 1910 :Current global users 1178, max 1910
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 375 Eve :- vervet.foonetic.net Message of the Day - 
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :- 30/7/2015 12:24
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-          __                        _   _      
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-         / _| ___   ___  _ __   ___| |_(_) ___ 
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-        | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-        |  _| (_) | (_) | | | |  __/ |_| | (__ 
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-        |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-                                   
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-         Welcome to Foonetic IRC @isomerica.net
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-                1 Summer St, Boston, MA
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-          
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-                      * WARNING *
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-          * Blitzed Open Proxy Monitor Active *
+(1/18/2016 1:18:00 AM) :vervet.foonetic.net 372 Eve :-          * Email help@foonetic.net for help  *
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-              Native IPv6 Connectivity by
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-                        OCCAID
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-         (To force IPv6, use irc6.foonetic.net)
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-            
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-            Server Administrator:   spinfire
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-            Server Critter:         aelscha
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-              
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-              To get help or find IRCops:
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-                        #help
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-                 http://foonetic.net/
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-             Random server: irc.foonetic.net
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-            
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-            To see the rules, type /quote rules
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-            
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-            Ports: 6667, 6668, 6669, 7000
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 372 Eve :-            SSL Ports: 6697, 7001    
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 376 Eve :End of /MOTD command.
+(1/18/2016 1:18:01 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/18/2016 1:18:01 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/18/2016 1:18:01 AM) :NickServ MODE Eve :+r
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- vervet.foonetic.net Bot Message of the Day - 
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |      spam the network.
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :- ^
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 353 Eve = #testgrounds :Eve ~SemiViral @ChanServ 
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 332 Eve #ministryofsillywalks :https://www.youtube.com/watch?v=bDztRUnbTuc
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 333 Eve #ministryofsillywalks izzy 1452407799
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 353 Eve = #ministryofsillywalks :Eve +Kris +SemiViral +Asthralios +Revan343 +avid ~izzy +jercos rolandd @wally +goose124 +BytesAndCoffee &Joey 
+(1/18/2016 1:18:01 AM) :vervet.foonetic.net 366 Eve #ministryofsillywalks :End of /NAMES list.
+(1/18/2016 1:18:01 AM) :ChanServ!ChanServ@services.foonetic.net NOTICE Eve :[#ministryofsillywalks] "Non-Exotic Dancing is Forbidden!!!"
+(1/18/2016 1:18:02 AM) :wally!~Jobot@ED24225B.F250ED5C.B92B1BFF.IP MODE #ministryofsillywalks +v Eve
+(1/18/2016 1:53:42 AM) :vervet.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/18/2016 1:53:42 AM) :vervet.foonetic.net NOTICE AUTH :*** Checking ident...
+(1/18/2016 1:53:42 AM) :vervet.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/18/2016 1:53:43 AM) :vervet.foonetic.net NOTICE AUTH :*** No ident response; username prefixed with ~
+(1/18/2016 1:54:48 AM) :vervet.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/18/2016 1:54:48 AM) :vervet.foonetic.net NOTICE AUTH :*** Checking ident...
+(1/18/2016 1:54:48 AM) :vervet.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/18/2016 1:54:48 AM) :vervet.foonetic.net NOTICE AUTH :*** No ident response; username prefixed with ~
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!~Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 002 Eve :Your host is vervet.foonetic.net, running version Unreal3.2.10.4
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 003 Eve :This server was created Thu Jul 30 2015 at 03:07:08 EDT
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 004 Eve vervet.foonetic.net Unreal3.2.10.4 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 005 Eve CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 :are supported by this server
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 005 Eve MAXTARGETS=20 WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT :are supported by this server
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 005 Eve STATUSMSG=~&@%+ EXCEPTS INVEX :are supported by this server
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 251 Eve :There are 386 users and 787 invisible on 7 servers
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 252 Eve 15 :operator(s) online
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 254 Eve 406 :channels formed
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 255 Eve :I have 343 clients and 4 servers
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 265 Eve 343 487 :Current local users 343, max 487
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 266 Eve 1173 1910 :Current global users 1173, max 1910
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 375 Eve :- vervet.foonetic.net Message of the Day - 
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :- 30/7/2015 12:24
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-          __                        _   _      
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-         / _| ___   ___  _ __   ___| |_(_) ___ 
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-        | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-        |  _| (_) | (_) | | | |  __/ |_| | (__ 
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-        |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-                                   
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-         Welcome to Foonetic IRC @isomerica.net
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-                1 Summer St, Boston, MA
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-          
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-                      * WARNING *
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-          * Blitzed Open Proxy Monitor Active *
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-          * Email help@foonetic.net for help  *
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-              Native IPv6 Connectivity by
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-                        OCCAID
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-         (To force IPv6, use irc6.foonetic.net)
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-            
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-            Server Administrator:   spinfire
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-            Server Critter:         aelscha
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-              
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-              To get help or find IRCops:
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-                        #help
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-                 http://foonetic.net/
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :- 
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-             Random server: irc.foonetic.net
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-            
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-            To see the rules, type /quote rules
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-            
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-            Ports: 6667, 6668, 6669, 7000
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 372 Eve :-            SSL Ports: 6697, 7001    
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 376 Eve :End of /MOTD command.
+(1/18/2016 1:54:49 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/18/2016 1:54:49 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/18/2016 1:54:49 AM) :NickServ MODE Eve :+r
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- vervet.foonetic.net Bot Message of the Day - 
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |      spam the network.
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :- ^
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 353 Eve = #testgrounds :Eve ~SemiViral @ChanServ 
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 332 Eve #ministryofsillywalks :https://www.youtube.com/watch?v=bDztRUnbTuc
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 333 Eve #ministryofsillywalks izzy 1452407799
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 353 Eve = #ministryofsillywalks :Eve +Kris +SemiViral +Asthralios +Revan343 +avid ~izzy +jercos rolandd @wally +goose124 +BytesAndCoffee &Joey 
+(1/18/2016 1:54:49 AM) :vervet.foonetic.net 366 Eve #ministryofsillywalks :End of /NAMES list.
+(1/18/2016 1:54:49 AM) :ChanServ!ChanServ@services.foonetic.net NOTICE Eve :[#ministryofsillywalks] "Non-Exotic Dancing is Forbidden!!!"
+(1/18/2016 1:54:50 AM) :wally!~Jobot@ED24225B.F250ED5C.B92B1BFF.IP MODE #ministryofsillywalks +v Eve
+(1/19/2016 11:41:53 PM) :vervet.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/19/2016 11:41:53 PM) :vervet.foonetic.net NOTICE AUTH :*** Checking ident...
+(1/19/2016 11:41:54 PM) :vervet.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/19/2016 11:41:54 PM) :vervet.foonetic.net NOTICE AUTH :*** No ident response; username prefixed with ~
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!~Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 002 Eve :Your host is vervet.foonetic.net, running version Unreal3.2.10.4
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 003 Eve :This server was created Thu Jul 30 2015 at 03:07:08 EDT
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 004 Eve vervet.foonetic.net Unreal3.2.10.4 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 005 Eve CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 :are supported by this server
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 005 Eve MAXTARGETS=20 WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT :are supported by this server
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 005 Eve STATUSMSG=~&@%+ EXCEPTS INVEX :are supported by this server
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 251 Eve :There are 358 users and 882 invisible on 7 servers
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 252 Eve 14 :operator(s) online
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 254 Eve 422 :channels formed
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 255 Eve :I have 408 clients and 5 servers
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 265 Eve 408 487 :Current local users 408, max 487
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 266 Eve 1240 1910 :Current global users 1240, max 1910
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 375 Eve :- vervet.foonetic.net Message of the Day - 
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :- 30/7/2015 12:24
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-          __                        _   _      
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-         / _| ___   ___  _ __   ___| |_(_) ___ 
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-        | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-        |  _| (_) | (_) | | | |  __/ |_| | (__ 
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-        |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-                                   
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :- 
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-         Welcome to Foonetic IRC @isomerica.net
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-                1 Summer St, Boston, MA
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-          
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-                      * WARNING *
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-          * Blitzed Open Proxy Monitor Active *
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-          * Email help@foonetic.net for help  *
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :- 
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-              Native IPv6 Connectivity by
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-                        OCCAID
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-         (To force IPv6, use irc6.foonetic.net)
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-            
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-            Server Administrator:   spinfire
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-            Server Critter:         aelscha
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-              
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-              To get help or find IRCops:
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-                        #help
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :- 
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-                 http://foonetic.net/
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :- 
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-             Random server: irc.foonetic.net
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-            
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-            To see the rules, type /quote rules
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-            
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-            Ports: 6667, 6668, 6669, 7000
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 372 Eve :-            SSL Ports: 6697, 7001    
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 376 Eve :End of /MOTD command.
+(1/19/2016 11:41:55 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/19/2016 11:41:55 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/19/2016 11:41:55 PM) :NickServ MODE Eve :+r
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- vervet.foonetic.net Bot Message of the Day - 
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |      spam the network.
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :- ^
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 353 Eve = #testgrounds :Eve ~SemiViral @ChanServ 
+(1/19/2016 11:41:55 PM) :vervet.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/19/2016 11:42:10 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :Eve, channels
+(1/19/2016 11:42:16 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, user semiviral
+(1/19/2016 11:42:24 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, user dulrich
+(1/19/2016 11:42:31 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, setaccess dulrich 2
+(1/19/2016 11:42:36 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, user dulrich
+(1/19/2016 11:42:57 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, setaccess dulrich 3
+(1/19/2016 11:43:03 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, reload
+(1/19/2016 11:54:27 PM) :vervet.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net NOTICE AUTH :*** Checking ident...
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net NOTICE AUTH :*** No ident response; username prefixed with ~
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!~Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 002 Eve :Your host is vervet.foonetic.net, running version Unreal3.2.10.4
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 003 Eve :This server was created Thu Jul 30 2015 at 03:07:08 EDT
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 004 Eve vervet.foonetic.net Unreal3.2.10.4 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 005 Eve CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 :are supported by this server
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 005 Eve MAXTARGETS=20 WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT :are supported by this server
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 005 Eve STATUSMSG=~&@%+ EXCEPTS INVEX :are supported by this server
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 251 Eve :There are 356 users and 881 invisible on 7 servers
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 252 Eve 14 :operator(s) online
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 254 Eve 422 :channels formed
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 255 Eve :I have 406 clients and 5 servers
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 265 Eve 406 487 :Current local users 406, max 487
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 266 Eve 1237 1910 :Current global users 1237, max 1910
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 375 Eve :- vervet.foonetic.net Message of the Day - 
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :- 30/7/2015 12:24
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-          __                        _   _      
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-         / _| ___   ___  _ __   ___| |_(_) ___ 
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-        | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-        |  _| (_) | (_) | | | |  __/ |_| | (__ 
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-        |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-                                   
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :- 
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-         Welcome to Foonetic IRC @isomerica.net
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-                1 Summer St, Boston, MA
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-          
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-                      * WARNING *
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-          * Blitzed Open Proxy Monitor Active *
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-          * Email help@foonetic.net for help  *
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :- 
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-              Native IPv6 Connectivity by
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-                        OCCAID
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-         (To force IPv6, use irc6.foonetic.net)
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-            
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-            Server Administrator:   spinfire
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-            Server Critter:         aelscha
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-              
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-              To get help or find IRCops:
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-                        #help
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :- 
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-                 http://foonetic.net/
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :- 
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-             Random server: irc.foonetic.net
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-            
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-            To see the rules, type /quote rules
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-            
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-            Ports: 6667, 6668, 6669, 7000
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 372 Eve :-            SSL Ports: 6697, 7001    
+(1/19/2016 11:54:28 PM) :vervet.foonetic.net 376 Eve :End of /MOTD command.
+(1/19/2016 11:54:28 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/19/2016 11:54:28 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/19/2016 11:54:29 PM) :NickServ MODE Eve :+r
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- vervet.foonetic.net Bot Message of the Day - 
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |      spam the network.
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :- ^
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net 353 Eve = #testgrounds :Eve ~SemiViral @ChanServ 
+(1/19/2016 11:54:29 PM) :vervet.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/19/2016 11:54:35 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, ddd
+(1/19/2016 11:54:39 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/19/2016 11:54:44 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, helps
+(1/19/2016 11:54:45 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, help
+(1/19/2016 11:54:58 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, modules
+(1/19/2016 11:55:07 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/19/2016 11:55:14 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, define lamp
+(1/19/2016 11:55:24 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, define cat
+(1/19/2016 11:55:27 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, define  ff
+(1/19/2016 11:55:30 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, define ff
+(1/19/2016 11:55:44 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, join #ministryofsillywalks
+(1/19/2016 11:55:44 PM) :vervet.foonetic.net 332 Eve #ministryofsillywalks :https://www.youtube.com/watch?v=bDztRUnbTuc
+(1/19/2016 11:55:44 PM) :vervet.foonetic.net 333 Eve #ministryofsillywalks izzy 1452407799
+(1/19/2016 11:55:44 PM) :vervet.foonetic.net 353 Eve = #ministryofsillywalks :Eve +Kris +SemiViral +Revan343 +avid ~izzy +jercos rolandd @wally +goose124 +BytesAndCoffee &Joey 
+(1/19/2016 11:55:44 PM) :vervet.foonetic.net 366 Eve #ministryofsillywalks :End of /NAMES list.
+(1/19/2016 11:55:44 PM) :ChanServ!ChanServ@services.foonetic.net NOTICE Eve :[#ministryofsillywalks] "Non-Exotic Dancing is Forbidden!!!"
+(1/19/2016 11:55:45 PM) :wally!~Jobot@ED24225B.F250ED5C.B92B1BFF.IP MODE #ministryofsillywalks +v Eve
+(1/19/2016 11:55:47 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/19/2016 11:55:54 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, part #ministryofsillywalks test
+(1/19/2016 11:56:00 PM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/20/2016 12:45:10 AM) :vervet.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/20/2016 12:45:10 AM) :vervet.foonetic.net NOTICE AUTH :*** Checking ident...
+(1/20/2016 12:45:10 AM) :vervet.foonetic.net NOTICE AUTH :*** No ident response; username prefixed with ~
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!~Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 002 Eve :Your host is vervet.foonetic.net, running version Unreal3.2.10.4
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 003 Eve :This server was created Thu Jul 30 2015 at 03:07:08 EDT
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 004 Eve vervet.foonetic.net Unreal3.2.10.4 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 005 Eve CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 :are supported by this server
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 005 Eve MAXTARGETS=20 WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT :are supported by this server
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 005 Eve STATUSMSG=~&@%+ EXCEPTS INVEX :are supported by this server
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 251 Eve :There are 353 users and 868 invisible on 7 servers
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 252 Eve 14 :operator(s) online
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 254 Eve 413 :channels formed
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 255 Eve :I have 400 clients and 5 servers
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 265 Eve 400 487 :Current local users 400, max 487
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 266 Eve 1221 1910 :Current global users 1221, max 1910
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 375 Eve :- vervet.foonetic.net Message of the Day - 
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :- 30/7/2015 12:24
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-          __                        _   _      
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-         / _| ___   ___  _ __   ___| |_(_) ___ 
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-        | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-        |  _| (_) | (_) | | | |  __/ |_| | (__ 
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-        |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-                                   
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :- 
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-         Welcome to Foonetic IRC @isomerica.net
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-                1 Summer St, Boston, MA
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-          
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-                      * WARNING *
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-          * Blitzed Open Proxy Monitor Active *
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-          * Email help@foonetic.net for help  *
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :- 
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-              Native IPv6 Connectivity by
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-                        OCCAID
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-         (To force IPv6, use irc6.foonetic.net)
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-            
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-            Server Administrator:   spinfire
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-            Server Critter:         aelscha
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-              
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-              To get help or find IRCops:
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-                        #help
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :- 
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-                 http://foonetic.net/
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :- 
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-             Random server: irc.foonetic.net
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-            
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-            To see the rules, type /quote rules
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-            
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-            Ports: 6667, 6668, 6669, 7000
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 372 Eve :-            SSL Ports: 6697, 7001    
+(1/20/2016 12:45:13 AM) :vervet.foonetic.net 376 Eve :End of /MOTD command.
+(1/20/2016 12:45:13 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/20/2016 12:45:14 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/20/2016 12:45:14 AM) :NickServ MODE Eve :+r
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- vervet.foonetic.net Bot Message of the Day - 
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |      spam the network.
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :- ^
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net 353 Eve = #testgrounds :Eve ~SemiViral @ChanServ 
+(1/20/2016 12:45:14 AM) :vervet.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/20/2016 12:45:21 AM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/20/2016 12:45:25 AM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, join #ministryofsillywalks
+(1/20/2016 12:45:26 AM) :vervet.foonetic.net 332 Eve #ministryofsillywalks :https://www.youtube.com/watch?v=bDztRUnbTuc
+(1/20/2016 12:45:26 AM) :vervet.foonetic.net 333 Eve #ministryofsillywalks izzy 1452407799
+(1/20/2016 12:45:26 AM) :vervet.foonetic.net 353 Eve = #ministryofsillywalks :Eve +SemiViral +Revan343 +avid ~izzy +jercos rolandd @wally +goose124 +BytesAndCoffee &Joey 
+(1/20/2016 12:45:26 AM) :vervet.foonetic.net 366 Eve #ministryofsillywalks :End of /NAMES list.
+(1/20/2016 12:45:26 AM) :ChanServ!ChanServ@services.foonetic.net NOTICE Eve :[#ministryofsillywalks] "Non-Exotic Dancing is Forbidden!!!"
+(1/20/2016 12:45:27 AM) :wally!~Jobot@ED24225B.F250ED5C.B92B1BFF.IP MODE #ministryofsillywalks +v Eve
+(1/20/2016 12:45:28 AM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/20/2016 12:45:31 AM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, part #ministryofsillywalks test
+(1/20/2016 12:45:32 AM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/20/2016 12:45:48 AM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, calc 2+2
+(1/20/2016 12:45:52 AM) :SemiViral!~semiviral@AAB4772B:F29EDCF5:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2

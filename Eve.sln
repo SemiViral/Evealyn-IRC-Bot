@@ -14,9 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdventureData", "AdventureD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eve", "Eve\Eve.csproj", "{DF4BDEA7-BDC3-4B8D-8AAA-1563FA22D801}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{0D3F2D60-265D-40C0-8329-36258125E306}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Modules\Default\Core\Core.csproj", "{91F16EFC-BABB-48C1-87D1-0A607D241FEA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{5BC9BD56-3EFB-4E87-AFCA-FF9C6FF359A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,15 +26,12 @@ Global
 		{DF4BDEA7-BDC3-4B8D-8AAA-1563FA22D801}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF4BDEA7-BDC3-4B8D-8AAA-1563FA22D801}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF4BDEA7-BDC3-4B8D-8AAA-1563FA22D801}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91F16EFC-BABB-48C1-87D1-0A607D241FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91F16EFC-BABB-48C1-87D1-0A607D241FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91F16EFC-BABB-48C1-87D1-0A607D241FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91F16EFC-BABB-48C1-87D1-0A607D241FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BC9BD56-3EFB-4E87-AFCA-FF9C6FF359A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BC9BD56-3EFB-4E87-AFCA-FF9C6FF359A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BC9BD56-3EFB-4E87-AFCA-FF9C6FF359A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BC9BD56-3EFB-4E87-AFCA-FF9C6FF359A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{91F16EFC-BABB-48C1-87D1-0A607D241FEA} = {0D3F2D60-265D-40C0-8329-36258125E306}
 	EndGlobalSection
 EndGlobal

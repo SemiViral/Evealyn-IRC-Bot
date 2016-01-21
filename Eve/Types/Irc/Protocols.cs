@@ -2,560 +2,563 @@
 
 namespace Eve.Types.Irc {
 	public static class IrcProtocol {
-		public const string Default =	"";
-		public const string User =		"USER";
-		public const string Nick =		"NICK";
-		public const string Quit =		"QUIT";
-		public const string Join =		"JOIN";
-		public const string Part =		"PART";
-		public const string Privmsg =	"PRIVMSG";
-		public const string Mode =		"MODE";
-		public const string Topic =		"TOPIC";
-		public const string Kick =		"KICK";
-		public const string Notice =	"NOTICE";
-		public const string Names =		"NAMES";
-		public const string List =		"LIST";
-		public const string Motd =		"MOTD";
-		public const string Version =	"VERSION";
-		public const string Stats =		"STATS";
-		public const string Links =		"LINKS";
-		public const string Time =		"TIME";
-		public const string Connect =	"CONNECT";
-		public const string Admin =		"ADMIN";
-		public const string Info =		"INFO";
-		public const string Servlist =	"SERVERLIST";
-		public const string Who =		"WHO";
-		public const string Whois =		"WHOIS";
-		public const string Whowas =	"WHOWAS";
-		public const string Kill =		"KILL";
-		public const string Ping =		"PING";
-		public const string Pong =		"PONG";
-		public const string Error =		"ERROR";
-		public const string Away =		"AWAY";
-		public const string Rehash =	"REHASH";
-		public const string Users =		"USERS";
-		public const string Userhost =	"USERHOST";
-		public const string Ison =		"ISON";
+		public const string Default = "";
+		public const string User = "USER";
+		public const string Nick = "NICK";
+		public const string Quit = "QUIT";
+		public const string Join = "JOIN";
+		public const string Part = "PART";
+		public const string Privmsg = "PRIVMSG";
+		public const string Mode = "MODE";
+		public const string Topic = "TOPIC";
+		public const string Kick = "KICK";
+		public const string Notice = "NOTICE";
+		public const string Names = "NAMES";
+		public const string List = "LIST";
+		public const string Motd = "MOTD";
+		public const string Version = "VERSION";
+		public const string Stats = "STATS";
+		public const string Links = "LINKS";
+		public const string Time = "TIME";
+		public const string Connect = "CONNECT";
+		public const string Admin = "ADMIN";
+		public const string Info = "INFO";
+		public const string Servlist = "SERVERLIST";
+		public const string Who = "WHO";
+		public const string Whois = "WHOIS";
+		public const string Whowas = "WHOWAS";
+		public const string Kill = "KILL";
+		public const string Ping = "PING";
+		public const string Pong = "PONG";
+		public const string Error = "ERROR";
+		public const string Away = "AWAY";
+		public const string Rehash = "REHASH";
+		public const string Users = "USERS";
+		public const string Userhost = "USERHOST";
+		public const string Ison = "ISON";
 
 		/* Numeric responses */
-		/// <summary>
-		/// [nick]![user]@[host]
-		/// </summary>
-		public const string Welcome =					"001";
 
 		/// <summary>
-		/// Host is [servername], version [ver]
+		///     [nick]![user]@[host]
 		/// </summary>
-		public const string YourHost =					"002";
+		public const string Welcome = "001";
 
 		/// <summary>
-		/// Created [date]
+		///     Host is [servername], version [ver]
 		/// </summary>
-		public const string CreationDate =				"003";
+		public const string YourHost = "002";
 
 		/// <summary>
-		/// [servername] [version] [available user modes] [available channel modes]
+		///     Created [date]
 		/// </summary>
-		public const string YourInfo =					"004";
+		public const string CreationDate = "003";
 
 		/// <summary>
-		/// Try server [server name], port [port number]
+		///     [servername] [version] [available user modes] [available channel modes]
 		/// </summary>
-		public const string AltServer =					"005";
+		public const string YourInfo = "004";
 
 		/// <summary>
-		/// :*1[reply] *( " " [reply] )
+		///     Try server [server name], port [port number]
 		/// </summary>
-		public const string UserhostReply =				"302";
+		public const string AltServer = "005";
 
 		/// <summary>
-		/// :*1[nick] *( " " [nick] )
+		///     :*1[reply] *( " " [reply] )
 		/// </summary>
-		public const string IsonReply =					"303";
+		public const string UserhostReply = "302";
 
 		/// <summary>
-		/// [nick] :[away message]
+		///     :*1[nick] *( " " [nick] )
 		/// </summary>
-		public const string NickAway =					"301";
+		public const string IsonReply = "303";
 
 		/// <summary>
-		/// :No longer marked away
+		///     [nick] :[away message]
 		/// </summary>
-		public const string NotAway =					"305";
+		public const string NickAway = "301";
 
 		/// <summary>
-		/// :You have been marked as away
+		///     :No longer marked away
 		/// </summary>
-		public const string SelfAway =					"306";
+		public const string NotAway = "305";
 
 		/// <summary>
-		/// [nick] [user] [host] * :[real name]
+		///     :You have been marked as away
 		/// </summary>
-		public const string WhoisReply =				"311";
+		public const string SelfAway = "306";
 
 		/// <summary>
-		/// [nick] [server] :[server info]
+		///     [nick] [user] [host] * :[real name]
 		/// </summary>
-		public const string WhoisServerReply =			"312";
+		public const string WhoisReply = "311";
 
 		/// <summary>
-		/// [nick] :is an IRC operator
+		///     [nick] [server] :[server info]
 		/// </summary>
-		public const string WhoisOperatorReply =		"313";
+		public const string WhoisServerReply = "312";
 
 		/// <summary>
-		/// [nick] [integer] :seconds idle
+		///     [nick] :is an IRC operator
 		/// </summary>
-		public const string WhoisIdleReply =			"317";
+		public const string WhoisOperatorReply = "313";
 
 		/// <summary>
-		/// [nick] :End of WHOIS list
+		///     [nick] [integer] :seconds idle
 		/// </summary>
-		public const string WhoisEnd =					"318";
+		public const string WhoisIdleReply = "317";
 
 		/// <summary>
-		/// [nick] :*( ( "@" / "+" ) [channel] " " )
+		///     [nick] :End of WHOIS list
 		/// </summary>
-		public const string WhoisChannelsReply =		"319";
+		public const string WhoisEnd = "318";
 
 		/// <summary>
-		/// [nick] [user] [host] * :[real name]
+		///     [nick] :*( ( "@" / "+" ) [channel] " " )
 		/// </summary>
-		public const string WhowasUserReply =			"314";
+		public const string WhoisChannelsReply = "319";
 
 		/// <summary>
-		/// [nick] :End of WHOWAS
+		///     [nick] [user] [host] * :[real name]
 		/// </summary>
-		public const string WhowasUserEnd =				"315";
+		public const string WhowasUserReply = "314";
 
 		/// <summary>
-		/// [channel] [# visible] :[topic]
+		///     [nick] :End of WHOWAS
 		/// </summary>
-		public const string ListReply =					"322";
+		public const string WhowasUserEnd = "315";
 
 		/// <summary>
-		/// :End of LIST
+		///     [channel] [# visible] :[topic]
 		/// </summary>
-		public const string ListEnd =					"323";
+		public const string ListReply = "322";
 
 		/// <summary>
-		/// [channel] [nickname]
+		///     :End of LIST
 		/// </summary>
-		public const string UniqueOpIs =				"325";
+		public const string ListEnd = "323";
 
 		/// <summary>
-		/// [channel] [mode] [mode params]
+		///     [channel] [nickname]
 		/// </summary>
-		public const string ChannelModeIs =				"324";
+		public const string UniqueOpIs = "325";
 
 		/// <summary>
-		/// [channel] :No topic is set
+		///     [channel] [mode] [mode params]
 		/// </summary>
-		public const string NoChannelTopic =			"331";
+		public const string ChannelModeIs = "324";
 
 		/// <summary>
-		/// [channel] :[topic]
+		///     [channel] :No topic is set
 		/// </summary>
-		public const string ChannelTopic =				"332";
+		public const string NoChannelTopic = "331";
 
 		/// <summary>
-		/// [version].[debuglevel] [server] :[comments]
+		///     [channel] :[topic]
 		/// </summary>
-		public const string VersionReply =				"351";
+		public const string ChannelTopic = "332";
 
 		/// <summary>
-		/// [channel] [user] [host] [server] [nick] ( "H" / "G" ] ["*"] [ ("@" / "+")] :[hopcount] [real name]
+		///     [version].[debuglevel] [server] :[comments]
 		/// </summary>
-		public const string WhoReply =					"352";
+		public const string VersionReply = "351";
 
 		/// <summary>
-		/// [name] :End of WHO list
+		///     [channel] [user] [host] [server] [nick] ( "H" / "G" ] ["*"] [ ("@" / "+")] :[hopcount] [real name]
 		/// </summary>
-		public const string WhoReplyEnd =				"315";
+		public const string WhoReply = "352";
 
 		/// <summary>
-		/// ( "=" / "*" / "@" ) [channel] :[ "@" / "+" ] [nick] *( " " [ "@" / "+" ] [nick] )
+		///     [name] :End of WHO list
 		/// </summary>
-		public const string NameReply =					"353";
+		public const string WhoReplyEnd = "315";
 
 		/// <summary>
-		/// [channel] :End of NAMES list
+		///     ( "=" / "*" / "@" ) [channel] :[ "@" / "+" ] [nick] *( " " [ "@" / "+" ] [nick] )
 		/// </summary>
-		public const string NamesReplyEnd =				"366";
+		public const string NameReply = "353";
 
 		/// <summary>
-		/// [mask] [server] :[hopcount] [server info]
+		///     [channel] :End of NAMES list
 		/// </summary>
-		public const string LinksReply =				"364";
+		public const string NamesReplyEnd = "366";
 
 		/// <summary>
-		/// [mask] :End of LINKS list
+		///     [mask] [server] :[hopcount] [server info]
 		/// </summary>
-		public const string LinksReplyEnd =				"365";
+		public const string LinksReply = "364";
 
 		/// <summary>
-		/// [channel] [banmask]
+		///     [mask] :End of LINKS list
 		/// </summary>
-		public const string BanListReply =				"367";
+		public const string LinksReplyEnd = "365";
 
 		/// <summary>
-		/// [channel] :End of channel ban list
+		///     [channel] [banmask]
 		/// </summary>
-		public const string BanListReplyEnd =			"368";
+		public const string BanListReply = "367";
 
 		/// <summary>
-		/// :[string]
+		///     [channel] :End of channel ban list
 		/// </summary>
-		public const string InfoReply =					"371";
+		public const string BanListReplyEnd = "368";
 
 		/// <summary>
-		/// :End of INFO list
+		///     :[string]
 		/// </summary>
-		public const string InfoReplyEnd =				"374";
+		public const string InfoReply = "371";
 
 		/// <summary>
-		/// :- [server] Message of the day -
+		///     :End of INFO list
 		/// </summary>
-		public const string MotdStart =					"375";
+		public const string InfoReplyEnd = "374";
 
 		/// <summary>
-		/// :- [text]
+		///     :- [server] Message of the day -
 		/// </summary>
-		public const string MotdReply =					"372";
+		public const string MotdStart = "375";
 
 		/// <summary>
-		/// :End of MOTD command
+		///     :- [text]
 		/// </summary>
-		public const string MotdReplyEnd =				"376";
+		public const string MotdReply = "372";
 
 		/// <summary>
-		/// :[username] [ttyline] [hostname]
+		///     :End of MOTD command
 		/// </summary>
-		public const string UsersReply =				"393";
+		public const string MotdReplyEnd = "376";
 
 		/// <summary>
-		/// :End of users
+		///     :[username] [ttyline] [hostname]
 		/// </summary>
-		public const string UsersReplyEnd =				"394";
+		public const string UsersReply = "393";
 
 		/// <summary>
-		/// :Nobody logged in
+		///     :End of users
 		/// </summary>
-		public const string NoUsersReply =				"395";
+		public const string UsersReplyEnd = "394";
 
 		/// <summary>
-		/// [linkname] [sendq] [sent messages] [sent Kbytes] [received messages] [received Kbytes] [time open]
+		///     :Nobody logged in
 		/// </summary>
-		public const string StatsLinkInfoReply =		"211";
+		public const string NoUsersReply = "395";
 
 		/// <summary>
-		/// [command] [count] [byte count] [remote count]
+		///     [linkname] [sendq] [sent messages] [sent Kbytes] [received messages] [received Kbytes] [time open]
 		/// </summary>
-		public const string StatsCommandsReply =		"212";
+		public const string StatsLinkInfoReply = "211";
 
 		/// <summary>
-		/// [stats letter] :End of STATS report
+		///     [command] [count] [byte count] [remote count]
 		/// </summary>
-		public const string StatsReplyEnd =				"219";
+		public const string StatsCommandsReply = "212";
 
 		/// <summary>
-		/// :Server Up %d days %d:%02d:%02d
+		///     [stats letter] :End of STATS report
 		/// </summary>
-		public const string StatsUptimeReply =			"242";
+		public const string StatsReplyEnd = "219";
 
 		/// <summary>
-		/// O [hostmask] * [name]
+		///     :Server Up %d days %d:%02d:%02d
 		/// </summary>
-		public const string StatsOnline =				"243";
+		public const string StatsUptimeReply = "242";
 
 		/// <summary>
-		/// [user mode string]
+		///     O [hostmask] * [name]
 		/// </summary>
-		public const string UserModeIsReply =			"221";
+		public const string StatsOnline = "243";
 
 		/// <summary>
-		/// [name] [server] [mask] [type] [hopcount] [info]
+		///     [user mode string]
 		/// </summary>
-		public const string ServerListReply =			"234";
+		public const string UserModeIsReply = "221";
 
 		/// <summary>
-		/// [mask] [type] :End of service listing
+		///     [name] [server] [mask] [type] [hopcount] [info]
 		/// </summary>
-		public const string ServerListReplyEnd =		"235";
+		public const string ServerListReply = "234";
 
 		/// <summary>
-		/// [command] :Please wait a while and try again.
+		///     [mask] [type] :End of service listing
 		/// </summary>
-		public const string TryAgainReply =				"263";
+		public const string ServerListReplyEnd = "235";
+
+		/// <summary>
+		///     [command] :Please wait a while and try again.
+		/// </summary>
+		public const string TryAgainReply = "263";
 
 		/* Error responses */
-		/// <summary>
-		/// [nickname] :No such nick/channel
-		/// </summary>
-		public const string ErrorNoSuchNick =			"401";
 
 		/// <summary>
-		/// [server name] :No such server
+		///     [nickname] :No such nick/channel
 		/// </summary>
-		public const string ErrorNoSuchServer =			"402";
+		public const string ErrorNoSuchNick = "401";
 
 		/// <summary>
-		/// [channel name] :No such channel
+		///     [server name] :No such server
 		/// </summary>
-		public const string ErrorNoSuchChannel =		"403";
+		public const string ErrorNoSuchServer = "402";
 
 		/// <summary>
-		/// [channel name] :Cannot send to channel
+		///     [channel name] :No such channel
 		/// </summary>
-		public const string ErrorCannotSendToChan =		"404";
+		public const string ErrorNoSuchChannel = "403";
 
 		/// <summary>
-		/// [channel name] :You have joined too many channels
+		///     [channel name] :Cannot send to channel
 		/// </summary>
-		public const string ErrorTooManyChannels =		"405";
+		public const string ErrorCannotSendToChan = "404";
 
 		/// <summary>
-		/// [nickname] :There was no such nickname
+		///     [channel name] :You have joined too many channels
 		/// </summary>
-		public const string ErrorWasNoSuchNick =		"406";
+		public const string ErrorTooManyChannels = "405";
 
 		/// <summary>
-		/// [target] :[error code] recipients. [abort message]
+		///     [nickname] :There was no such nickname
 		/// </summary>
-		public const string ErrorTooManyTargets =		"407";
+		public const string ErrorWasNoSuchNick = "406";
 
 		/// <summary>
-		/// [service name] :No such service
+		///     [target] :[error code] recipients. [abort message]
 		/// </summary>
-		public const string ErrorNoSuchService =		"408";
+		public const string ErrorTooManyTargets = "407";
 
 		/// <summary>
-		/// :No origin specified - PING or PONG message missing originator parameter
+		///     [service name] :No such service
 		/// </summary>
-		public const string ErrorNoOrigin =				"409";
+		public const string ErrorNoSuchService = "408";
 
 		/// <summary>
-		/// :No recipient given ([command])
+		///     :No origin specified - PING or PONG message missing originator parameter
 		/// </summary>
-		public const string ErrorNoRecipient =			"411";
+		public const string ErrorNoOrigin = "409";
 
 		/// <summary>
-		/// :No text to send
+		///     :No recipient given ([command])
 		/// </summary>
-		public const string ErrorNoTextToSend =			"412";
+		public const string ErrorNoRecipient = "411";
 
 		/// <summary>
-		/// [mask] :No toplevel domain specified
+		///     :No text to send
 		/// </summary>
-		public const string ErrorNoTopLevel =			"413";
+		public const string ErrorNoTextToSend = "412";
 
 		/// <summary>
-		/// [mask] :Wildcard in toplevel domain
+		///     [mask] :No toplevel domain specified
 		/// </summary>
-		public const string ErrorWildTopLevel =			"414";
+		public const string ErrorNoTopLevel = "413";
 
 		/// <summary>
-		/// [mask] :Bad Server/host mask
+		///     [mask] :Wildcard in toplevel domain
 		/// </summary>
-		public const string ErrorBadMask =				"415";
+		public const string ErrorWildTopLevel = "414";
 
 		/// <summary>
-		/// [command] :Unknown command
+		///     [mask] :Bad Server/host mask
 		/// </summary>
-		public const string ErrorUnknownCommand =		"421";
+		public const string ErrorBadMask = "415";
 
 		/// <summary>
-		/// :MOTD File is missing
+		///     [command] :Unknown command
 		/// </summary>
-		public const string ErrorNoMotd =				"422";
+		public const string ErrorUnknownCommand = "421";
 
 		/// <summary>
-		/// [server] :No administrative info available
+		///     :MOTD File is missing
 		/// </summary>
-		public const string ErrorNoAdminInfo =			"423";
+		public const string ErrorNoMotd = "422";
 
 		/// <summary>
-		/// :File error doing [file op] on [file]
+		///     [server] :No administrative info available
 		/// </summary>
-		public const string ErrorFileError =			"424";
+		public const string ErrorNoAdminInfo = "423";
 
 		/// <summary>
-		/// :No nickname given
+		///     :File error doing [file op] on [file]
 		/// </summary>
-		public const string ErrorNoNicknameGiven =		"431";
+		public const string ErrorFileError = "424";
 
 		/// <summary>
-		/// [nick] :Erroneous nickname
+		///     :No nickname given
 		/// </summary>
-		public const string ErrorErreoneousNickname =	"432";
+		public const string ErrorNoNicknameGiven = "431";
 
 		/// <summary>
-		/// [nick] :Nickname is already in use
+		///     [nick] :Erroneous nickname
 		/// </summary>
-		public const string ErrorNickNameInUse =		"433";
+		public const string ErrorErreoneousNickname = "432";
 
 		/// <summary>
-		/// [nick] :Nickname collision KILL from [user]@[host]
+		///     [nick] :Nickname is already in use
 		/// </summary>
-		public const string ErrorNickCollision =		"436";
+		public const string ErrorNickNameInUse = "433";
 
 		/// <summary>
-		/// [nick/channel] :Nick/channel is temporarily unavailable
+		///     [nick] :Nickname collision KILL from [user]@[host]
 		/// </summary>
-		public const string ErrorUnavailableResource =	"437";
+		public const string ErrorNickCollision = "436";
 
 		/// <summary>
-		/// [nick] [channel] :They aren't on that channel
+		///     [nick/channel] :Nick/channel is temporarily unavailable
 		/// </summary>
-		public const string ErrorUserNotInChannel =		"437";
+		public const string ErrorUnavailableResource = "437";
 
 		/// <summary>
-		/// [channel] :You're not on that channel
+		///     [nick] [channel] :They aren't on that channel
 		/// </summary>
-		public const string ErrorNotOnChannel =			"442";
+		public const string ErrorUserNotInChannel = "437";
 
 		/// <summary>
-		/// [user] [channel] :is already on channel
+		///     [channel] :You're not on that channel
 		/// </summary>
-		public const string ErrorUserOnChannel =		"443";
+		public const string ErrorNotOnChannel = "442";
 
 		/// <summary>
-		/// [user] :User not logged in
+		///     [user] [channel] :is already on channel
 		/// </summary>
-		public const string ErrorNoLogin =				"444";
+		public const string ErrorUserOnChannel = "443";
 
 		/// <summary>
-		/// :USERS has been disabled
+		///     [user] :User not logged in
 		/// </summary>
-		public const string ErrorUsersDisabled =		"446";
+		public const string ErrorNoLogin = "444";
 
 		/// <summary>
-		/// :You have not registered
+		///     :USERS has been disabled
 		/// </summary>
-		public const string ErrorNotRegistered =		"451";
+		public const string ErrorUsersDisabled = "446";
 
 		/// <summary>
-		/// [command] :Not enough parameters
+		///     :You have not registered
 		/// </summary>
-		public const string ErrorNeedMoreParams =		"461";
+		public const string ErrorNotRegistered = "451";
 
 		/// <summary>
-		/// :Unauthorized command (already registered)
+		///     [command] :Not enough parameters
 		/// </summary>
-		public const string ErrorAlreadyRegistered =	"462";
+		public const string ErrorNeedMoreParams = "461";
 
 		/// <summary>
-		/// :Your host isn't among the privileged
+		///     :Unauthorized command (already registered)
 		/// </summary>
-		public const string ErrorNoPermForHost =		"463";
+		public const string ErrorAlreadyRegistered = "462";
 
 		/// <summary>
-		/// :Password incorrect
+		///     :Your host isn't among the privileged
 		/// </summary>
-		public const string ErrorPasswordMismatch =		"464";
+		public const string ErrorNoPermForHost = "463";
 
 		/// <summary>
-		/// :You are banned from this server
+		///     :Password incorrect
 		/// </summary>
-		public const string ErrorYouAreBanned =			"465";
+		public const string ErrorPasswordMismatch = "464";
 
 		/// <summary>
-		/// - Sent by a server to a user to inform that access to the server will soon be denied.
+		///     :You are banned from this server
 		/// </summary>
-		public const string ErrorYouWillBeBanned =		"466";
+		public const string ErrorYouAreBanned = "465";
 
 		/// <summary>
-		/// [channel] :Channel key already set
+		///     - Sent by a server to a user to inform that access to the server will soon be denied.
 		/// </summary>
-		public const string ErrorKeyset =				"467";
+		public const string ErrorYouWillBeBanned = "466";
 
 		/// <summary>
-		/// [channel] :Cannot join channel (+l)
+		///     [channel] :Channel key already set
 		/// </summary>
-		public const string ErrorChannelIsFull =		"471";
+		public const string ErrorKeyset = "467";
 
 		/// <summary>
-		/// [char] :is unknown mode char to me for [channel]
+		///     [channel] :Cannot join channel (+l)
 		/// </summary>
-		public const string ErrorUnknownMode =			"472";
+		public const string ErrorChannelIsFull = "471";
 
 		/// <summary>
-		/// [channel] :Cannot join channel (+i)
+		///     [char] :is unknown mode char to me for [channel]
 		/// </summary>
-		public const string ErrorInviteOnlyChan =		"473";
+		public const string ErrorUnknownMode = "472";
 
 		/// <summary>
-		/// [channel] :Cannot join channel (+b)
+		///     [channel] :Cannot join channel (+i)
 		/// </summary>
-		public const string ErrorBannedFromChan =		"747";
+		public const string ErrorInviteOnlyChan = "473";
 
 		/// <summary>
-		/// [channel] :Cannot join channel (+k)
+		///     [channel] :Cannot join channel (+b)
 		/// </summary>
-		public const string ErrorBadChannelKey =		"475";
+		public const string ErrorBannedFromChan = "747";
 
 		/// <summary>
-		/// [channel] :Bad Channel Mask
+		///     [channel] :Cannot join channel (+k)
 		/// </summary>
-		public const string ErrorBadChanMask =			"476";
+		public const string ErrorBadChannelKey = "475";
 
 		/// <summary>
-		/// [channel] :Channel doesn't support modes
+		///     [channel] :Bad Channel Mask
 		/// </summary>
-		public const string ErrorNoChanModes =			"477";
+		public const string ErrorBadChanMask = "476";
 
 		/// <summary>
-		/// [channel] [char] :Channel list is full
+		///     [channel] :Channel doesn't support modes
 		/// </summary>
-		public const string ErrorBanListFull =			"478";
+		public const string ErrorNoChanModes = "477";
 
 		/// <summary>
-		/// :Permission Denied- You're not an IRC operator
+		///     [channel] [char] :Channel list is full
 		/// </summary>
-		public const string ErrorNoPrivegedes =			"481";
+		public const string ErrorBanListFull = "478";
 
 		/// <summary>
-		/// [channel] :You're not channel operator
+		///     :Permission Denied- You're not an IRC operator
 		/// </summary>
-		public const string ErrorChanopPrivsNeeded =	"482";
+		public const string ErrorNoPrivegedes = "481";
 
 		/// <summary>
-		/// :You can't kill a server
+		///     [channel] :You're not channel operator
 		/// </summary>
-		public const string ErrorCantKillServer =		"483";
+		public const string ErrorChanopPrivsNeeded = "482";
 
 		/// <summary>
-		/// :Your connection is restricted
+		///     :You can't kill a server
 		/// </summary>
-		public const string ErrorRestricted =			"484";
+		public const string ErrorCantKillServer = "483";
 
 		/// <summary>
-		/// :You're not the original channel operator
+		///     :Your connection is restricted
 		/// </summary>
-		public const string ErrorUniqopPrivsNeeded =	"485";
+		public const string ErrorRestricted = "484";
 
 		/// <summary>
-		/// :No O-lines for your host
+		///     :You're not the original channel operator
 		/// </summary>
-		public const string ErrorNoOperHost =			"491";
+		public const string ErrorUniqopPrivsNeeded = "485";
 
 		/// <summary>
-		/// :Unknown MODE flag
+		///     :No O-lines for your host
 		/// </summary>
-		public const string ErrorUnknownModeFlag =		"501";
+		public const string ErrorNoOperHost = "491";
 
 		/// <summary>
-		/// :Cannot change mode for other user
+		///     :Unknown MODE flag
 		/// </summary>
-		public const string ErrorUsersDontMatch =		"502";
+		public const string ErrorUnknownModeFlag = "501";
+
+		/// <summary>
+		///     :Cannot change mode for other user
+		/// </summary>
+		public const string ErrorUsersDontMatch = "502";
 	}
 
+	[Serializable]
 	public class ProtocolTranslateException : Exception {
-		public string OrginalProtocol { get; private set; }
-
 		public ProtocolTranslateException(string originalProtocol)
 			: base($"ProtocolTranslateException: failed to convert string '{originalProtocol}' to any IrcResponse enum.") {
 			OrginalProtocol = originalProtocol;
 		}
+
+		public string OrginalProtocol { get; private set; }
 	}
 }

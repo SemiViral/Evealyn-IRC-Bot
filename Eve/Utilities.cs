@@ -9,7 +9,7 @@ using Eve.Types.Irc;
 using Newtonsoft.Json.Linq;
 
 namespace Eve {
-	public class Utils {
+	public class Utilities {
 		public static string HttpGet(string url) {
 			HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
 			request.Method = "GET";
@@ -23,7 +23,7 @@ namespace Eve {
 				yield return str.Substring(i, Math.Min(maxLength, str.Length - i));
 		}
 
-		public static bool GetUserTimeout(string who, Variables v) {
+		public static bool GetUserTimeout(string who, PropertyReference v) {
 			bool doTimeout = false;
 
 			if (v.QueryName(who) == null)
@@ -45,25 +45,24 @@ namespace Eve {
 		///     Checks if a channel exists within V.Channels
 		/// </summary>
 		/// <param name="channel">channel to be checked against list</param>
-		/// <param name="v"><see cref="Variables"/> objec to be checked against</param>
+		/// <param name="v"><see cref="PropertyReference" /> objec to be checked against</param>
 		/// <returns>true: channel is in list; false: channel is not in list</returns>
-		public static bool CheckChannelExists(string channel, Variables v) {
+		public static bool CheckChannelExists(string channel, PropertyReference v) {
 			return v.Channels.Any(e => e.Name == channel);
 		}
 
 		/// <summary>
-		/// 
 		/// </summary>
 		/// <param name="channel">channel for user to be added to</param>
 		/// <param name="realname">user to be added</param>
-		/// <param name="v"><see cref="Variables"/> object to be manipulated</param>
-		public static void AddUserToChannel(string channel, string realname, Variables v) {
+		/// <param name="v"><see cref="PropertyReference" /> object to be manipulated</param>
+		public static void AddUserToChannel(string channel, string realname, PropertyReference v) {
 			if (!CheckChannelExists(channel, v)) return;
 
 			v.Channels.FirstOrDefault(e => e.Name == channel)?.UserList.Add(realname);
 		}
 
-		public static void RemoveUserFromChannel(string channel, string realname, Variables v) {
+		public static void RemoveUserFromChannel(string channel, string realname, PropertyReference v) {
 			if (!CheckChannelExists(channel, v)) return;
 
 			Channel firstOrDefault = v.Channels.FirstOrDefault(e => e.Name == channel);
@@ -103,10 +102,10 @@ namespace Eve {
 		/// <summary>
 		///     Checks whether or not a specified user exists in database
 		/// </summary>
-		/// <param name="v"><see cref="Variables" /> object to be checked against</param>
+		/// <param name="v"><see cref="PropertyReference" /> object to be checked against</param>
 		/// <param name="realname">name to check</param>
 		/// <returns>true: user exists; false: user does not exist</returns>
-		public static bool CheckUserExists(Variables v, string realname) {
+		public static bool CheckUserExists(PropertyReference v, string realname) {
 			return v.QueryName(realname) != null;
 		}
 
@@ -114,18 +113,15 @@ namespace Eve {
 		///     Updates specified user's `seen` data
 		/// </summary>
 		/// <param name="v">
-		///     <see cref="Variables" /> object to be manipulated</param>
+		///     <see cref="PropertyReference" /> object to be manipulated
+		/// </param>
 		/// <param name="c">ChannelMessage for information to be surmised</param>
-		public static void UpdateCurrentUserAndInfo(Variables v, ChannelMessage c) {
+		public static void UpdateCurrentUserAndInfo(PropertyReference v, ChannelMessage c) {
 			v.Users.First(e => e.Realname == c.Realname).Seen = c.Time;
 
 			using (SQLiteCommand com = new SQLiteCommand($"UPDATE users SET seen='{c.Time}' WHERE realname='{c.Realname}'", v.Db)
 				)
 				com.ExecuteNonQuery();
-
-			if (v.CurrentUser == null ||
-				v.CurrentUser.Nickname != c.Nickname)
-				return;
 
 			using (
 				SQLiteCommand com = new SQLiteCommand($"UPDATE users SET nickname='{c.Nickname}' WHERE realname='{c.Realname}'",
@@ -138,9 +134,9 @@ namespace Eve {
 		/// <summary>
 		///     Creates a new user and updates the users & userTimeouts collections
 		/// </summary>
-		/// <param name="v"><see cref="Variables" /> object to be manipulated</param>
+		/// <param name="v"><see cref="PropertyReference" /> object to be manipulated</param>
 		/// <param name="u"><see cref="User" /> object to surmise information from</param>
-		public static void CreateUserAndUpdateCollections(Variables v, User u) {
+		public static void CreateUserAndUpdateCollections(PropertyReference v, User u) {
 			Console.WriteLine($"||| Creating database entry for {u.Realname}.");
 
 			int id = -1;
@@ -164,7 +160,7 @@ namespace Eve {
 		/// </summary>
 		/// <param name="v"></param>
 		/// <param name="channel">Channel name to be checked against and added</param>
-		public static void CheckValidChannelAndAdd(Variables v, string channel) {
+		public static void CheckValidChannelAndAdd(PropertyReference v, string channel) {
 			if (v.Channels.All(e => e.Name != channel) &&
 				channel.StartsWith("#"))
 				v.Channels.Add(new Channel {
@@ -187,10 +183,9 @@ namespace Eve {
 				using (FileStream stream = new FileStream(@"config.json", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
 					Console.WriteLine("||| Configuration file not found, creating.");
 
-					using (StreamWriter writer = new StreamWriter(stream)) {
-						writer.Write(baseConfig);
-						writer.Flush();
-					}
+					StreamWriter writer = new StreamWriter(stream);
+					writer.Write(baseConfig);
+					writer.Flush();
 				}
 
 			JObject config = JObject.Parse(File.ReadAllText("config.json"));

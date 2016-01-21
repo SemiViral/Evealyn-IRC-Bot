@@ -70,7 +70,7 @@ namespace Eve.Types.Irc {
 			modes.Add(new IrcMode {
 				Mode = 's',
 				Translation = "SECRET",
-				Syntax = "MODE %c +s",
+				Syntax = "MODE %c +s"
 			});
 
 			modes.Add(new IrcMode {

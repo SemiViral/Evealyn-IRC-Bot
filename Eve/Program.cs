@@ -4,22 +4,24 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Threading;
 using Eve.Types.Classes;
 using Eve.Types.Irc;
 
 namespace Eve {
-	internal class IrcBot : Utils, IDisposable, IModule {
-		private readonly IrcConfig _config;
+	internal class IrcBot : Utilities, IDisposable, IModule {
+		private IrcConfig _config;
+		private bool _disposed;
+
 		private TcpClient _connection;
 		private StreamWriter _log;
 		private NetworkStream _networkStream;
+		private StreamWriter _streamWriter;
 		private StreamReader _streamReader;
-		private StreamWriter _outDataWriter;
-		private bool _disposed;
+
+		public PropertyReference V { get; set; }
 
 		public Dictionary<string, string> Def => null;
-
-		public static Variables V { get; set; }
 
 		/// <summary>
 		///     initialises class
@@ -28,11 +30,9 @@ namespace Eve {
 		public IrcBot(IrcConfig config) {
 			_config = config;
 
-			V = new Variables(_config.Database) {
-				IgnoreList = new List<string>()
-			};
-
+			V = new PropertyReference(_config.Database);
 			V.Modules = ModuleManager.LoadModules(V.Commands);
+			V.IgnoreList = _config.IgnoreList;
 		}
 
 		/// <summary>
@@ -42,50 +42,54 @@ namespace Eve {
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
-
+		
 		protected virtual void Dispose(bool dispose) {
 			if (_disposed) return;
 
 			if (dispose) {
-				_streamReader?.Dispose();
-				_outDataWriter?.Dispose();
-				_networkStream?.Dispose();
-				_log?.Dispose();
+				_streamReader.Dispose();
+				_streamWriter.Dispose();
+				_networkStream.Dispose();
+				_log.Dispose();
 
-				_connection?.Close();
+				_connection.Close();
 			}
 
-			V = new Variables("users.sqlite");
+			V = new PropertyReference(_config.Database);
 			_config.Joined = false;
 			_config.Identified = false;
 
 			_disposed = true;
 		}
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, Variables v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			c.Target = c.Recipient;
-
-			foreach (ChannelMessage cm in V.Modules.Values
-				.Select(m => ((IModule) Activator.CreateInstance(m)).OnChannelMessage(c, V)).Where(e => e != null)) {
-
+	
+			foreach (ChannelMessage cm in v.Modules.Values
+				.Select(m => ((IModule) Activator.CreateInstance(m)).OnChannelMessage(c, v))) {
 				bool stopLoop = false;
+
 				switch (cm.ExitType) {
 					case ExitType.Exit:
 						stopLoop = true;
 						break;
 					case ExitType.MessageAndExit:
-						SendData(_outDataWriter, IrcProtocol.Privmsg, $"{cm.Target} {cm.Message}");
+						SendData(_streamWriter, IrcProtocol.Privmsg, $"{cm.Target} {cm.Message}");
 						stopLoop = true;
 						break;
+					case ExitType.DoNotExit:
+						break;
+					default:
+						throw new ArgumentOutOfRangeException();
 				}
 
 				if (stopLoop) break;
 
 				if (cm.MultiMessage.Any())
 					foreach (string s in cm.MultiMessage)
-						SendData(_outDataWriter, cm.Type, $"{cm.Target} {s}");
+						SendData(_streamWriter, cm.Type, $"{cm.Target} {s}");
 				else if (!string.IsNullOrEmpty(cm.Message))
-					SendData(_outDataWriter, cm.Type, $"{cm.Target} {cm.Message}");
+					SendData(_streamWriter, cm.Type, $"{cm.Target} {cm.Message}");
 
 				c.Reset();
 			}
@@ -99,13 +103,14 @@ namespace Eve {
 		/// <param name="type">Type to be checked against</param>
 		public void CheckDoIdentifyAndJoin(string type) {
 			// 376 is end of MOTD command
-			if (_config.Identified || !type.Equals(IrcProtocol.MotdReplyEnd)) return;
+			if (_config.Identified ||
+				!type.Equals(IrcProtocol.MotdReplyEnd)) return;
 
-			SendData(_outDataWriter, IrcProtocol.Privmsg, "NICKSERV IDENTIFY evepass");
-			SendData(_outDataWriter, IrcProtocol.Mode, "Eve +B");
+			SendData(_streamWriter, IrcProtocol.Privmsg, "NICKSERV IDENTIFY evepass");
+			SendData(_streamWriter, IrcProtocol.Mode, "Eve +B");
 
 			foreach (string s in _config.Channels) {
-				SendData(_outDataWriter, IrcProtocol.Join, s);
+				SendData(_streamWriter, IrcProtocol.Join, s);
 				V.Channels.Add(new Channel {
 					Name = s,
 					UserList = new List<string>()
@@ -130,25 +135,25 @@ namespace Eve {
 			try {
 				_networkStream = _connection.GetStream();
 				_streamReader = new StreamReader(_networkStream);
-				_outDataWriter = new StreamWriter(_networkStream);
+				_streamWriter = new StreamWriter(_networkStream);
 
 				if (!File.Exists("logs.txt")) {
 					Console.WriteLine("||| Log file not found, creating.");
 
-					File.Create("logs.txt");
+					File.Create("logs.txt").Close();
 				}
 
 				_log = new StreamWriter("logs.txt", true);
 
-				SendData(_outDataWriter, IrcProtocol.User, $"{_config.Nickname} 0 * {_config.Realname}");
-				SendData(_outDataWriter, IrcProtocol.Nick, _config.Nickname);
-			} catch {
-				Console.WriteLine("||| Communication error.");
+				SendData(_streamWriter, IrcProtocol.User, $"{_config.Nickname} 0 * {_config.Realname}");
+				SendData(_streamWriter, IrcProtocol.Nick, _config.Nickname);
+			} catch (Exception e) {
+				Console.WriteLine($"||| Communication error: {e}");
 			}
 		}
 
 		/// <summary>
-		///     Recieves incoming data, parses it, and passes it to <see cref="OnChannelMessage(ChannelMessage, Variables)" />
+		///     Recieves incoming data, parses it, and passes it to <see cref="OnChannelMessage(ChannelMessage, PropertyReference)" />
 		/// </summary>
 		public void Runtime() {
 			string data;
@@ -162,19 +167,17 @@ namespace Eve {
 				InitializeConnections();
 				return;
 			}
-	
+
 			ChannelMessage c = new ChannelMessage(data);
 			if (c.Type.Equals(IrcProtocol.Pong)) {
-				SendData(_outDataWriter, c.Type, c.Message);
+				SendData(_streamWriter, c.Type, c.Message);
 				return;
 			}
 
 			if (c.Nickname.Equals(_config.Nickname)) return;
 
 			// Write data to console & log in a readable format
-			Console.WriteLine(c.Type.Equals(IrcProtocol.Privmsg)
-				? $"[{c.Recipient}]({c.Time.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}"
-				: data);
+			Console.WriteLine(c.Type.Equals(IrcProtocol.Privmsg) ? $"[{c.Recipient}]({c.Time.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}" : data);
 			_log.WriteLine($"({DateTime.Now}) {data}");
 			_log.Flush();
 
@@ -191,16 +194,16 @@ namespace Eve {
 					Seen = DateTime.UtcNow,
 					Attempts = 0
 				});
-				
+
 			OnChannelMessage(c, V);
 		}
 	}
 
 	internal class Program {
 		private static IrcBot _bot;
+		public static IrcConfig Config;
 
 		public static bool ShouldRun { get; set; } = true;
-		public static IrcConfig Config;
 
 		private static void ParseAndDo(object sender, DoWorkEventArgs e) {
 			while (ShouldRun)
@@ -208,7 +211,7 @@ namespace Eve {
 		}
 
 		private static void Main() {
-			Config = Utils.CheckConfigExistsAndReturn();
+			Config = Utilities.CheckConfigExistsAndReturn();
 			Console.WriteLine("||| Configuration file loaded.");
 
 			try {
@@ -218,18 +221,15 @@ namespace Eve {
 			}
 			_bot.InitializeConnections();
 
-			BackgroundWorker backgroundDataParser = new BackgroundWorker();
-			backgroundDataParser.DoWork += ParseAndDo;
-			backgroundDataParser.RunWorkerAsync();
+			//BackgroundWorker backgroundDataParser = new BackgroundWorker();
+			//backgroundDataParser.DoWork += ParseAndDo;
+			//backgroundDataParser.RunWorkerAsync();
 
 			while (ShouldRun) {
-				string command = Console.ReadLine();
+				_bot.Runtime();
 
-				if (!string.IsNullOrEmpty(command)
-					&& command.ToLower().Equals("quit"))
-					ShouldRun = false;
+				//string command = Console.ReadLine();
 			}
-
 			Console.WriteLine("||| Bot has shutdown.");
 			Console.ReadLine();
 		}

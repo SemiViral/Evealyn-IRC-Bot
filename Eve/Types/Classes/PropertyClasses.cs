@@ -31,7 +31,7 @@ namespace Eve.Types.Classes {
 	}
 
 	public class IrcConfig {
-		public List<string> IgnoreList { get; set; }
+		public List<string> IgnoreList { get; set; } = new List<string>();
 
 		public bool Joined { get; set; }
 		public bool Identified { get; set; }

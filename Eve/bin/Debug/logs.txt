@@ -23,3 +23,1934 @@
 (1/21/2016 5:11:58 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
 (1/21/2016 5:12:47 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
 (1/21/2016 5:13:29 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 4:27:31 AM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:4422:d60b:9060:e4c0
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 002 Eve :Your host is anchor.foonetic.net, running version Unreal3.2.10.1
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 003 Eve :This server was created Sat Jun 1 2013 at 14:02:40 PDT
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 004 Eve anchor.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 251 Eve :There are 416 users and 873 invisible on 7 servers
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 252 Eve 15 :operator(s) online
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 254 Eve 427 :channels formed
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 255 Eve :I have 259 clients and 1 servers
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 265 Eve 259 649 :Current local users 259, max 649
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 266 Eve 1289 1910 :Current global users 1289, max 1910
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 375 Eve :- anchor.foonetic.net Message of the Day - 
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :- 17/6/2014 17:14
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-      __                        _   _
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ anchor.foonetic.net
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-             London, England, UK
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-                 #help
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:04:29 PM) :anchor.foonetic.net 376 Eve :End of /MOTD command.
+(1/23/2016 5:04:29 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- anchor.foonetic.net Bot Message of the Day - 
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |      spam the network.
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :- ^
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net 353 Eve = #testgrounds :Eve @ChanServ ~SemiViral 
+(1/23/2016 5:04:30 PM) :anchor.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/23/2016 5:04:30 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/23/2016 5:04:30 PM) :NickServ MODE Eve :+r
+(1/23/2016 5:07:04 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:08:58 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+                                                                                          (1/23/2016 5:08:58 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+                                                                                          (1/23/2016 5:09:40 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:09:40 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:10:13 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:10:53 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:11:29 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:21:28 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:21:29 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:27:52 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:27:53 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:30:22 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:30:22 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:38:56 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:38:56 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:4422:d60b:9060:e4c0
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 002 Eve :Your host is anchor.foonetic.net, running version Unreal3.2.10.1
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 003 Eve :This server was created Sat Jun 1 2013 at 14:02:40 PDT
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 004 Eve anchor.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 251 Eve :There are 416 users and 877 invisible on 7 servers
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 252 Eve 15 :operator(s) online
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 254 Eve 428 :channels formed
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 255 Eve :I have 262 clients and 1 servers
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 265 Eve 262 649 :Current local users 262, max 649
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 266 Eve 1293 1910 :Current global users 1293, max 1910
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 375 Eve :- anchor.foonetic.net Message of the Day - 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :- 17/6/2014 17:14
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-      __                        _   _
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ anchor.foonetic.net
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-             London, England, UK
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-                 #help
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 376 Eve :End of /MOTD command.
+(1/23/2016 5:38:57 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/23/2016 5:38:57 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/23/2016 5:38:57 PM) :NickServ MODE Eve :+r
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- anchor.foonetic.net Bot Message of the Day - 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |      spam the network.
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :- ^
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 353 Eve = #testgrounds :Eve @ChanServ ~SemiViral 
+(1/23/2016 5:38:57 PM) :anchor.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/23/2016 5:40:11 PM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP JOIN :#testgrounds
+(1/23/2016 5:40:15 PM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/23/2016 5:42:15 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:42:52 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:43:13 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:45:13 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:45:29 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:45:29 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:4422:d60b:9060:e4c0
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 002 Eve :Your host is anchor.foonetic.net, running version Unreal3.2.10.1
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 003 Eve :This server was created Sat Jun 1 2013 at 14:02:40 PDT
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 004 Eve anchor.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 251 Eve :There are 417 users and 875 invisible on 7 servers
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 252 Eve 15 :operator(s) online
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 254 Eve 427 :channels formed
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 255 Eve :I have 265 clients and 1 servers
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 265 Eve 265 649 :Current local users 265, max 649
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 266 Eve 1292 1910 :Current global users 1292, max 1910
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 375 Eve :- anchor.foonetic.net Message of the Day - 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :- 17/6/2014 17:14
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-      __                        _   _
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ anchor.foonetic.net
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-             London, England, UK
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-                 #help
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 376 Eve :End of /MOTD command.
+(1/23/2016 5:45:31 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/23/2016 5:45:31 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/23/2016 5:45:31 PM) :NickServ MODE Eve :+r
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- anchor.foonetic.net Bot Message of the Day - 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |      spam the network.
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :- ^
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/23/2016 5:45:31 PM) :anchor.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/23/2016 5:45:38 PM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/23/2016 5:46:32 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:46:51 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:47:50 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:47:50 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:4422:d60b:9060:e4c0
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 002 Eve :Your host is anchor.foonetic.net, running version Unreal3.2.10.1
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 003 Eve :This server was created Sat Jun 1 2013 at 14:02:40 PDT
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 004 Eve anchor.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 251 Eve :There are 419 users and 873 invisible on 7 servers
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 252 Eve 15 :operator(s) online
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 254 Eve 427 :channels formed
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 255 Eve :I have 265 clients and 1 servers
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 265 Eve 265 649 :Current local users 265, max 649
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 266 Eve 1292 1910 :Current global users 1292, max 1910
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 375 Eve :- anchor.foonetic.net Message of the Day - 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :- 17/6/2014 17:14
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-      __                        _   _
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ anchor.foonetic.net
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-             London, England, UK
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-                 #help
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 376 Eve :End of /MOTD command.
+(1/23/2016 5:47:51 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/23/2016 5:47:51 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/23/2016 5:47:51 PM) :NickServ MODE Eve :+r
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- anchor.foonetic.net Bot Message of the Day - 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |      spam the network.
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :- ^
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/23/2016 5:47:51 PM) :anchor.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/23/2016 5:48:05 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:48:05 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:4422:d60b:9060:e4c0
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 002 Eve :Your host is anchor.foonetic.net, running version Unreal3.2.10.1
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 003 Eve :This server was created Sat Jun 1 2013 at 14:02:40 PDT
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 004 Eve anchor.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 251 Eve :There are 419 users and 873 invisible on 7 servers
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 252 Eve 15 :operator(s) online
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 254 Eve 427 :channels formed
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 255 Eve :I have 265 clients and 1 servers
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 265 Eve 265 649 :Current local users 265, max 649
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 266 Eve 1292 1910 :Current global users 1292, max 1910
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 375 Eve :- anchor.foonetic.net Message of the Day - 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :- 17/6/2014 17:14
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-      __                        _   _
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ anchor.foonetic.net
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-             London, England, UK
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-                 #help
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 376 Eve :End of /MOTD command.
+(1/23/2016 5:48:06 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/23/2016 5:48:06 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/23/2016 5:48:06 PM) :NickServ MODE Eve :+r
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- anchor.foonetic.net Bot Message of the Day - 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |      spam the network.
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :- ^
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/23/2016 5:48:06 PM) :anchor.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/23/2016 5:48:09 PM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/23/2016 5:49:09 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 5:49:09 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:4422:d60b:9060:e4c0
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 002 Eve :Your host is anchor.foonetic.net, running version Unreal3.2.10.1
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 003 Eve :This server was created Sat Jun 1 2013 at 14:02:40 PDT
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 004 Eve anchor.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 251 Eve :There are 418 users and 873 invisible on 7 servers
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 252 Eve 15 :operator(s) online
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 254 Eve 425 :channels formed
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 255 Eve :I have 264 clients and 1 servers
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 265 Eve 264 649 :Current local users 264, max 649
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 266 Eve 1291 1910 :Current global users 1291, max 1910
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 375 Eve :- anchor.foonetic.net Message of the Day - 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :- 17/6/2014 17:14
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-      __                        _   _
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ anchor.foonetic.net
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-             London, England, UK
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-                 #help
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 376 Eve :End of /MOTD command.
+(1/23/2016 5:49:10 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/23/2016 5:49:10 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/23/2016 5:49:10 PM) :NickServ MODE Eve :+r
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- anchor.foonetic.net Bot Message of the Day - 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |      spam the network.
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :- ^
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/23/2016 5:49:10 PM) :anchor.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/23/2016 5:49:13 PM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/23/2016 7:18:56 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 7:19:54 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 7:23:21 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 7:25:04 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 7:25:04 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 451 PRIVMSG :You have not registered
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 451 PRIVMSG :You have not registered
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:4422:d60b:9060:e4c0
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 002 Eve :Your host is anchor.foonetic.net, running version Unreal3.2.10.1
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 003 Eve :This server was created Sat Jun 1 2013 at 14:02:40 PDT
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 004 Eve anchor.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 251 Eve :There are 414 users and 871 invisible on 7 servers
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 252 Eve 15 :operator(s) online
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 254 Eve 430 :channels formed
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 255 Eve :I have 263 clients and 1 servers
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 265 Eve 263 649 :Current local users 263, max 649
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 266 Eve 1285 1910 :Current global users 1285, max 1910
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 375 Eve :- anchor.foonetic.net Message of the Day - 
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :- 17/6/2014 17:14
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-      __                        _   _
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ anchor.foonetic.net
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-             London, England, UK
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-                 #help
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 376 Eve :End of /MOTD command.
+(1/23/2016 7:25:05 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:05 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:06 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:06 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:09 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:09 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:11 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:11 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:12 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:13 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:13 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:15 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:16 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:17 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:17 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:19 PM) :anchor.foonetic.net 401 Eve Invalid :No such nick/channel
+(1/23/2016 7:25:37 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 7:25:38 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:4422:d60b:9060:e4c0
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 002 Eve :Your host is anchor.foonetic.net, running version Unreal3.2.10.1
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 003 Eve :This server was created Sat Jun 1 2013 at 14:02:40 PDT
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 004 Eve anchor.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 251 Eve :There are 414 users and 871 invisible on 7 servers
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 252 Eve 15 :operator(s) online
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 254 Eve 430 :channels formed
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 255 Eve :I have 263 clients and 1 servers
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 265 Eve 263 649 :Current local users 263, max 649
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 266 Eve 1285 1910 :Current global users 1285, max 1910
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 375 Eve :- anchor.foonetic.net Message of the Day - 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :- 17/6/2014 17:14
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-      __                        _   _
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ anchor.foonetic.net
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-             London, England, UK
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-                 #help
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 376 Eve :End of /MOTD command.
+(1/23/2016 7:25:39 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/23/2016 7:25:39 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/23/2016 7:25:39 PM) :NickServ MODE Eve :+r
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- anchor.foonetic.net Bot Message of the Day - 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |      spam the network.
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :- ^
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/23/2016 7:25:39 PM) :anchor.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/23/2016 7:25:43 PM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/23/2016 7:27:24 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 7:27:24 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:4422:d60b:9060:e4c0
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 002 Eve :Your host is anchor.foonetic.net, running version Unreal3.2.10.1
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 003 Eve :This server was created Sat Jun 1 2013 at 14:02:40 PDT
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 004 Eve anchor.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 251 Eve :There are 414 users and 874 invisible on 7 servers
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 252 Eve 15 :operator(s) online
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 254 Eve 430 :channels formed
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 255 Eve :I have 262 clients and 1 servers
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 265 Eve 262 649 :Current local users 262, max 649
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 266 Eve 1288 1910 :Current global users 1288, max 1910
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 375 Eve :- anchor.foonetic.net Message of the Day - 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :- 17/6/2014 17:14
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-      __                        _   _
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ anchor.foonetic.net
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-             London, England, UK
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-                 #help
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 376 Eve :End of /MOTD command.
+(1/23/2016 7:27:25 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/23/2016 7:27:25 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/23/2016 7:27:25 PM) :NickServ MODE Eve :+r
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- anchor.foonetic.net Bot Message of the Day - 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |      spam the network.
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :- ^
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/23/2016 7:27:25 PM) :anchor.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/23/2016 7:27:27 PM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/23/2016 7:28:50 PM) :anchor.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:4422:d60b:9060:e4c0
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 002 Eve :Your host is anchor.foonetic.net, running version Unreal3.2.10.1
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 003 Eve :This server was created Sat Jun 1 2013 at 14:02:40 PDT
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 004 Eve anchor.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 251 Eve :There are 414 users and 875 invisible on 7 servers
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 252 Eve 15 :operator(s) online
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 254 Eve 431 :channels formed
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 255 Eve :I have 262 clients and 1 servers
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 265 Eve 262 649 :Current local users 262, max 649
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 266 Eve 1289 1910 :Current global users 1289, max 1910
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 375 Eve :- anchor.foonetic.net Message of the Day - 
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :- 17/6/2014 17:14
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-      __                        _   _
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ anchor.foonetic.net
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-             London, England, UK
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-                 #help
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 372 Eve :- 
+(1/23/2016 7:28:51 PM) :anchor.foonetic.net 376 Eve :End of /MOTD command.
+(1/23/2016 7:28:51 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/23/2016 7:28:52 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/23/2016 7:28:52 PM) :NickServ MODE Eve :+r
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- anchor.foonetic.net Bot Message of the Day - 
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |      spam the network.
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :- ^
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/23/2016 7:28:52 PM) :anchor.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/23/2016 7:29:01 PM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/26/2016 3:19:45 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 251 Eve :There are 370 users and 813 invisible on 7 servers
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 254 Eve 397 :channels formed
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 255 Eve :I have 160 clients and 1 servers
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 265 Eve 160 658 :Current local users 160, max 658
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 266 Eve 1183 1910 :Current global users 1183, max 1910
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:19:46 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:19:46 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:19:46 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:19:46 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:19:46 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:19:55 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/26/2016 3:22:32 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 251 Eve :There are 372 users and 813 invisible on 7 servers
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 254 Eve 398 :channels formed
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 255 Eve :I have 160 clients and 1 servers
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 265 Eve 160 658 :Current local users 160, max 658
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 266 Eve 1185 1910 :Current global users 1185, max 1910
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:22:33 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:22:33 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:22:33 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:22:33 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:22:33 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:22:38 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/26/2016 3:23:14 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:23:14 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 251 Eve :There are 371 users and 814 invisible on 7 servers
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 254 Eve 399 :channels formed
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 255 Eve :I have 160 clients and 1 servers
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 265 Eve 160 658 :Current local users 160, max 658
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 266 Eve 1185 1910 :Current global users 1185, max 1910
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:23:15 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:23:15 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:23:15 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:23:15 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:23:15 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:23:17 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, eval 2+2
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 251 Eve :There are 371 users and 814 invisible on 7 servers
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 254 Eve 399 :channels formed
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 255 Eve :I have 160 clients and 1 servers
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 265 Eve 160 658 :Current local users 160, max 658
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 266 Eve 1185 1910 :Current global users 1185, max 1910
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:23:54 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:23:54 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:23:54 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:23:54 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:54 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:23:55 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:23:55 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:23:55 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:23:58 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, modules
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 251 Eve :There are 370 users and 815 invisible on 7 servers
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 254 Eve 397 :channels formed
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 255 Eve :I have 160 clients and 1 servers
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 265 Eve 160 658 :Current local users 160, max 658
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 266 Eve 1185 1910 :Current global users 1185, max 1910
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:26:31 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:26:31 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:26:31 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:26:31 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:26:31 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:26:35 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, modules
+(1/26/2016 3:27:27 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:27:27 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 251 Eve :There are 371 users and 816 invisible on 7 servers
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 254 Eve 398 :channels formed
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 255 Eve :I have 162 clients and 1 servers
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 265 Eve 162 658 :Current local users 162, max 658
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 266 Eve 1187 1910 :Current global users 1187, max 1910
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:27:28 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:27:28 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:27:28 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:27:28 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:27:28 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:27:31 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, modules
+(1/26/2016 3:31:02 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:31:02 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 251 Eve :There are 371 users and 816 invisible on 7 servers
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 254 Eve 398 :channels formed
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 255 Eve :I have 163 clients and 1 servers
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 265 Eve 163 658 :Current local users 163, max 658
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 266 Eve 1187 1910 :Current global users 1187, max 1910
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:31:03 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:31:03 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:31:03 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:31:03 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:31:03 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:31:05 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, modules
+(1/26/2016 3:33:09 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 251 Eve :There are 370 users and 815 invisible on 7 servers
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 254 Eve 397 :channels formed
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 255 Eve :I have 161 clients and 1 servers
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 265 Eve 161 658 :Current local users 161, max 658
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 266 Eve 1185 1910 :Current global users 1185, max 1910
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:33:10 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:33:10 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:33:10 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:33:10 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:33:10 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:39:00 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:39:00 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 251 Eve :There are 370 users and 817 invisible on 7 servers
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 254 Eve 397 :channels formed
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 255 Eve :I have 162 clients and 1 servers
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 265 Eve 162 658 :Current local users 162, max 658
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 266 Eve 1187 1910 :Current global users 1187, max 1910
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:39:00 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:39:01 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:39:01 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:39:01 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:39:01 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:39:01 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:39:04 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/26/2016 3:43:57 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:43:57 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 251 Eve :There are 370 users and 814 invisible on 7 servers
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 254 Eve 398 :channels formed
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 255 Eve :I have 162 clients and 1 servers
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 265 Eve 162 658 :Current local users 162, max 658
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 266 Eve 1184 1910 :Current global users 1184, max 1910
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:43:58 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:43:58 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:43:58 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:43:58 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:43:58 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:44:05 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/26/2016 3:44:33 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:44:34 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 251 Eve :There are 370 users and 813 invisible on 7 servers
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 254 Eve 398 :channels formed
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 255 Eve :I have 162 clients and 1 servers
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 265 Eve 162 658 :Current local users 162, max 658
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 266 Eve 1183 1910 :Current global users 1183, max 1910
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:44:34 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:44:34 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:44:34 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:44:34 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:44:35 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:44:35 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:44:35 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:44:37 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/26/2016 3:45:36 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:45:36 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 251 Eve :There are 369 users and 813 invisible on 7 servers
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 254 Eve 397 :channels formed
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 255 Eve :I have 162 clients and 1 servers
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 265 Eve 162 658 :Current local users 162, max 658
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 266 Eve 1182 1910 :Current global users 1182, max 1910
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:45:36 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:45:37 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:45:37 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:45:37 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:45:37 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:45:37 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:45:39 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/26/2016 3:48:43 AM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/26/2016 3:48:43 AM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 251 Eve :There are 369 users and 812 invisible on 7 servers
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 254 Eve 398 :channels formed
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 255 Eve :I have 161 clients and 1 servers
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 265 Eve 161 658 :Current local users 161, max 658
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 266 Eve 1181 1910 :Current global users 1181, max 1910
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-                 #help
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 372 Eve :- 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/26/2016 3:48:44 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/26/2016 3:48:44 AM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/26/2016 3:48:44 AM) :NickServ MODE Eve :+r
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :- ^
+(1/26/2016 3:48:44 AM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/26/2016 3:48:44 AM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/26/2016 3:48:45 AM) :Kinz!semiviral@B3AAF126:3139C65F:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 251 Eve :There are 459 users and 850 invisible on 7 servers
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 254 Eve 411 :channels formed
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 255 Eve :I have 204 clients and 2 servers
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 265 Eve 204 658 :Current local users 204, max 658
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 266 Eve 1309 1910 :Current global users 1309, max 1910
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-                 #help
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:14:24 PM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/28/2016 3:14:24 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/28/2016 3:14:24 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/28/2016 3:14:24 PM) :NickServ MODE Eve :+r
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/28/2016 3:14:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :- ^
+(1/28/2016 3:14:25 PM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/28/2016 3:14:25 PM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/28/2016 3:14:25 PM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/28/2016 3:14:30 PM) :Kinz!semiviral@98B45196:6440D643:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/28/2016 3:31:31 PM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/28/2016 3:31:31 PM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 251 Eve :There are 460 users and 847 invisible on 7 servers
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 254 Eve 408 :channels formed
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 255 Eve :I have 205 clients and 2 servers
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 265 Eve 205 658 :Current local users 205, max 658
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 266 Eve 1307 1910 :Current global users 1307, max 1910
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-                 #help
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/28/2016 3:31:32 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/28/2016 3:31:32 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/28/2016 3:31:32 PM) :NickServ MODE Eve :+r
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :- ^
+(1/28/2016 3:31:32 PM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/28/2016 3:31:32 PM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/28/2016 3:31:38 PM) :Kinz!semiviral@98B45196:6440D643:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/28/2016 3:32:14 PM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/28/2016 3:32:14 PM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 251 Eve :There are 461 users and 846 invisible on 7 servers
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 254 Eve 408 :channels formed
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 255 Eve :I have 205 clients and 2 servers
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 265 Eve 205 658 :Current local users 205, max 658
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 266 Eve 1307 1910 :Current global users 1307, max 1910
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:32:14 PM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :-                 #help
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/28/2016 3:32:15 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/28/2016 3:32:15 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/28/2016 3:32:15 PM) :NickServ MODE Eve :+r
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :- ^
+(1/28/2016 3:32:15 PM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/28/2016 3:32:15 PM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/28/2016 3:32:16 PM) :Kinz!semiviral@98B45196:6440D643:78E7B430:IP PRIVMSG #testgrounds :eve, channels
+(1/28/2016 3:34:23 PM) :belay.foonetic.net NOTICE AUTH :*** Looking up your hostname...
+(1/28/2016 3:34:23 PM) :belay.foonetic.net NOTICE AUTH :*** Couldn't resolve your hostname; using your IP address instead
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 001 Eve :Welcome to the Foonetic IRC Network Eve!Eve@2602:302:d11c:9670:695c:f293:13d4:9d0d
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 002 Eve :Your host is belay.foonetic.net, running version Unreal3.2.10.1
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 003 Eve :This server was created Wed May 29 2013 at 13:48:19 EDT
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 004 Eve belay.foonetic.net Unreal3.2.10.1 iowghraAsORTVSxNCWqBzvdHtGpI lvhopsmntikrRcaqOALQbSeIKVfMCuzNTGjZ
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 005 Eve UHNAMES NAMESX SAFELIST HCN MAXCHANNELS=40 CHANLIMIT=#:40 MAXLIST=b:600,e:600,I:600 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 AWAYLEN=307 MAXTARGETS=20 :are supported by this server
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 005 Eve WALLCHOPS WATCH=128 WATCHOPTS=A SILENCE=15 MODES=12 CHANTYPES=# PREFIX=(qaohv)~&@%+ CHANMODES=beI,kfL,lj,psmntirRcOAQKVCuzNSMTGZ NETWORK=Foonetic CASEMAPPING=ascii EXTBAN=~,qjncrRa ELIST=MNUCT STATUSMSG=~&@%+ :are supported by this server
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 005 Eve EXCEPTS INVEX CMDS=KNOCK,MAP,DCCALLOW,USERIP,STARTTLS :are supported by this server
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 251 Eve :There are 459 users and 847 invisible on 7 servers
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 252 Eve 15 :operator(s) online
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 254 Eve 409 :channels formed
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 255 Eve :I have 205 clients and 2 servers
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 265 Eve 205 658 :Current local users 205, max 658
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 266 Eve 1306 1910 :Current global users 1306, max 1910
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 375 Eve :- belay.foonetic.net Message of the Day - 
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :- 17/6/2014 17:13
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-      __                        _   _
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-     / _| ___   ___  _ __   ___| |_(_) ___
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-    | |_ / _ \ / _ \| '_ \ / _ \ __| |/ __|
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-    |  _| (_) | (_) | | | |  __/ |_| | (__
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-    |_|  \___/ \___/|_| |_|\___|\__|_|\___|
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-  Welcome to Foonetic IRC @ belay.foonetic.net
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-             Newark, NJ, USA
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-        Server Administrator:   zigdon
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-            http://foonetic.net/
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-        To get help or find IRCops:
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-                 #help
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-        Random server: irc.foonetic.net
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-        To see the rules, type /quote rules
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-        Port: 80 (ipv4), 6667, 6668, 6669, 7000
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :-        SSL Ports: 443 (ipv4), 6697, 7001
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 372 Eve :- 
+(1/28/2016 3:34:23 PM) :belay.foonetic.net 376 Eve :End of /MOTD command.
+(1/28/2016 3:34:24 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :This nickname is registered. Please choose a different nickname, or identify via /msg NickServ identify <password>.
+(1/28/2016 3:34:24 PM) :NickServ!NickServ@services.foonetic.net NOTICE Eve :You are now identified for Eve.
+(1/28/2016 3:34:24 PM) :NickServ MODE Eve :+r
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- belay.foonetic.net Bot Message of the Day - 
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- +--------------------------------------------------------->
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |               Domo Arigato, Mr. Roboto...
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |  You've marked yourself as a bot, thank you.
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |  Please keep the following in mind:
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |    - Make sure your bot cannot be abused or exploited to
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |      spam the network.
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |    - Please put the nick of the bot operator or an
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |      identifying website in the Real Name information.
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |      This will help us find you if your bot goes crazy.
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |    - Do not bring bots into channels without permission
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |      from the channel operators.
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |    - Bots used for malicious purposes will be banned
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |      along with their operator.
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- |    - Come to #help if you have any questions.
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :- ^
+(1/28/2016 3:34:24 PM) :belay.foonetic.net NOTICE Eve :End of /BOTMOTD command.
+(1/28/2016 3:34:24 PM) :belay.foonetic.net 353 Eve = #testgrounds :Eve Kinz @ChanServ ~SemiViral 
+(1/28/2016 3:34:24 PM) :belay.foonetic.net 366 Eve #testgrounds :End of /NAMES list.
+(1/28/2016 3:34:30 PM) :Kinz!semiviral@98B45196:6440D643:78E7B430:IP PRIVMSG #testgrounds :eve, channels

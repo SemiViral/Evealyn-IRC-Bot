@@ -5,21 +5,26 @@ using System.Text.RegularExpressions;
 using Eve.Types.Irc;
 
 namespace Eve.Types.Classes {
-	public class ChannelMessage {
+	internal class ReadonlyVars {
+		// Useless regex for now
+		// private readonly Regex _argMessageRegex = new Regex(@"^:(?<Arg1>[^\s]+)\s(?<Arg2>[^\s]+)\s(?<Arg3>[^\s]+)\s?:?(?<Arg4>.*)", RegexOptions.Compiled);
+
 		// Regex for parsing raw message
-		private readonly Regex _messageRegex =
+		public static readonly Regex MessageRegex =
 			new Regex(@"^:(?<Sender>[^\s]+)\s(?<Type>[^\s]+)\s(?<Recipient>[^\s]+)\s?:?(?<Args>.*)", RegexOptions.Compiled);
 
-		private readonly Regex _pingRegex = new Regex(@"^PING :(?<Message>.+)", RegexOptions.None);
-		// private readonly Regex _argMessageRegex = new Regex(@"^:(?<Arg1>[^\s]+)\s(?<Arg2>[^\s]+)\s(?<Arg3>[^\s]+)\s?:?(?<Arg4>.*)", RegexOptions.Compiled);
-		private readonly Regex _senderRegex = new Regex(@"^(?<Nickname>[^\s]+)!(?<Realname>[^\s]+)@(?<Hostname>[^\s]+)",
+		public static readonly Regex PingRegex = new Regex(@"^PING :(?<Message>.+)", RegexOptions.None);
+
+		public static readonly Regex SenderRegex = new Regex(@"^(?<Nickname>[^\s]+)!(?<Realname>[^\s]+)@(?<Hostname>[^\s]+)",
 			RegexOptions.Compiled);
 
-		private readonly string[] _shortIgnoreList = {
+		public static readonly string[] ShortIgnoreList = {
 			"nickserv",
 			"chanserv"
 		};
+	}
 
+	public class ChannelMessage {
 		public ChannelMessage(string rawData) {
 			RawMessage = rawData;
 			ParseMessage(RawMessage);
@@ -38,28 +43,28 @@ namespace Eve.Types.Classes {
 		public string Hostname { get; private set; }
 		public string Recipient { get; private set; }
 		public string Args { get; private set; }
-		public List<string> _Args { get; private set; }
+		public List<string> _Args { get; private set; } = new List<string>();
 		public string Type { get; set; }
 
 		// Response variables
 		public string Target { get; set; }
 		public string Message { get; set; }
-		public List<string> MultiMessage { get; set; }
-		public ExitType ExitType { get; set; }
+		public List<string> MultiMessage { get; set; } = new List<string>();
+		public ExitType ExitType { get; set; } = ExitType.DoNotExit;
 
 		public void ParseMessage(string rawData) {
-			if (_pingRegex.IsMatch(RawMessage)) {
+			if (ReadonlyVars.PingRegex.IsMatch(rawData)) {
 				Type = IrcProtocol.Pong;
-				Message = _pingRegex.Match(RawMessage).Groups["Message"].Value;
-				Console.Write("Ping ... ");
+				Message = rawData.Replace("PING", "PONG");
 				return;
 			}
 
-			if (!_messageRegex.IsMatch(rawData)) return;
+			if (!ReadonlyVars.MessageRegex.IsMatch(rawData)) return;
 
-			Match mVal = _messageRegex.Match(rawData);
+			// begin parsing message into sections
+			Match mVal = ReadonlyVars.MessageRegex.Match(rawData);
 			string mSender = mVal.Groups["Sender"].Value;
-			Match sMatch = _senderRegex.Match(mSender);
+			Match sMatch = ReadonlyVars.SenderRegex.Match(mSender);
 
 			// class property setting
 			Nickname = mSender;
@@ -84,7 +89,7 @@ namespace Eve.Types.Classes {
 			Realname = realname.StartsWith("~") ? realname.Substring(1) : realname;
 			Hostname = sMatch.Groups["Hostname"].Value;
 
-			SenderIdentifiable = !_shortIgnoreList.Contains(Realname.ToLower());
+			SenderIdentifiable = !ReadonlyVars.ShortIgnoreList.Contains(Realname.ToLower());
 		}
 
 		public void Reset(string target = null) {

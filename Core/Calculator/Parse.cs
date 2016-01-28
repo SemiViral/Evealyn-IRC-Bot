@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using Eve.Types.Classes;
 
@@ -152,14 +151,11 @@ namespace Eve.Core.Calculator {
 		}
 
 		private void TryInsertMultiply() {
-			if (!Token.IsBinary(_token)
-				&&
-				!Token.IsSpecial(_token)
-				&&
-				!Token.IsRightSide(_token)) {
-				PushOperator(Token.Multiply);
-				ParsePrimary();
-			}
+			if (Token.IsBinary(_token) ||
+				Token.IsSpecial(_token) ||
+				Token.IsRightSide(_token)) return;
+			PushOperator(Token.Multiply);
+			ParsePrimary();
 		}
 
 		private void TryRightSideOperator() {

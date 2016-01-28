@@ -104,6 +104,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IrcBot.cs" />
     <Compile Include="Types\Irc\IrcModes.cs" />
     <Compile Include="Types\Irc\Protocols.cs" />
     <Compile Include="Program.cs" />

@@ -7,79 +7,12 @@ using Eve.Types.Classes;
 using Eve.Types.Irc;
 
 namespace Eve.Core {
-	public class Core : Utilities, IModule {
-		public Dictionary<string, string> Def => null;
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
-			switch (c.Type) {
-				case IrcProtocol.Nick:
-					c.ExitType = ExitType.Exit;
-
-					using (
-						SQLiteCommand com =
-							new SQLiteCommand($"UPDATE users SET nickname='{c.Recipient}' WHERE realname='{c.Realname}'", v.Db))
-						com.ExecuteNonQuery();
-					break;
-				case IrcProtocol.Join:
-					c.ExitType = ExitType.Exit;
-
-					if (v.QueryName(c.Realname) != null
-						&&
-						v.CurrentUser.Messages != null) {
-						c.Target = c.Nickname;
-
-						foreach (Message m in v.CurrentUser.Messages)
-							c.MultiMessage.Add($"({m.Date}) {m.Sender}: {Regex.Unescape(m.Contents)}");
-
-						v.Users.First(e => e.Realname == c.Realname).Messages = null;
-
-						using (SQLiteCommand x = new SQLiteCommand($"DELETE FROM messages WHERE id={v.CurrentUser.Id}", v.Db))
-							x.ExecuteNonQuery();
-					}
-
-					AddUserToChannel(c.Recipient, c.Realname, v);
-					break;
-				case IrcProtocol.Part:
-					c.ExitType = ExitType.Exit;
-					RemoveUserFromChannel(c.Recipient, c.Realname, v);
-					break;
-				case IrcProtocol.NameReply:
-					c.ExitType = ExitType.Exit;
-
-					// splits the channel user list in half by the :, then splits each user into an array object to be iterated
-					foreach (string s in c.Args.Split(':')[1].Split(' '))
-						AddUserToChannel(c.Recipient, s, v);
-					break;
-				default:
-					if (!c._Args[0].Replace(",", string.Empty).CaseEquals("eve")
-						||
-						v.IgnoreList.Contains(c.Realname)
-						||
-						GetUserTimeout(c.Realname, v)) {
-						c.ExitType = ExitType.Exit;
-						return c;
-					}
-
-					if (c._Args.Count < 2) {
-						c.ExitType = ExitType.MessageAndExit;
-						c.Message = "Please provide a command. Type 'eve help' to view my command list.";
-					} else if (!v.Commands.ContainsKey(c._Args[1].ToLower())) {
-						c.ExitType = ExitType.MessageAndExit;
-						c.Message = "Invalid command. Type 'eve help' to view my command list.";
-					}
-					break;
-			}
-
-			return c;
-		}
-	}
-
 	public class Join : IModule {
 		public Dictionary<string, string> Def => new Dictionary<string, string> {
 			["join"] = "(<channel>) — joins specified channel."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (!c._Args[1].CaseEquals("join"))
 				return null;
 
@@ -109,7 +42,7 @@ namespace Eve.Core {
 			["part"] = "(<channel> *<message>) — parts from specified channel."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (!c._Args[1].CaseEquals("part"))
 				return null;
 
@@ -141,7 +74,7 @@ namespace Eve.Core {
 			["say"] = "(*<channel> <message>) — returns specified message to (optionally) specified channel."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (!c._Args[1].CaseEquals("say"))
 				return null;
 
@@ -168,7 +101,8 @@ namespace Eve.Core {
 			["channels"] = "ouputs a list of channels currently connected to."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+			Console.WriteLine("zlkoxdfsd1f");
 			if (!c._Args[1].CaseEquals("channels"))
 				return null;
 
@@ -183,7 +117,7 @@ namespace Eve.Core {
 				"(<recipient> <message>) — saves message to be sent to specified recipient upon their rejoining a channel."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (!c._Args[1].CaseEquals("message"))
 				return null;
 
@@ -195,8 +129,10 @@ namespace Eve.Core {
 			else if (v.QueryName(c._Args[2]) == null)
 				c.Message = "User does not exist in database.";
 
-			if (!string.IsNullOrEmpty(c.Message))
+			if (!string.IsNullOrEmpty(c.Message)) {
+				c.ExitType = ExitType.MessageAndExit;
 				return c;
+			}
 
 			string who = Regex.Escape(c._Args[2]);
 			Message m = new Message {
@@ -212,14 +148,20 @@ namespace Eve.Core {
 			else
 				v.Users.First(e => e.Realname == who).Messages.Add(m);
 
-			using (
-				SQLiteCommand x =
-					new SQLiteCommand(
-						$"INSERT INTO messages VALUES ({v.QueryName(who).Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')",
-						v.Db))
-				x.ExecuteNonQuery();
-
 			c.Message = $"Message recorded and will be sent to {who}";
+
+			try {
+				//using (
+				//	SQLiteCommand x =
+				//		new SQLiteCommand(
+				//			$"INSERT INTO messages VALUES ({v.QueryName(who).Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')",
+				//			v.Db))
+				//	x.ExecuteNonQuery();
+			} catch (Exception e) {
+				Console.WriteLine($"Error occured attepting to add message to database: {e}");
+				c.Message = "Error occured attempting to save message.";
+			}
+
 			return c;
 		}
 	}
@@ -229,12 +171,11 @@ namespace Eve.Core {
 			["help"] = "(*<command>) — prints the definition index for specified command."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (!c._Args[1].CaseEquals("help"))
 				return null;
 
-			if (c._Args.Count > 2
-				&&
+			if (c._Args.Count > 2 &&
 				!v.Commands.ContainsKey(c._Args[2])) {
 				c.Message = "Command does not exist.";
 				return c;
@@ -253,7 +194,7 @@ namespace Eve.Core {
 			["user"] = "(<user>) — returns stored nickname and access level of specified user."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (c._Args[1] != "user")
 				return null;
 
@@ -278,7 +219,7 @@ namespace Eve.Core {
 			["seen"] = "(<user>) — returns a DateTime of the last message by user in any channel."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (!c._Args[1].CaseEquals("seen"))
 				return null;
 
@@ -304,7 +245,7 @@ namespace Eve.Core {
 			["setaccess"] = "(<user> <new access>) — updates specified user's access level."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (!c._Args[1].CaseEquals("setaccess"))
 				return null;
 
@@ -341,7 +282,7 @@ namespace Eve.Core {
 			["about"] = "returns general information about Evealyn IRCBot."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (!c._Args[1].CaseEquals("about"))
 				return null;
 
@@ -355,7 +296,7 @@ namespace Eve.Core {
 			["modules"] = "returns a list of all currently active modules."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (c._Args[1] != "modules")
 				return null;
 
@@ -369,7 +310,7 @@ namespace Eve.Core {
 			["reload"] = "(<module>) — reloads specified module."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (!c._Args[1].CaseEquals("reload"))
 				return null;
 
@@ -394,7 +335,7 @@ namespace Eve.Core {
 			["quit"] = "ends program's execution."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) { Console.WriteLine("1    ");
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
 			if (!c._Args[1].CaseEquals("quit"))
 				return null;
 

@@ -102,7 +102,6 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			Console.WriteLine("zlkoxdfsd1f");
 			if (!c._Args[1].CaseEquals("channels"))
 				return null;
 

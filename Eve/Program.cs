@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using Eve.Types.Classes;
+using Eve.Types;
 
 namespace Eve {
 	internal class Program {
@@ -24,15 +24,12 @@ namespace Eve {
 				Console.WriteLine(e);
 			}
 
-			//BackgroundWorker backgroundDataParser = new BackgroundWorker();
-			//backgroundDataParser.DoWork += ParseAndDo;
-			//backgroundDataParser.RunWorkerAsync();
+			BackgroundWorker backgroundDataParser = new BackgroundWorker();
+			backgroundDataParser.DoWork += ParseAndDo;
+			backgroundDataParser.RunWorkerAsync();
 
-			while (ShouldRun) {
-				_bot.Runtime();
+			string command = Console.ReadLine();
 
-				//string command = Console.ReadLine();
-			}
 			Console.WriteLine("||| Bot has shutdown.");
 			Console.ReadLine();
 		}

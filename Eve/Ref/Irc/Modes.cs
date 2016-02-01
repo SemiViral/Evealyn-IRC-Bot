@@ -2,8 +2,8 @@
 
 // ReSharper disable InconsistentNaming
 
-namespace Eve.Types.Irc {
-	public static class IrcModes {
+namespace Eve.Ref.Irc {
+	public static class Modes {
 		// Several modes mean different things on
 		// seperate servers, so this may require some
 		// tinkering when connecting to a different server.
@@ -18,7 +18,7 @@ namespace Eve.Types.Irc {
 		// Mode syntax follows the SyntaxParser specification
 		public static List<IrcMode> modes = new List<IrcMode>();
 
-		static IrcModes() {
+		static Modes() {
 			modes.Add(new IrcMode {
 				Mode = 'b',
 				Translation = "BAN",

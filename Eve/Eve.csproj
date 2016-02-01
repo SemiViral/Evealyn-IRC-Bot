@@ -105,17 +105,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IrcBot.cs" />
-    <Compile Include="Types\Irc\IrcModes.cs" />
-    <Compile Include="Types\Irc\Protocols.cs" />
+    <Compile Include="Ref\Irc\Modes.cs" />
+    <Compile Include="Ref\Irc\Protocols.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="ModuleManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Translators\ModeTranslator.cs" />
     <Compile Include="Translators\ProtocolTranslator.cs" />
-    <Compile Include="Types\Classes\ChannelMessage.cs" />
-    <Compile Include="Types\Classes\PropertyClasses.cs" />
-    <Compile Include="Types\Classes\PropertyReference.cs" />
+    <Compile Include="Types\ChannelMessage.cs" />
+    <Compile Include="Types\PropertyClasses.cs" />
+    <Compile Include="Types\PropertyReference.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>

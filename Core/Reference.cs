@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Eve.Types.Classes;
+using Eve.Types;
 using Newtonsoft.Json.Linq;
 
 namespace Eve.Core {
@@ -11,7 +11,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("define"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return c;
 
 			if (c._Args.Count < 3) {
@@ -50,7 +50,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("lookup"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			c.Target = c.Nickname;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Eve.Types.Classes;
+using Eve.Types;
 
 namespace Eve.Core.Calculator {
 	public partial class Calculator : IModule {
@@ -19,11 +19,11 @@ namespace Eve.Core.Calculator {
 		}
 
 		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["eval"] = "(<expression>) — evaluates given mathematical expression."
+			["calc"] = "(<expression>) — evaluates given mathematical expression."
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("eval"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			if (c._Args.Count < 3) c.Message = "Not enough parameters.";

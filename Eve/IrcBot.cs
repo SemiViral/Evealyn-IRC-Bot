@@ -5,18 +5,18 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
-using Eve.Types.Classes;
-using Eve.Types.Irc;
+using Eve.Ref.Irc;
+using Eve.Types;
 
 namespace Eve {
-	public partial class IrcBot : Utilities, IDisposable, IModule {
+	public partial class IrcBot : Utilities, IDisposable {
 		private readonly IrcConfig _config;
 		private bool _disposed;
 
 		private TcpClient _connection;
 		private StreamWriter _log;
 		private NetworkStream _networkStream;
-		private StreamWriter _streamWriter;
+		private StreamWriter _out;
 		private StreamReader _streamReader;
 
 		public PropertyReference V { get; set; }
@@ -30,9 +30,9 @@ namespace Eve {
 		public IrcBot(IrcConfig config) {
 			_config = config;
 
-			V = new PropertyReference(_config.Database);
-			V.Modules = ModuleManager.LoadModules(V.Commands);
-			V.IgnoreList = _config.IgnoreList;
+			V = new PropertyReference(_config.Database) {
+				IgnoreList = _config.IgnoreList
+			};
 
 			InitializeConnections();
 		}
@@ -50,9 +50,10 @@ namespace Eve {
 
 			if (dispose) {
 				_streamReader.Dispose();
-				_streamWriter.Dispose();
+				_out.Dispose();
 				_networkStream.Dispose();
 				_log.Dispose();
+				V.Dispose();
 
 				_connection.Close();
 			}
@@ -66,16 +67,15 @@ namespace Eve {
 
 		private bool PreprocessMessage(ChannelMessage c) {
 			switch (c.Type) {
-				case IrcProtocol.MotdReplyEnd:
-					// 376 is end of MOTD command
+				case Protocols.MotdReplyEnd:
 					if (_config.Identified ||
-						!c.Type.Equals(IrcProtocol.MotdReplyEnd)) return false;
+						!c.Type.Equals(Protocols.MotdReplyEnd)) return false;
 
-					SendData(_streamWriter, IrcProtocol.Privmsg, "NICKSERV IDENTIFY evepass");
-					SendData(_streamWriter, IrcProtocol.Mode, "Eve +B");
+					SendData(_out, Protocols.Privmsg, "NICKSERV IDENTIFY evepass");
+					SendData(_out, Protocols.Mode, "Eve +B");
 
 					foreach (string s in _config.Channels) {
-						SendData(_streamWriter, IrcProtocol.Join, s);
+						SendData(_out, Protocols.Join, s);
 						V.Channels.Add(new Channel {
 							Name = s,
 							UserList = new List<string>()
@@ -84,14 +84,14 @@ namespace Eve {
 
 					_config.Joined = true;
 					_config.Identified = true;
-					return true;
-				case IrcProtocol.Nick:
+					break;
+				case Protocols.Nick:
 					using (
 						SQLiteCommand com =
 							new SQLiteCommand($"UPDATE users SET nickname='{c.Recipient}' WHERE realname='{c.Realname}'", V.Db))
 						com.ExecuteNonQuery();
-					return true;
-				case IrcProtocol.Join:
+					break;
+				case Protocols.Join:
 					if (V.QueryName(c.Realname) != null &&
 						V.CurrentUser.Messages != null) {
 						c.Target = c.Nickname;
@@ -106,39 +106,46 @@ namespace Eve {
 					}
 
 					AddUserToChannel(c.Recipient, c.Realname);
-					return true;
-				case IrcProtocol.Part:
+					break;
+				case Protocols.Part:
 					RemoveUserFromChannel(c.Recipient, c.Realname);
-					return true;
-				case IrcProtocol.NameReply:
+					break;
+				case Protocols.NameReply:
 					// splits the channel user list in half by the :, then splits each user into an array object to be iterated
 					foreach (string s in c.Args.Split(':')[1].Split(' '))
 						AddUserToChannel(c.Recipient, s);
-					return true;
+					break;
 				default:
 					if (!c._Args[0].Replace(",", string.Empty).CaseEquals("eve") ||
 						V.IgnoreList.Contains(c.Realname) ||
 						GetUserTimeout(c.Realname, V))
-						return true;
+						break;
 
 					if (c._Args.Count < 2) {
-						SendData(_streamWriter, IrcProtocol.Privmsg, "Please provide a command. Type 'eve help' to view my command list.");
-						return true;
+						SendData(_out, Protocols.Privmsg, $"{c.Recipient} Please provide a command. Type 'eve help' to view my command list.");
+						break;
 					}
 
-					if (V.Commands.ContainsKey(c._Args[1].ToLower())) return false;
+					if (V.Modules.Select(e => e.Accessor).Contains(c._Args[1].ToLower())) return false;
 
-					SendData(_streamWriter, IrcProtocol.Privmsg, "Invalid command. Type 'eve help' to view my command list.");
-					return true;
+					if (c._Args[1].CaseEquals("help")) {
+						SendData(_out, Protocols.Privmsg, $"{c.Recipient} There appears to have been an issue loading my core module. Please notify my operator.");
+						break;
+					}
+
+					SendData(_out, Protocols.Privmsg, $"{c.Recipient} Invalid command. Type 'eve help' to view my command list.");
+					break;
 			}
+
+			return true;
 		}
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public void DoModuleIteration(ChannelMessage c, PropertyReference v) {
 			c.Target = c.Recipient;
 			int count = 0;
 
-			foreach (ChannelMessage cm in v.Modules.Values
-				.Select(e => ((IModule) Activator.CreateInstance(e)).OnChannelMessage(c, v))) {
+			foreach (ChannelMessage cm in v.Modules.Select(e => ((IModule) Activator.CreateInstance(e.Assembly))
+				.OnChannelMessage(c, v))) {
 				Console.WriteLine($"-={count}=-");
 				count++;
 				if (cm == null) {
@@ -147,13 +154,13 @@ namespace Eve {
 				}
 
 				bool stopLoop = false;
-				
+
 				switch (cm.ExitType) {
 					case ExitType.Exit:
 						stopLoop = true;
 						break;
 					case ExitType.MessageAndExit:
-						SendData(_streamWriter, IrcProtocol.Privmsg, $"{cm.Target} {cm.Message}");
+						SendData(_out, Protocols.Privmsg, $"{cm.Target} {cm.Message}");
 						stopLoop = true;
 						break;
 					case ExitType.DoNotExit:
@@ -169,15 +176,14 @@ namespace Eve {
 
 				if (cm.MultiMessage.Any())
 					foreach (string s in cm.MultiMessage)
-						SendData(_streamWriter, cm.Type, $"{cm.Target} {s}");
+						SendData(_out, cm.Type, $"{cm.Target} {s}");
 				else if (!string.IsNullOrEmpty(cm.Message))
-					SendData(_streamWriter, cm.Type, $"{cm.Target} {cm.Message}");
+					SendData(_out, cm.Type, $"{cm.Target} {cm.Message}");
 
 				c.Reset();
 			}
-
-			return null;
 		}
+
 
 		/// <summary>
 		///     Method for initialising all data streams
@@ -193,7 +199,7 @@ namespace Eve {
 			try {
 				_networkStream = _connection.GetStream();
 				_streamReader = new StreamReader(_networkStream);
-				_streamWriter = new StreamWriter(_networkStream);
+				_out = new StreamWriter(_networkStream);
 
 				if (!File.Exists("logs.txt")) {
 					Console.WriteLine("||| Log file not found, creating.");
@@ -203,15 +209,15 @@ namespace Eve {
 
 				_log = new StreamWriter("logs.txt", true);
 
-				SendData(_streamWriter, IrcProtocol.User, $"{_config.Nickname} 0 * {_config.Realname}");
-				SendData(_streamWriter, IrcProtocol.Nick, _config.Nickname);
+				SendData(_out, Protocols.User, $"{_config.Nickname} 0 * {_config.Realname}");
+				SendData(_out, Protocols.Nick, _config.Nickname);
 			} catch (Exception e) {
 				Console.WriteLine($"||| Communication error: {e}");
 			}
 		}
 
 		/// <summary>
-		///     Recieves incoming data, parses it, and passes it to <see cref="OnChannelMessage(ChannelMessage, PropertyReference)" />
+		///     Recieves incoming data, parses it, and passes it to <see cref="DoModuleIteration(ChannelMessage, PropertyReference)" />
 		/// </summary>
 		public void Runtime() {
 			string data;
@@ -227,15 +233,15 @@ namespace Eve {
 			}
 
 			ChannelMessage c = new ChannelMessage(data);
-			if (c.Type.Equals(IrcProtocol.Pong)) {
-				SendData(_streamWriter, c.Type, c.Message);
+			if (c.Type.Equals(Protocols.Pong)) {
+				SendData(_out, c.Type, c.Message);
 				return;
 			}
 
 			if (c.Nickname.Equals(_config.Nickname)) return;
 
 			// Write data to console & log in a readable format
-			Console.WriteLine(c.Type.Equals(IrcProtocol.Privmsg)
+			Console.WriteLine(c.Type.Equals(Protocols.Privmsg)
 				? $"[{c.Recipient}]({c.Time.ToString("hh:mm:ss")}){c.Nickname}: {c.Args}" : data);
 			_log.WriteLine($"({DateTime.Now}) {data}");
 			_log.Flush();
@@ -255,7 +261,7 @@ namespace Eve {
 					Attempts = 0
 				});
 
-			OnChannelMessage(c, V);
+			DoModuleIteration(c, V);
 		}
 	}
 
@@ -304,9 +310,9 @@ namespace Eve {
 				streamWriter.WriteLine($"{cmd} {param}");
 				streamWriter.Flush();
 
-				if (cmd.Equals(IrcProtocol.Ping)
+				if (cmd.Equals(Protocols.Ping)
 					||
-					cmd.Equals(IrcProtocol.Pong))
+					cmd.Equals(Protocols.Pong))
 					return;
 
 				Console.WriteLine($"{cmd} {param}");

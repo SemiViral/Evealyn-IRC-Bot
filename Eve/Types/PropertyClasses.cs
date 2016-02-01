@@ -1,8 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using Eve.Types.Irc;
+using System.Reflection.Emit;
+using Eve.Ref.Irc;
 
-namespace Eve.Types.Classes {
+namespace Eve.Types {
+	public class Module {
+		public Module(string name, string accessor, string descriptor, Type assembly) {
+			Name = name;
+			Accessor = accessor;
+			Descriptor = descriptor;
+			Assembly = assembly;
+		}
+
+		public string Name { get; }
+		public string Accessor { get; }
+		public string Descriptor { get; }
+		public Type Assembly { get; }
+	}
+
 	public class User {
 		public User() {
 			Messages = new List<Message>();

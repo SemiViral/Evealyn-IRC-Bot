@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
-namespace Eve.Types.Classes {
-	public class PropertyReference : IDisposable {
+namespace Eve.Types {
+	public class PropertyReference  {
 		/// <summary>
 		///     Initialise connections to database and sets properties
 		/// </summary>
@@ -25,8 +26,7 @@ namespace Eve.Types.Classes {
 			ReadUsers();
 			ReadMessagesIntoUsers();
 
-			if (Users != null) return;
-			throw new SQLiteException("||| Failed to read from database.");
+			if (Users == null) throw new SQLiteException("||| Failed to read from database.");
 		}
 
 		public void Dispose() {
@@ -102,6 +102,23 @@ namespace Eve.Types.Classes {
 			return Users.FirstOrDefault(e => e.Realname == name);
 		}
 
+		/// <summary>
+		/// Reload all modules from Modules folder
+		/// </summary>
+		public void ReloadModules() {
+			Modules.Clear();
+			Modules = ModuleManager.LoadModules();
+		}
+
+		/// <summary>
+		/// Return list of commands or a single command, or null if the command is unmatched
+		/// </summary>
+		/// <param name="command">Command to be checked and returned, if specified</param>
+		/// <returns></returns>
+		public string GetCommands(string command = null) {
+				return (command == null) ? string.Join(", ", Modules.Select(e => e.Accessor)) : Modules.First(e => e.Accessor == command)?.Descriptor;
+		}
+
 		#region Property initializations
 
 		private bool _disposed;
@@ -109,16 +126,14 @@ namespace Eve.Types.Classes {
 		public SQLiteConnection Db { get; private set; }
 
 		public string Info
-			=> "Evealyn is a utility IRC bot created by SemiViral as a primary learning project for C#. Version 2.0";
+			=> $"Evealyn is a utility IRC bot created by SemiViral as a primary learning project for C#. Version {Assembly.GetExecutingAssembly().GetName().Version}";
 
 		public User CurrentUser { get; set; } = new User();
 
-		public List<string> IgnoreList { get; set; } = new List<string>();
+		public List<Module> Modules { get; private set; } = ModuleManager.LoadModules();
 		public List<User> Users { get; } = new List<User>();
-		public List<Channel> Channels { get; private set; } = new List<Channel>();
-
-		public Dictionary<string, string> Commands { get; private set; } = new Dictionary<string, string>();
-		public Dictionary<string, Type> Modules { get; set; } = new Dictionary<string, Type>();
+		public List<Channel> Channels { get; set; } = new List<Channel>();
+		public List<string> IgnoreList { get; set; } = new List<string>();
 
 		#endregion
 	}

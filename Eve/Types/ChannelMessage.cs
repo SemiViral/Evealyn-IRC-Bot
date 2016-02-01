@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Eve.Types.Irc;
+using Eve.Ref.Irc;
 
-namespace Eve.Types.Classes {
+namespace Eve.Types {
 	internal class ReadonlyVars {
 		// Useless regex for now
 		// private readonly Regex _argMessageRegex = new Regex(@"^:(?<Arg1>[^\s]+)\s(?<Arg2>[^\s]+)\s(?<Arg3>[^\s]+)\s?:?(?<Arg4>.*)", RegexOptions.Compiled);
@@ -54,7 +54,7 @@ namespace Eve.Types.Classes {
 
 		public void ParseMessage(string rawData) {
 			if (ReadonlyVars.PingRegex.IsMatch(rawData)) {
-				Type = IrcProtocol.Pong;
+				Type = Protocols.Pong;
 				Message = rawData.Replace("PING", "PONG");
 				return;
 			}

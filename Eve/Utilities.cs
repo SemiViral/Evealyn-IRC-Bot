@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using Eve.Types.Classes;
+using Eve.Types;
 using Newtonsoft.Json.Linq;
 
 namespace Eve {

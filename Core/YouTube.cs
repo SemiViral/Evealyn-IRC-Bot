@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Eve.Types.Classes;
+using Eve.Types;
 using Newtonsoft.Json.Linq;
 
 namespace Eve.Core {

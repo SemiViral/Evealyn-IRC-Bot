@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Eve.Types.Classes;
-using Eve.Types.Irc;
+using Eve.Ref.Irc;
+using Eve.Types;
 
 namespace Eve.Core {
 	public class Join : IModule {
@@ -13,7 +13,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("join"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			if (v.CurrentUser.Access > 1)
@@ -26,13 +26,13 @@ namespace Eve.Core {
 				c.Message = "I'm already in that channel.";
 
 			if (!string.IsNullOrEmpty(c.Message)) {
-				c.Type = IrcProtocol.Privmsg;
+				c.Type = Protocols.Privmsg;
 				return c;
 			}
 
 			c.Target = string.Empty;
 			c.Message = c._Args[2];
-			c.Type = IrcProtocol.Join;
+			c.Type = Protocols.Join;
 			return c;
 		}
 	}
@@ -43,7 +43,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("part"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			if (v.CurrentUser.Access > 1)
@@ -56,7 +56,7 @@ namespace Eve.Core {
 				c.Message = "I'm not in that channel.";
 
 			if (!string.IsNullOrEmpty(c.Message)) {
-				c.Type = IrcProtocol.Privmsg;
+				c.Type = Protocols.Privmsg;
 				return c;
 			}
 
@@ -64,7 +64,7 @@ namespace Eve.Core {
 
 			c.Target = string.Empty;
 			c.Message = c._Args.Count > 3 ? $"{c._Args[2]} {c._Args[3]}" : c._Args[2];
-			c.Type = IrcProtocol.Part;
+			c.Type = Protocols.Part;
 			return c;
 		}
 	}
@@ -75,7 +75,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("say"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			if (c._Args.Count < 3
@@ -102,7 +102,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("channels"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			c.Message = string.Join(", ", v.Channels.Select(e => e.Name).ToArray());
@@ -117,7 +117,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("message"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			if (c._Args.Count > 3)
@@ -150,12 +150,12 @@ namespace Eve.Core {
 			c.Message = $"Message recorded and will be sent to {who}";
 
 			try {
-				//using (
-				//	SQLiteCommand x =
-				//		new SQLiteCommand(
-				//			$"INSERT INTO messages VALUES ({v.QueryName(who).Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')",
-				//			v.Db))
-				//	x.ExecuteNonQuery();
+				using (
+					SQLiteCommand x =
+						new SQLiteCommand(
+							$"INSERT INTO messages VALUES ({v.QueryName(who).Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')",
+							v.Db))
+					x.ExecuteNonQuery();
 			} catch (Exception e) {
 				Console.WriteLine($"Error occured attepting to add message to database: {e}");
 				c.Message = "Error occured attempting to save message.";
@@ -171,18 +171,18 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("help"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			if (c._Args.Count > 2 &&
-				!v.Commands.ContainsKey(c._Args[2])) {
+				!v.Modules.Select(e => e.Accessor).Contains(c._Args[2])) {
 				c.Message = "Command does not exist.";
 				return c;
 			}
 
 			c.Message = c._Args.Count < 3
-				? $"My commands: {string.Join(", ", v.Commands.Keys)}"
-				: $"{c._Args[2]}: {v.Commands[c._Args[2]]}";
+				? $"My commands: {v.GetCommands()}"
+				: $"{c._Args[2]}: {v.GetCommands(c._Args[2])}";
 
 			return c;
 		}
@@ -194,7 +194,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (c._Args[1] != "user")
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			c._Args[2] = c._Args[2].ToLower();
@@ -219,20 +219,18 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("seen"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
-
-			c._Args[2] = c._Args[2].ToLower();
 
 			if (c._Args.Count < 3)
 				c.Message = "Insufficient parameters. Type 'eve help message' to view correct usage.";
-			else if (v.QueryName(c._Args[2]) == null)
+			else if (v.QueryName(c._Args[2].ToLower()) == null)
 				c.Message = "User does not exist in database.";
 
 			if (!string.IsNullOrEmpty(c.Message))
 				return c;
 
-			User u = v.QueryName(c._Args[2]);
+			User u = v.QueryName(c._Args[2].ToLower());
 			c.Message = $"{u.Realname} was last seen on: {u.Seen} (UTC)";
 
 			return c;
@@ -245,7 +243,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("setaccess"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			int i = 2;
@@ -282,7 +280,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("about"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			c.Message = v.Info;
@@ -296,10 +294,10 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (c._Args[1] != "modules")
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
-			c.Message = $"Active modules: {string.Join(", ", v.Modules.Keys)}";
+			c.Message = $"Active modules: {string.Join(", ", v.Modules.Select(e => e.Name))}";
 			return c;
 		}
 	}
@@ -310,7 +308,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("reload"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			if (v.CurrentUser.Access > 1) {
@@ -318,10 +316,7 @@ namespace Eve.Core {
 				return c;
 			}
 
-			v.Modules.Clear();
-			v.Commands.Clear();
-
-			v.Modules = ModuleManager.LoadModules(v.Commands);
+			v.ReloadModules();
 
 			c.ExitType = ExitType.MessageAndExit;
 			c.Message = "Modules reloaded.";
@@ -335,7 +330,7 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals("quit"))
+			if (!c._Args[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			if (v.CurrentUser.Access < 1) {

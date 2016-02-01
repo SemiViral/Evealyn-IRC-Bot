@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Eve.Types.Classes;
+using Eve.Types;
 
 namespace Eve {
 	/// <summary>

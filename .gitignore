@@ -9,7 +9,6 @@
 *~           # (x)emacs
 *.bak        # Windows related
 \#*\#        # (x)emacs
-*.orig       # Own usage
 
 # Compiled files
 */bin/

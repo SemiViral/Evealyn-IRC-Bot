@@ -10,7 +10,7 @@ namespace Eve.Types {
 		/// <summary>
 		///     Initialise connections to database and sets properties
 		/// </summary>
-		/// <param name="database">database to be assigned to</param>
+		/// <param name="database">database to be read from/write to</param>
 		public PropertyReference(string database) {
 			if (!File.Exists(database))
 				CreateDatabase(database);
@@ -98,6 +98,11 @@ namespace Eve.Types {
 			}
 		}
 
+		/// <summary>
+		/// Query internal list of users
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns><see cref="User"/> object from result, or null if query returned none</returns>
 		public User QueryName(string name) {
 			return Users.FirstOrDefault(e => e.Realname == name);
 		}

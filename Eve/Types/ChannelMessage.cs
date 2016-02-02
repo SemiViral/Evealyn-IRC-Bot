@@ -43,7 +43,7 @@ namespace Eve.Types {
 		public string Hostname { get; private set; }
 		public string Recipient { get; private set; }
 		public string Args { get; private set; }
-		public List<string> _Args { get; private set; } = new List<string>();
+		public List<string> MultiArgs { get; private set; } = new List<string>();
 		public string Type { get; set; }
 
 		// Response variables
@@ -75,7 +75,7 @@ namespace Eve.Types {
 				? mVal.Groups["Recipient"].Value.Substring(1)
 				: mVal.Groups["Recipient"].Value;
 			Args = mVal.Groups["Args"].Value;
-			_Args = Args?.Trim().Split(new[] {' '}, 4).ToList();
+			MultiArgs = Args?.Trim().Split(new[] {' '}, 4).ToList();
 
 			Time = DateTime.UtcNow;
 

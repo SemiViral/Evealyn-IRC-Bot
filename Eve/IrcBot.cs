@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
@@ -71,8 +72,8 @@ namespace Eve {
 					if (_config.Identified ||
 						!c.Type.Equals(Protocols.MotdReplyEnd)) return false;
 
-					SendData(_out, Protocols.Privmsg, "NICKSERV IDENTIFY evepass");
-					SendData(_out, Protocols.Mode, "Eve +B");
+					SendData(_out, Protocols.Privmsg, $"NICKSERV IDENTIFY {_config.Password}");
+					SendData(_out, Protocols.Mode, $"{_config.Nickname} +B");
 
 					foreach (string s in _config.Channels) {
 						SendData(_out, Protocols.Join, s);
@@ -116,19 +117,19 @@ namespace Eve {
 						AddUserToChannel(c.Recipient, s);
 					break;
 				default:
-					if (!c._Args[0].Replace(",", string.Empty).CaseEquals("eve") ||
+					if (!c.MultiArgs[0].Replace(",", string.Empty).CaseEquals(_config.Nickname) ||
 						V.IgnoreList.Contains(c.Realname) ||
 						GetUserTimeout(c.Realname, V))
 						break;
 
-					if (c._Args.Count < 2) {
+					if (c.MultiArgs.Count < 2) {
 						SendData(_out, Protocols.Privmsg, $"{c.Recipient} Please provide a command. Type 'eve help' to view my command list.");
 						break;
 					}
 
-					if (V.Modules.Select(e => e.Accessor).Contains(c._Args[1].ToLower())) return false;
+					if (V.Modules.Select(e => e.Accessor).Contains(c.MultiArgs[1].ToLower())) return false;
 
-					if (c._Args[1].CaseEquals("help")) {
+					if (c.MultiArgs[1].CaseEquals("help")) {
 						SendData(_out, Protocols.Privmsg, $"{c.Recipient} There appears to have been an issue loading my core module. Please notify my operator.");
 						break;
 					}
@@ -144,10 +145,19 @@ namespace Eve {
 			c.Target = c.Recipient;
 			int count = 0;
 
-			foreach (ChannelMessage cm in v.Modules.Select(e => ((IModule) Activator.CreateInstance(e.Assembly))
-				.OnChannelMessage(c, v))) {
+			Console.WriteLine((v.Db.State == ConnectionState.Open) ? "Open" : "Closed" );
+
+			foreach (Module m in v.Modules) {
+				var ac = ((IModule) Activator.CreateInstance(m.Assembly));
+				ChannelMessage cm = ac.OnChannelMessage(c, v);
+
+			//foreach (ChannelMessage cm in v.Modules.Select(e => ((IModule) Activator.CreateInstance(e.Assembly))
+			//	.OnChannelMessage(c, v))) {
 				Console.WriteLine($"-={count}=-");
 				count++;
+
+				Console.WriteLine((v.Db.State == ConnectionState.Open) ? "Open" : "Closed");
+
 				if (cm == null) {
 					c.Reset();
 					continue;

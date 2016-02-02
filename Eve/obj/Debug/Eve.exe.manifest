@@ -66,14 +66,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.exe" size="46528">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Eve.exe" size="46016">
       <assemblyIdentity name="Eve" version="4.1.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>o8xfzTBViqHfq/N2XYIzJtmRdCGZ/04DRkkdcJN0xrs=</dsig:DigestValue>
+        <dsig:DigestValue>FV6hWC5erDoCtnDulmHyetdVS2zTxHQMDMu0ia7EunI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

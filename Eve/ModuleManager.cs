@@ -9,7 +9,7 @@ using Module = Eve.Types.Module;
 namespace Eve {
 	public class ModuleManager {
 		/// <summary>
-		///     Loads all Type assemblies in ./modules/ into memory
+		///     Loads all Type assemblies in ./Modules/ into memory
 		/// </summary>
 		/// <returns>void</returns>
 		public static List<Module> LoadModules() {
@@ -24,6 +24,7 @@ namespace Eve {
 
 			try {
 				// Do checks on loading process and discovered types
+				//
 				//foreach (string f in Directory.EnumerateFiles(modulesPath, "Eve.*.dll", SearchOption.AllDirectories)) {
 				//	Console.WriteLine(f);
 
@@ -70,8 +71,7 @@ namespace Eve {
 		}
 
 		/// <summary>
-		///     Handles interface checks on the Types and adds them to the module list.
-		///     Commands are also added to list.
+		///     Handle the interface check on a Type and return the Module object.
 		/// </summary>
 		/// <param name="type">Type to be checked against IModule interface</param>
 		private static Module CheckTypeAndLoad(Type type) {

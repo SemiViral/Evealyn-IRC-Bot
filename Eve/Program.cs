@@ -5,7 +5,7 @@ using Eve.Types;
 namespace Eve {
 	internal class Program {
 		private static IrcBot _bot;
-		public static IrcConfig Config;
+		private static IrcConfig _config;
 
 		public static bool ShouldRun { get; set; } = true;
 
@@ -15,11 +15,11 @@ namespace Eve {
 		}
 
 		private static void Main() {
-			Config = Utilities.CheckConfigExistsAndReturn();
+			_config = Utilities.CheckConfigExistsAndReturn();
 			Console.WriteLine("||| Configuration file loaded.");
 
 			try {
-				_bot = new IrcBot(Config);
+				_bot = new IrcBot(_config);
 			} catch (TypeInitializationException e) {
 				Console.WriteLine(e);
 			}

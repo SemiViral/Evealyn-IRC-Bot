@@ -11,10 +11,10 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals(Def.Keys.First()))
+			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return c;
 
-			if (c._Args.Count < 3) {
+			if (c.MultiArgs.Count < 3) {
 				c.Message = "Insufficient parameters. Type 'eve help lookup' to view correct usage.";
 				return c;
 			}
@@ -22,7 +22,7 @@ namespace Eve.Core {
 			JObject entry =
 				JObject.Parse(
 					HttpGet(
-						$"https://api.pearson.com:443/v2/dictionaries/lasde/entries?headword={c._Args[2]}&limit=1&part_of_speech={(c._Args.Count > 3 ? c._Args[3] : null)}"));
+						$"https://api.pearson.com:443/v2/dictionaries/lasde/entries?headword={c.MultiArgs[2]}&limit=1&part_of_speech={(c.MultiArgs.Count > 3 ? c.MultiArgs[3] : null)}"));
 			var _out = new Dictionary<string, string>();
 
 			if ((int) entry.SelectToken("count") < 1) {
@@ -50,16 +50,16 @@ namespace Eve.Core {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals(Def.Keys.First()))
+			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			c.Target = c.Nickname;
-			string query = c._Args.Count < 4 ? c._Args[2] : $"{c._Args[2]}%20{c._Args[3]}".Replace(" ", "%20"),
+			string query = c.MultiArgs.Count < 4 ? c.MultiArgs[2] : $"{c.MultiArgs[2]}%20{c.MultiArgs[3]}".Replace(" ", "%20"),
 				response =
 					HttpGet("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=" +
 							query);
 
-			if (c._Args.Count < 3) {
+			if (c.MultiArgs.Count < 3) {
 				c.Message = "Insufficient parameters. Type 'eve help lookup' to view correct usage.";
 				return c;
 			}

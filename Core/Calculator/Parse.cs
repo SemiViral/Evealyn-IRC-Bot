@@ -23,13 +23,13 @@ namespace Eve.Core.Calculator {
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c._Args[1].CaseEquals(Def.Keys.First()))
+			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
-			if (c._Args.Count < 3) c.Message = "Not enough parameters.";
+			if (c.MultiArgs.Count < 3) c.Message = "Not enough parameters.";
 
-			string evalArgs = c._Args.Count > 3 ?
-				c._Args[2] + c._Args[3] : c._Args[2];
+			string evalArgs = c.MultiArgs.Count > 3 ?
+				c.MultiArgs[2] + c.MultiArgs[3] : c.MultiArgs[2];
 
 			try {
 				c.Message = Evaluate(evalArgs).ToString(CultureInfo.CurrentCulture);

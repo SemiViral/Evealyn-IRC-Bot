@@ -56,7 +56,7 @@ namespace Eve {
 		/// </returns>
 		public static IrcConfig CheckConfigExistsAndReturn() {
 			const string baseConfig =
-				"{ \"Nickname\": \"Eve\", \"Realname\": \"SemiViral\", \"Password\": \"evepass\", \"Server\": \"irc.foonetic.net\", \"Port\": 6667, \"Channels\": [\"#testgrounds\"],  \"IgnoreList\": [], \"Database\": \"users.sqlite\" }";
+				"{ \"Nickname\": \"TestyBot\", \"Realname\": \"SemiViral\", \"Password\": \"testypass\", \"Server\": \"irc.foonetic.net\", \"Port\": 6667, \"Channels\": [\"#testgrounds\"],  \"IgnoreList\": [], \"Database\": \"users.sqlite\" }";
 
 			if (!File.Exists("config.json"))
 				using (FileStream stream = new FileStream(@"config.json", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {

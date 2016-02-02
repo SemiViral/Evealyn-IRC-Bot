@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using Eve.Ref.Irc;
 
 namespace Eve.Types {

@@ -22,7 +22,8 @@ namespace Eve {
 
 		public PropertyReference V { get; set; }
 
-		public Dictionary<string, string> Def => null;
+		private bool _joined,
+			_identified;
 
 		/// <summary>
 		///     initialises class
@@ -60,8 +61,8 @@ namespace Eve {
 			}
 
 			V = new PropertyReference(_config.Database);
-			_config.Joined = false;
-			_config.Identified = false;
+			_joined = false;
+			_identified = false;
 
 			_disposed = true;
 		}
@@ -69,7 +70,7 @@ namespace Eve {
 		private bool PreprocessMessage(ChannelMessage c) {
 			switch (c.Type) {
 				case Protocols.MotdReplyEnd:
-					if (_config.Identified ||
+					if (_identified ||
 						!c.Type.Equals(Protocols.MotdReplyEnd)) return false;
 
 					SendData(_out, Protocols.Privmsg, $"NICKSERV IDENTIFY {_config.Password}");
@@ -83,8 +84,8 @@ namespace Eve {
 						});
 					}
 
-					_config.Joined = true;
-					_config.Identified = true;
+					_joined = true;
+					_identified = true;
 					break;
 				case Protocols.Nick:
 					using (
@@ -145,14 +146,12 @@ namespace Eve {
 			c.Target = c.Recipient;
 			int count = 0;
 
-			Console.WriteLine((v.Db.State == ConnectionState.Open) ? "Open" : "Closed" );
+			//foreach (Module m in v.Modules) {
+			//	var ac = ((IModule) Activator.CreateInstance(m.Assembly));
+			//	ChannelMessage cm = ac.OnChannelMessage(c, v);
 
-			foreach (Module m in v.Modules) {
-				var ac = ((IModule) Activator.CreateInstance(m.Assembly));
-				ChannelMessage cm = ac.OnChannelMessage(c, v);
-
-			//foreach (ChannelMessage cm in v.Modules.Select(e => ((IModule) Activator.CreateInstance(e.Assembly))
-			//	.OnChannelMessage(c, v))) {
+			foreach (ChannelMessage cm in v.Modules.Select(e => ((IModule)Activator.CreateInstance(e.Assembly))
+				.OnChannelMessage(c, v))) {
 				Console.WriteLine($"-={count}=-");
 				count++;
 

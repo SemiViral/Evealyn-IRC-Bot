@@ -78,9 +78,7 @@ namespace Eve {
 				Channels = config.SelectToken("Channels")
 					.Select(e => e.ToString())
 					.ToArray(),
-				Database = (string)config.SelectToken("Database"),
-				Identified = false,
-				Joined = false
+				Database = (string)config.SelectToken("Database")
 			};
 		}
 	}

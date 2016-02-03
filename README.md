@@ -26,7 +26,7 @@ It is reccomended (by myself, at least) that you make a different class for each
 This project makes use of [System.Data.Sqlite](https://system.data.sqlite.org/) for its database and querying.
 
 To make use of the users database that is automatigically generated, simply follow a syntax similar to this:
-	IrcBot.QueryDefaultDatabase("query here");
+`IrcBot.QueryDefaultDatabase("query here");`
 
 And if you would like to get the max ID value of the table, just use `IrcBot.GetLastDatabaseId();`. This will return an `Int32`.
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Eve.Ref.Irc;
@@ -150,12 +149,7 @@ namespace Eve.Core {
 			c.Message = $"Message recorded and will be sent to {who}";
 
 			try {
-				using (
-					SQLiteCommand x =
-						new SQLiteCommand(
-							$"INSERT INTO messages VALUES ({v.QueryName(who).Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')",
-							v.Db))
-					x.ExecuteNonQuery();
+				IrcBot.QueryDefaultDatabase($"INSERT INTO messages VALUES ({v.QueryName(who).Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')");
 			} catch (Exception e) {
 				Console.WriteLine($"Error occured attepting to add message to database: {e}");
 				c.Message = "Error occured attempting to save message.";
@@ -264,8 +258,7 @@ namespace Eve.Core {
 			if (!string.IsNullOrEmpty(c.Message))
 				return c;
 
-			SQLiteCommand com = new SQLiteCommand($"UPDATE users SET access={i} WHERE id={v.QueryName(c.MultiArgs[2]).Id}", v.Db);
-			com.ExecuteNonQuery();
+			IrcBot.QueryDefaultDatabase($"UPDATE users SET access={i} WHERE id={v.QueryName(c.MultiArgs[2]).Id}");
 
 			v.Users.First(e => e.Realname == c.MultiArgs[2]).Access = i;
 			c.Message = $"User {c.MultiArgs[2]}'s access changed to ({i}).";

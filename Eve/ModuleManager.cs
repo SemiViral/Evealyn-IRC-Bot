@@ -75,9 +75,7 @@ namespace Eve {
 		/// </summary>
 		/// <param name="type">Type to be checked against IModule interface</param>
 		private static Module CheckTypeAndLoad(Type type) {
-			if (type.GetInterface("IModule") == null ||
-				!type.GetInterface("IModule").IsEquivalentTo(typeof(IModule))
-				)
+			if (type.GetInterface("IModule") == null)
 				return null;
 
 			Dictionary<string, string> def = ((IModule) Activator.CreateInstance(type)).Def;

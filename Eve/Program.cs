@@ -15,20 +15,20 @@ namespace Eve {
 		}
 
 		private static void Main() {
+			string input = string.Empty;
+
 			_config = Utilities.CheckConfigExistsAndReturn();
 			Console.WriteLine("||| Configuration file loaded.");
 
-			try {
-				_bot = new IrcBot(_config);
-			} catch (TypeInitializationException e) {
-				Console.WriteLine(e);
+			using (_bot = new IrcBot(_config)) {
+				BackgroundWorker backgroundDataParser = new BackgroundWorker();
+				backgroundDataParser.DoWork += ParseAndDo;
+				backgroundDataParser.RunWorkerAsync();
+
+				do {
+					input = Console.ReadLine();
+				} while (!input.CaseEquals("exit"));
 			}
-
-			BackgroundWorker backgroundDataParser = new BackgroundWorker();
-			backgroundDataParser.DoWork += ParseAndDo;
-			backgroundDataParser.RunWorkerAsync();
-
-			string command = Console.ReadLine();
 
 			Console.WriteLine("||| Bot has shutdown.");
 			Console.ReadLine();

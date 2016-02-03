@@ -22,5 +22,13 @@ That is all. Obviously, your whole class (that implements IModule interface) wil
 
 It is reccomended (by myself, at least) that you make a different class for each seperate command, as it tends to make everything run smoother (and I don't know if it will mess anything up, but it shouldn't). It's also a lot quicker than a large SWITCH statement.
 
+# Making use of the users database and good practice
+This project makes use of [System.Data.Sqlite](https://system.data.sqlite.org/) for its database and querying.
+
+To make use of the users database that is automatigically generated, simply follow a syntax similar to this:
+	IrcBot.QueryDefaultDatabase("query here");
+
+And if you would like to get the max ID value of the table, just use `IrcBot.GetLastDatabaseId();`. This will return an `Int32`.
+
 # Ending note
 I'm quite bad at doing comprehensive ReadMe's, so if I've missed anything feel free to e-mail me at semiviral@gmail.com, or I can be found on IRC at: irc.foonetic.net/#ministryofsillywalks

@@ -16,11 +16,23 @@ namespace Eve {
 				return new StreamReader(httpr.GetResponseStream()).ReadToEnd();
 		}
 
+		/// <summary>
+		/// Splits a string into seperate parts
+		/// </summary>
+		/// <param name="str">string to be split</param>
+		/// <param name="maxLength">max length of individual strings to split</param>
+		/// <returns>an enumerable object of strings</returns>
 		public static IEnumerable<string> SplitStr(string str, int maxLength) {
 			for (int i = 0; i < str.Length; i += maxLength)
 				yield return str.Substring(i, Math.Min(maxLength, str.Length - i));
 		}
 
+		/// <summary>
+		/// Discern whether a user has exceeded command-querying limit
+		/// </summary>
+		/// <param name="who">user to check</param>
+		/// <param name="v">variables objec to be morphed</param>
+		/// <returns></returns>
 		public static bool GetUserTimeout(string who, PropertyReference v) {
 			bool doTimeout = false;
 
@@ -38,11 +50,12 @@ namespace Eve {
 
 			return doTimeout;
 		}
-	
+
 		/// <summary>
 		///     Checks if a channel exists within V.Channels
 		/// </summary>
 		/// <param name="channel">channel to be checked against list</param>
+		/// <param name="v">variables objec to be checked against</param>
 		/// <returns>true: channel is in list; false: channel is not in list</returns>
 		public static bool CheckChannelExists(string channel, PropertyReference v) {
 			return v.Channels.Any(e => e.Name == channel);

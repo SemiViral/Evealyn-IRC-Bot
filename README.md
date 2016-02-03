@@ -5,6 +5,7 @@ Evealyn is an IRC bot that I decided to start as a way to get known with the pro
 - Variables and using property access
 - Shorthands
 - LINQ
+
 If you're looking to take this code and learn from it, be wary. It may house many mistakes. As I become more proficient in C# I will try to come back and improve or refactor the code, but I can't make a big promise not knowing where things will lead. As it stands, I'd take Evealyn as a rough guideline for something that you can aim for when creating your own IRC bot.
 
 # Features
@@ -16,7 +17,7 @@ Evealyn offers these various features:
 # Implementing the IModule interface
 Implementation of the IModule interface is fairly simple. Declare a method called OnChannelMessage, and that will be called on every channel message that meets base params in the Core assembly. You also have to declare a generic 'Dictionary<string, string> def', format being: <name of command or how it is referenced in use, usage and description of command>.
 
-Example: Dictionary<string, string> def => new Dictionary<string, string> { ["join"] = "(<channel>) - joins specified channel." };
+Example: `Dictionary<string, string> def => new Dictionary<string, string> { ["join"] = "(<channel>) - joins specified channel." };`
 
 That is all. Obviously, your whole class (that implements IModule interface) will be loaded, and not single methods. If you don't understand Types and how classes/methods/fields work, you should learn that before trying to change things in this solution or adding modules to it.
 
@@ -26,7 +27,7 @@ It is reccomended (by myself, at least) that you make a different class for each
 This project makes use of [System.Data.Sqlite](https://system.data.sqlite.org/) for its database and querying.
 
 To make use of the users database that is automatigically generated, simply follow a syntax similar to this:
-	IrcBot.QueryDefaultDatabase("query here");
+`IrcBot.QueryDefaultDatabase("query here");`
 
 And if you would like to get the max ID value of the table, just use `IrcBot.GetLastDatabaseId();`. This will return an `Int32`.
 

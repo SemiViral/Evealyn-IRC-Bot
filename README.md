@@ -5,6 +5,7 @@ Evealyn is an IRC bot that I decided to start as a way to get known with the pro
 - Variables and using property access
 - Shorthands
 - LINQ
+
 If you're looking to take this code and learn from it, be wary. It may house many mistakes. As I become more proficient in C# I will try to come back and improve or refactor the code, but I can't make a big promise not knowing where things will lead. As it stands, I'd take Evealyn as a rough guideline for something that you can aim for when creating your own IRC bot.
 
 # Features

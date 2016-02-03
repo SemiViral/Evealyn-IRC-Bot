@@ -99,10 +99,7 @@ namespace Eve.Types {
 		/// <summary>
 		/// Reload all modules from Modules folder
 		/// </summary>
-		public void ReloadModules() {
-			Modules.Clear();
-			Modules = ModuleManager.LoadModules();
-		}
+		public void ReloadModules() {}
 
 		/// <summary>
 		/// Return list of commands or a single command, or null if the command is unmatched
@@ -110,7 +107,11 @@ namespace Eve.Types {
 		/// <param name="command">Command to be checked and returned, if specified</param>
 		/// <returns></returns>
 		public string GetCommands(string command = null) {
-				return command == null ? string.Join(", ", Modules.Select(e => e.Accessor)) : Modules.First(e => e.Accessor == command)?.Descriptor;
+			return command == null ? string.Join(", ", CommandList.Keys) : CommandList[command];
+		}
+
+		public bool HasCommand(string command) {
+			return CommandList.Keys.Contains(command);
 		}
 
 		#region Property initializations
@@ -118,12 +119,14 @@ namespace Eve.Types {
 		public string Info
 			=> $"Evealyn is a utility IRC bot created by SemiViral as a primary learning project for C#. Version {Assembly.GetExecutingAssembly().GetName().Version}";
 
-		public User CurrentUser { get; set; } = new User();
+		public User CurrentUser { get; internal set; } = new User();
 
-		public List<Module> Modules { get; private set; } = ModuleManager.LoadModules();
-		public List<User> Users { get; } = new List<User>();
-		public List<Channel> Channels { get; set; } = new List<Channel>();
-		public List<string> IgnoreList { get; set; } = new List<string>();
+		//internal List<IModule> Modules { get; } = ModuleManager.LoadModules();
+		internal List<User> Users { get; } = new List<User>();
+		internal List<Channel> Channels { get; set; } = new List<Channel>();
+		internal List<string> IgnoreList { get; set; } = new List<string>();
+
+		internal Dictionary<string, string> CommandList { get; } = new Dictionary<string, string>();
 
 		#endregion
 	}

@@ -12,7 +12,7 @@ namespace Eve {
 		///     Loads all Type assemblies in ./Modules/ into memory
 		/// </summary>
 		/// <returns>void</returns>
-		public static List<Module> LoadModules() {
+		public static List<IModule> LoadModules() {
 			const string modulesPath = "Modules";
 
 			if (!Directory.Exists(modulesPath)) {
@@ -20,34 +20,15 @@ namespace Eve {
 				Directory.CreateDirectory(modulesPath);
 			}
 
-			var modules = new List<Module>();
+			var modules = new List<IModule>();
 
 			try {
-				// Do checks on loading process and discovered types
-				//
-				//foreach (string f in Directory.EnumerateFiles(modulesPath, "Eve.*.dll", SearchOption.AllDirectories)) {
-				//	Console.WriteLine(f);
-
-				//	RecursiveAssemblyLoader r = new RecursiveAssemblyLoader();
-				//	Assembly a = r.GetAssembly(f);
-				//	foreach (Type t in a.GetTypes()) {
-				//		Console.WriteLine(t.Name + (typeof(IModule).IsAssignableFrom(t) ? " : true" : " : false"));
-				//	}
-				//}
-
-				foreach (Module m in from f in Directory.EnumerateFiles(modulesPath, "*.dll", SearchOption.AllDirectories)
-					let r = new RecursiveAssemblyLoader()
-					select r.GetAssembly(f)
-					into a
-					where a != null
-					from t in a.GetTypes()
-					select CheckTypeAndLoad(t)
-					into m
-					where m != null &&
-						  !modules.Contains(m)
-					select m)
-					modules.Add(m);
-			} catch (ReflectionTypeLoadException ex) {
+				//modules.AddRange(Directory.EnumerateFiles(modulesPath, "Eve.*.dll", SearchOption.AllDirectories).Select(CheckTypeAndLoad));
+				foreach (string f in Directory.EnumerateFiles(modulesPath, "Eve.*.dll", SearchOption.AllDirectories)) {
+					modules.AddRange(Loader.LoadPlugins(f));
+				}
+				
+				} catch (ReflectionTypeLoadException ex) {
 				StringBuilder sb = new StringBuilder();
 
 				foreach (Exception exSub in ex.LoaderExceptions) {
@@ -60,36 +41,42 @@ namespace Eve {
 
 					sb.AppendLine();
 				}
+
 				string errorMessage = sb.ToString();
 				Console.WriteLine(errorMessage);
 			} catch (InvalidOperationException) {
 				Console.WriteLine("||| No modules to load.");
 			}
 
-			Console.Write(modules.Any() ? $"||| Loaded modules: {string.Join(", ", modules.Select(e => e.Name))}\n" : null);
+			//Console.Write(modules.Any() ? $"||| Loaded modules: {string.Join(", ", modules.Select(e => e.Types.Select(f=> f.Name)))}\n" : null);
 			return modules;
 		}
 
 		/// <summary>
 		///     Handle the interface check on a Type and return the Module object.
 		/// </summary>
-		/// <param name="type">Type to be checked against IModule interface</param>
-		private static Module CheckTypeAndLoad(Type type) {
-			if (type.GetInterface("IModule") == null)
-				return null;
+		/// <param name="filepath">path of DLL to be loadded</param>
+		private static Module CheckTypeAndLoad(string filepath) {
+			string name = Path.GetFileNameWithoutExtension(filepath);
 
-			Dictionary<string, string> def = ((IModule) Activator.CreateInstance(type)).Def;
-			return def == null ? new Module(type.Name, null, null, type) : new Module(type.Name, def.Keys.First(), def.Values.First(), type);
+			AppDomain domain = AppDomain.CreateDomain(name);
+			Console.WriteLine(filepath);
+			AssemblyName assemblyName = new AssemblyName {
+				CodeBase = filepath
+			};
+
+			return new Module(name, domain, assemblyName);
 		}
 	}
 
-	internal class RecursiveAssemblyLoader : MarshalByRefObject {
-		public Assembly GetAssembly(string path) {
-			try {
-				return Assembly.LoadFrom(path);
-			} catch (BadImageFormatException) {
-				return null;
-			}
+	internal class Loader : MarshalByRefObject {
+		public static List<IModule> LoadPlugins(string assemblyName) {
+			Assembly assembly = Assembly.Load(assemblyName);
+			IEnumerable<Type> types = from type in assembly.GetTypes()
+				where typeof(IModule).IsAssignableFrom(type)
+				select type;
+
+			return types.Select(e => (IModule) Activator.CreateInstance(e)).ToList();
 		}
 	}
 }

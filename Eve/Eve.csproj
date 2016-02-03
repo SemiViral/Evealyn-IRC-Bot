@@ -114,6 +114,7 @@
     <Compile Include="Translators\ModeTranslator.cs" />
     <Compile Include="Translators\ProtocolTranslator.cs" />
     <Compile Include="Types\ChannelMessage.cs" />
+    <Compile Include="Types\IrcExceptions.cs" />
     <Compile Include="Types\PropertyClasses.cs" />
     <Compile Include="Types\PropertyReference.cs" />
     <Compile Include="Utilities.cs" />

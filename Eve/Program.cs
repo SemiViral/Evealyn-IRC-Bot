@@ -17,7 +17,7 @@ namespace Eve {
 		private static void Main() {
 			string input = string.Empty;
 
-			_config = Utilities.CheckConfigExistsAndReturn();
+			_config = IrcConfig.GetDefaultConfig();
 			Console.WriteLine("||| Configuration file loaded.");
 
 			using (_bot = new IrcBot(_config)) {
@@ -32,6 +32,19 @@ namespace Eve {
 
 			Console.WriteLine("||| Bot has shutdown.");
 			Console.ReadLine();
+		}
+	}
+
+	public static class Extentions {
+		/// <summary>
+		///     Compares the object to a string with default ignorance of casing
+		/// </summary>
+		/// <param name="obj">inherent object</param>
+		/// <param name="query">string to compare</param>
+		/// <param name="ignoreCase">whether or not to ignore case</param>
+		/// <returns>true: strings equal; false: strings unequal</returns>
+		public static bool CaseEquals(this string obj, string query, bool ignoreCase = true) {
+			return obj.Equals(query, ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture);
 		}
 	}
 }

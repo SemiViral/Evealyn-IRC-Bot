@@ -12,3 +12,6 @@ To-Do list:
 #Modules
 - ~~Place module interface and module loading methods into new namespace, Eve.Modules~~
 - Upgrade current system to load new modules into an AppDomain, so that they can be unloaded/reloaded
+
+#Exceptions
+- Implement custom exceptions for more accurate error reporting

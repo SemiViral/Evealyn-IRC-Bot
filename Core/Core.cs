@@ -21,7 +21,7 @@ namespace Eve.Core {
 				c.Message = "Insufficient parameters. Type 'eve help join' to view ccommand's help index.";
 			else if (!c.MultiArgs[2].StartsWith("#"))
 				c.Message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (Utilities.CheckChannelExists(c.MultiArgs[2].ToLower(), v))
+			else if (Channel.CheckExists(c.MultiArgs[2].ToLower()))
 				c.Message = "I'm already in that channel.";
 
 			if (!string.IsNullOrEmpty(c.Message)) {
@@ -51,7 +51,7 @@ namespace Eve.Core {
 				c.Message = "Insufficient parameters. Type 'eve help part' to view ccommand's help index.";
 			else if (!c.MultiArgs[2].StartsWith("#"))
 				c.Message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (!Utilities.CheckChannelExists(c.MultiArgs[2].ToLower(), v))
+			else if (!Channel.CheckExists(c.MultiArgs[2].ToLower()))
 				c.Message = "I'm not in that channel.";
 
 			if (!string.IsNullOrEmpty(c.Message)) {
@@ -59,7 +59,7 @@ namespace Eve.Core {
 				return c;
 			}
 
-			v.Channels.RemoveAll(e => e.Name == c.MultiArgs[2].ToLower());
+			Channel.Remove(c.MultiArgs[2].ToLower());
 
 			c.Target = string.Empty;
 			c.Message = c.MultiArgs.Count > 3 ? $"{c.MultiArgs[2]} {c.MultiArgs[3]}" : c.MultiArgs[2];
@@ -104,7 +104,7 @@ namespace Eve.Core {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
-			c.Message = string.Join(", ", v.Channels.Select(e => e.Name).ToArray());
+			c.Message = string.Join(", ", Channel.List());
 			return c;
 		}
 	}
@@ -139,12 +139,7 @@ namespace Eve.Core {
 				Date = DateTime.UtcNow
 			};
 
-			if (v.QueryName(who).Messages == null)
-				v.Users.First(e => e.Realname == who).Messages = new List<Message> {
-					m
-				};
-			else
-				v.Users.First(e => e.Realname == who).Messages.Add(m);
+			User.AddMessage(who, m);
 
 			c.Message = $"Message recorded and will be sent to {who}";
 
@@ -169,7 +164,7 @@ namespace Eve.Core {
 				return null;
 
 			if (c.MultiArgs.Count > 2 &&
-				!v.Modules.Select(e => e.Accessor).Contains(c.MultiArgs[2])) {
+				!v.HasCommand(c.MultiArgs[2])) {
 				c.Message = "Command does not exist.";
 				return c;
 			}
@@ -240,7 +235,7 @@ namespace Eve.Core {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
-			int i = 2;
+			int i = 3;
 			if (c.MultiArgs.Count > 2) c.MultiArgs[2] = c.MultiArgs[2].ToLower();
 
 			if (c.MultiArgs.Count < 4)
@@ -260,7 +255,7 @@ namespace Eve.Core {
 
 			IrcBot.QueryDefaultDatabase($"UPDATE users SET access={i} WHERE id={v.QueryName(c.MultiArgs[2]).Id}");
 
-			v.Users.First(e => e.Realname == c.MultiArgs[2]).Access = i;
+			User.SetAccess(c.MultiArgs[2], i);
 			c.Message = $"User {c.MultiArgs[2]}'s access changed to ({i}).";
 
 			return c;
@@ -281,41 +276,41 @@ namespace Eve.Core {
 		}
 	}
 
-	public class GetModules : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["modules"] = "returns a list of all currently active modules."
-		};
+	//public class GetModules : IModule {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["modules"] = "returns a list of all currently active modules."
+	//	};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+	//		if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
 
-			c.Message = $"Active modules: {string.Join(", ", v.Modules.Select(e => e.Name))}";
-			return c;
-		}
-	}
+	//		c.Message = $"Active modules: {string.Join(", ", v.Modules)}";
+	//		return c;
+	//	}
+	//}
 
-	public class ReloadModules : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["reload"] = "(<module>) — reloads specified module."
-		};
+	//public class ReloadModules : IModule {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["reload"] = "(<module>) — reloads specified module."
+	//	};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+	//		if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
 
-			if (v.CurrentUser.Access > 1) {
-				c.Message = "Insufficient permissions.";
-				return c;
-			}
+	//		if (v.CurrentUser.Access > 1) {
+	//			c.Message = "Insufficient permissions.";
+	//			return c;
+	//		}
 
-			v.ReloadModules();
+	//		v.ReloadModules();
 
-			c.ExitType = ExitType.MessageAndExit;
-			c.Message = "Modules reloaded.";
-			return c;
-		}
-	}
+	//		c.ExitType = ExitType.MessageAndExit;
+	//		c.Message = "Modules reloaded.";
+	//		return c;
+	//	}
+	//}
 
 	public class Quit : IModule {
 		public Dictionary<string, string> Def => new Dictionary<string, string> {

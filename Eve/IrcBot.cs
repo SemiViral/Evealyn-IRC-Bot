@@ -13,13 +13,13 @@ namespace Eve {
 	public partial class IrcBot : Utilities, IDisposable {
 		private bool _identified;
 		private bool _disposed;
-		private static IrcConfig _config;
 
+		private static IrcConfig _config;
 		private TcpClient _connection;
 		private StreamWriter _log;
 		private NetworkStream _networkStream;
-		private StreamWriter _out;
 		private StreamReader _in;
+		internal static StreamWriter Out;
 
 		public static PropertyReference V { get; set; }
 
@@ -49,7 +49,7 @@ namespace Eve {
 			if (!dispose || _disposed) return;
 			_networkStream.Dispose();
 			_in.Dispose();
-			_out.Dispose();
+			Out.Dispose();
 			_log.Dispose();
 			_connection.Close();
 
@@ -73,7 +73,7 @@ namespace Eve {
 
 			ChannelMessage c = new ChannelMessage(data);
 			if (c.Type.Equals(Protocols.Pong)) {
-				SendData(_out, c.Type, c.Message);
+				SendData(Out, c.Type, c.Message);
 				return;
 			}
 
@@ -85,12 +85,12 @@ namespace Eve {
 			_log.WriteLine($"({DateTime.Now}) {data}");
 			_log.Flush();
 
-			CheckValidChannelAndAdd(c.Recipient);
+			Channel.CheckAdd(c.Recipient);
 
-			if (CheckUserExists(c.Realname))
-				UpdateCurrentUserAndInfo(c);
+			if (User.CheckExists(c.Realname))
+				User.UpdateCurrentUser(c.Realname, c.Nickname);
 			else if (c.SenderIdentifiable)
-				CreateUserAndUpdateCollections(new User {
+				User.Create(new User {
 					Access = 3,
 					Nickname = c.Nickname,
 					Realname = c.Realname,
@@ -109,41 +109,41 @@ namespace Eve {
 			//	var ac = ((IModule) Activator.CreateInstance(m.Assembly));
 			//	ChannelMessage cm = ac.OnChannelMessage(c, v);
 
-			foreach (ChannelMessage cm in v.Modules.Select(e => ((IModule)Activator.CreateInstance(e.Assembly)).OnChannelMessage(c, v))) {
-				if (cm == null) {
-					c.Reset();
-					continue;
-				}
+			//foreach (ChannelMessage cm in v.Modules.Select(e => ((IModule)Activator.CreateInstance(e.Assembly)).OnChannelMessage(c, v))) {
+			//	if (cm == null) {
+			//		c.Reset();
+			//		continue;
+			//	}
 
-				bool stopLoop = false;
+			//	bool stopLoop = false;
 
-				switch (cm.ExitType) {
-					case ExitType.Exit:
-						stopLoop = true;
-						break;
-					case ExitType.MessageAndExit:
-						SendData(_out, Protocols.Privmsg, $"{cm.Target} {cm.Message}");
-						stopLoop = true;
-						break;
-					case ExitType.DoNotExit:
-						break;
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
+			//	switch (cm.ExitType) {
+			//		case ExitType.Exit:
+			//			stopLoop = true;
+			//			break;
+			//		case ExitType.MessageAndExit:
+			//			SendData(Out, Protocols.Privmsg, $"{cm.Target} {cm.Message}");
+			//			stopLoop = true;
+			//			break;
+			//		case ExitType.DoNotExit:
+			//			break;
+			//		default:
+			//			throw new ArgumentOutOfRangeException();
+			//	}
 
-				if (stopLoop) {
-					c.Reset();
-					break;
-				}
+			//	if (stopLoop) {
+			//		c.Reset();
+			//		break;
+			//	}
 
-				if (cm.MultiMessage.Any())
-					foreach (string s in cm.MultiMessage)
-						SendData(_out, cm.Type, $"{cm.Target} {s}");
-				else if (!string.IsNullOrEmpty(cm.Message))
-					SendData(_out, cm.Type, $"{cm.Target} {cm.Message}");
+			//	if (cm.MultiMessage.Any())
+			//		foreach (string s in cm.MultiMessage)
+			//			SendData(Out, cm.Type, $"{cm.Target} {s}");
+			//	else if (!string.IsNullOrEmpty(cm.Message))
+			//		SendData(Out, cm.Type, $"{cm.Target} {cm.Message}");
 
-				c.Reset();
-			}
+			//	c.Reset();
+			//}
 		}
 	}
 
@@ -160,11 +160,11 @@ namespace Eve {
 					_connection = new TcpClient(_config.Server, _config.Port);
 					_networkStream = _connection.GetStream();
 					_in = new StreamReader(_networkStream);
-					_out = new StreamWriter(_networkStream);
+					Out = new StreamWriter(_networkStream);
 					_log = File.AppendText("logs.txt");
 
-					SendData(_out, Protocols.User, $"{_config.Nickname} 0 * {_config.Realname}");
-					SendData(_out, Protocols.Nick, _config.Nickname);
+					SendData(Out, Protocols.User, $"{_config.Nickname} 0 * {_config.Realname}");
+					SendData(Out, Protocols.Nick, _config.Nickname);
 					break;
 				} catch (SocketException) {
 					Console.WriteLine($"||| Communication error, attempting to connect again...");
@@ -184,11 +184,11 @@ namespace Eve {
 					if (_identified ||
 						!c.Type.Equals(Protocols.MotdReplyEnd)) return false;
 
-					SendData(_out, Protocols.Privmsg, $"NICKSERV IDENTIFY {_config.Password}");
-					SendData(_out, Protocols.Mode, $"{_config.Nickname} +B");
+					SendData(Out, Protocols.Privmsg, $"NICKSERV IDENTIFY {_config.Password}");
+					SendData(Out, Protocols.Mode, $"{_config.Nickname} +B");
 
 					foreach (string s in _config.Channels) {
-						SendData(_out, Protocols.Join, s);
+						SendData(Out, Protocols.Join, s);
 						V.Channels.Add(new Channel {
 							Name = s,
 							UserList = new List<string>()
@@ -213,35 +213,35 @@ namespace Eve {
 						QueryDefaultDatabase($"DELETE FROM messages WHERE id={V.CurrentUser.Id}");
 					}
 
-					AddUserToChannel(c.Recipient, c.Realname);
+					Channel.AddUserToChannel(c.Recipient, c.Realname);
 					break;
 				case Protocols.Part:
-					RemoveUserFromChannel(c.Recipient, c.Realname);
+					Channel.RemoveUserFromChannel(c.Recipient, c.Realname);
 					break;
 				case Protocols.NameReply:
 					// splits the channel user list in half by the :, then splits each user into an array object to be iterated
 					foreach (string s in c.Args.Split(':')[1].Split(' '))
-						AddUserToChannel(c.Recipient, s);
+						Channel.AddUserToChannel(c.Recipient, s);
 					break;
 				default:
 					if (!c.MultiArgs[0].Replace(",", string.Empty).CaseEquals(_config.Nickname) ||
 						V.IgnoreList.Contains(c.Realname) ||
-						GetUserTimeout(c.Realname, V))
+						User.GetTimeout(c.Realname))
 						break;
 
 					if (c.MultiArgs.Count < 2) {
-						SendData(_out, Protocols.Privmsg, $"{c.Recipient} Please provide a command. Type 'eve help' to view my command list.");
+						SendData(Out, Protocols.Privmsg, $"{c.Recipient} Please provide a command. Type 'eve help' to view my command list.");
 						break;
 					}
 
-					if (V.Modules.Select(e => e.Accessor).Contains(c.MultiArgs[1].ToLower())) return false;
+					if (V.CommandList.Keys.Contains(c.MultiArgs[1].ToLower())) return false;
 
 					if (c.MultiArgs[1].CaseEquals("help")) {
-						SendData(_out, Protocols.Privmsg, $"{c.Recipient} There appears to have been an issue loading my core module. Please notify my operator.");
+						SendData(Out, Protocols.Privmsg, $"{c.Recipient} There appears to have been an issue loading my core module. Please notify my operator.");
 						break;
 					}
 
-					SendData(_out, Protocols.Privmsg, $"{c.Recipient} Invalid command. Type 'eve help' to view my command list.");
+					SendData(Out, Protocols.Privmsg, $"{c.Recipient} Invalid command. Type 'eve help' to view my command list.");
 					break;
 			}
 
@@ -303,89 +303,6 @@ namespace Eve {
 						id = Convert.ToInt32(r.GetValue(0));
 			}
 			return id;
-		}
-
-
-
-		/// <summary>
-		///     Adds channel to list of currently connected channels
-		/// </summary>
-		/// <param name="channel">Channel name to be checked against and added</param>
-		public static void CheckValidChannelAndAdd(string channel) {
-			if (V.Channels.All(e => e.Name != channel) &&
-				channel.StartsWith("#"))
-				V.Channels.Add(new Channel {
-					Name = channel,
-					UserList = new List<string>()
-				});
-		}
-
-		/// <summary>
-		/// Adds a user to a channel in list
-		/// </summary>
-		/// <param name="channel">channel for user to be added to</param>
-		/// <param name="realname">user to be added</param>
-		public static void AddUserToChannel(string channel, string realname) {
-			if (!CheckChannelExists(channel, V)) return;
-
-			V.Channels.FirstOrDefault(e => e.Name == channel)?.UserList.Add(realname);
-		}
-
-		/// <summary>
-		/// Remove a user from a channel's user list
-		/// </summary>
-		/// <param name="channel">channel's UserList to remove from</param>
-		/// <param name="realname">user to remove</param>
-		public static void RemoveUserFromChannel(string channel, string realname) {
-			if (!CheckChannelExists(channel, V)) return;
-
-			Channel firstOrDefault = V.Channels.FirstOrDefault(e => e.Name == channel);
-			if (firstOrDefault != null &&
-				!firstOrDefault.UserList.Contains(realname)) {
-				Console.WriteLine($"||| '{realname}' does not exist in that channel.");
-				return;
-			}
-
-			V.Channels.FirstOrDefault(e => e.Name == channel)?.UserList.Remove(realname);
-		}
-
-
-
-
-		/// <summary>
-		///     Checks whether or not a specified user exists in database
-		/// </summary>
-		/// <param name="realname">name to check</param>
-		/// <returns>true: user exists; false: user does not exist</returns>
-		public static bool CheckUserExists(string realname) {
-			return V.QueryName(realname) != null;
-		}
-
-		/// <summary>
-		///     Updates specified user's `seen` data
-		/// </summary>
-		/// <param name="c">ChannelMessage for information to be surmised</param>
-		public static void UpdateCurrentUserAndInfo(ChannelMessage c) {
-			V.Users.First(e => e.Realname == c.Realname).Seen = c.Time;
-
-			QueryDefaultDatabase($"UPDATE users SET seen='{c.Time}' WHERE realname='{c.Realname}'");
-			QueryDefaultDatabase($"UPDATE users SET nickname='{c.Nickname}' WHERE realname='{c.Realname}'");
-
-			V.CurrentUser = V.Users.FirstOrDefault(e => e.Realname == c.Realname);
-		}
-
-		/// <summary>
-		///     Creates a new user and updates the users & userTimeouts collections
-		/// </summary>
-		/// <param name="u"><see cref="User" /> object to surmise information from</param>
-		public static void CreateUserAndUpdateCollections(User u) {
-			Console.WriteLine($"||| Creating database entry for {u.Realname}.");
-
-			u.Id = GetLastDatabaseId() + 1;
-
-			QueryDefaultDatabase($"INSERT INTO users VALUES ({u.Id}, '{u.Nickname}', '{u.Realname}', {u.Access}, '{u.Seen}')");
-
-			V.Users.Add(u);
 		}
 	}
 }

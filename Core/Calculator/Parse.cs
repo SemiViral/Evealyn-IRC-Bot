@@ -22,7 +22,7 @@ namespace Eve.Core.Calculator {
 			["calc"] = "(<expression>) — evaluates given mathematical expression."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 

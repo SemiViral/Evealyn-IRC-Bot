@@ -5,12 +5,12 @@ using Eve.Types;
 using Newtonsoft.Json.Linq;
 
 namespace Eve.Core {
-	public class Define : Utilities, IModule {
+	public class Define : Utils, IModule {
 		public Dictionary<string, string> Def => new Dictionary<string, string> {
 			["define"] = "(<word> *<part of speech>) — returns definition for given word."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return c;
 
@@ -44,12 +44,12 @@ namespace Eve.Core {
 		}
 	}
 
-	public class Lookup : Utilities, IModule {
+	public class Lookup : Utils, IModule {
 		public Dictionary<string, string> Def => new Dictionary<string, string> {
 			["lookup"] = "(<term/phrase>) — returns the wikipedia summary of given term or phrase."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 

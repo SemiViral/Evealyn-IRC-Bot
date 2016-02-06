@@ -4,12 +4,12 @@ using Eve.Types;
 using Newtonsoft.Json.Linq;
 
 namespace Eve.Core {
-	public class YouTube : Utilities, IModule {
+	public class YouTube : Utils, IModule {
 		public Dictionary<string, string> Def => new Dictionary<string, string> {
 			["youtube"] = "outputs video information for any given YouTube link in messages."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			Regex youtubeRegex =
 				new Regex(@"(?i)http(?:s?)://(?:www\.)?youtu(?:be\.com/watch\?v=|\.be/)(?<ID>[\w\-]+)(&(amp;)?[\w\?=‌​]*)?",
 					RegexOptions.Compiled);

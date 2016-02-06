@@ -4,7 +4,11 @@ using System.IO;
 using System.Net;
 
 namespace Eve {
-	public class Utilities {
+	public class Utils {
+		public static void Output(string toWrite) {
+			Console.WriteLine($"||| {toWrite}");
+		}
+
 		/// <summary>
 		/// Obtain HTTP response from a GET request
 		/// </summary>

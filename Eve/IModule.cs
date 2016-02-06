@@ -7,6 +7,6 @@ namespace Eve {
 	/// </summary>
 	public interface IModule {
 		Dictionary<string, string> Def { get; }
-		ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v);
+		ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject propRef);
 	}
 }

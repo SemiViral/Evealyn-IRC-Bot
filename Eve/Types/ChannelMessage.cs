@@ -24,6 +24,7 @@ namespace Eve.Types {
 		};
 	}
 
+	[Serializable]
 	public class ChannelMessage {
 		public ChannelMessage(string rawData) {
 			RawMessage = rawData;

@@ -11,7 +11,7 @@ namespace Eve.Core {
 			["join"] = "(<channel>) — joins specified channel."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
@@ -21,7 +21,7 @@ namespace Eve.Core {
 				c.Message = "Insufficient parameters. Type 'eve help join' to view ccommand's help index.";
 			else if (!c.MultiArgs[2].StartsWith("#"))
 				c.Message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (Channel.CheckExists(c.MultiArgs[2].ToLower()))
+			else if (v.GetChannel(c.MultiArgs[2].ToLower()) != null)
 				c.Message = "I'm already in that channel.";
 
 			if (!string.IsNullOrEmpty(c.Message)) {
@@ -41,17 +41,17 @@ namespace Eve.Core {
 			["part"] = "(<channel> *<message>) — parts from specified channel."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			if (v.CurrentUser.Access > 1)
 				c.Message = "Insufficient permissions.";
-			else if (string.IsNullOrEmpty(c.MultiArgs[2]))
+			else if (c.MultiArgs.Count < 3)
 				c.Message = "Insufficient parameters. Type 'eve help part' to view ccommand's help index.";
 			else if (!c.MultiArgs[2].StartsWith("#"))
 				c.Message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (!Channel.CheckExists(c.MultiArgs[2].ToLower()))
+			else if (v.GetChannel(c.MultiArgs[2].ToLower()) == null)
 				c.Message = "I'm not in that channel.";
 
 			if (!string.IsNullOrEmpty(c.Message)) {
@@ -59,10 +59,11 @@ namespace Eve.Core {
 				return c;
 			}
 
-			Channel.Remove(c.MultiArgs[2].ToLower());
+			string channel = c.MultiArgs[2].ToLower();
+			v.RemoveChannel(channel);
 
 			c.Target = string.Empty;
-			c.Message = c.MultiArgs.Count > 3 ? $"{c.MultiArgs[2]} {c.MultiArgs[3]}" : c.MultiArgs[2];
+			c.Message = c.MultiArgs.Count > 3 ? $"{channel} {c.MultiArgs[3]}" : channel;
 			c.Type = Protocols.Part;
 			return c;
 		}
@@ -73,7 +74,7 @@ namespace Eve.Core {
 			["say"] = "(*<channel> <message>) — returns specified message to (optionally) specified channel."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
@@ -100,11 +101,11 @@ namespace Eve.Core {
 			["channels"] = "ouputs a list of channels currently connected to."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
-			c.Message = string.Join(", ", Channel.List());
+			c.Message = string.Join(", ", v.ChannelList().Select(e => e.Name));
 			return c;
 		}
 	}
@@ -115,7 +116,7 @@ namespace Eve.Core {
 				"(<recipient> <message>) — saves message to be sent to specified recipient upon their rejoining a channel."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
@@ -124,7 +125,7 @@ namespace Eve.Core {
 
 			if (c.MultiArgs.Count < 4)
 				c.Message = "Insufficient parameters. Type 'eve help message' to view correct usage.";
-			else if (v.QueryName(c.MultiArgs[2]) == null)
+			else if (v.GetUser(c.MultiArgs[2]) == null)
 				c.Message = "User does not exist in database.";
 
 			if (!string.IsNullOrEmpty(c.Message)) {
@@ -139,17 +140,9 @@ namespace Eve.Core {
 				Date = DateTime.UtcNow
 			};
 
-			User.AddMessage(who, m);
+			v.GetUser(who).AddMessage(m);
 
-			c.Message = $"Message recorded and will be sent to {who}";
-
-			try {
-				IrcBot.QueryDefaultDatabase($"INSERT INTO messages VALUES ({v.QueryName(who).Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')");
-			} catch (Exception e) {
-				Console.WriteLine($"Error occured attepting to add message to database: {e}");
-				c.Message = "Error occured attempting to save message.";
-			}
-
+			c.Message = $"Message recorded and will be sent to {who}.";
 			return c;
 		}
 	}
@@ -159,7 +152,7 @@ namespace Eve.Core {
 			["help"] = "(*<command>) — prints the definition index for specified command."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
@@ -170,9 +163,23 @@ namespace Eve.Core {
 			}
 
 			c.Message = c.MultiArgs.Count < 3
-				? $"My commands: {v.GetCommands()}"
-				: $"{c.MultiArgs[2]}: {v.GetCommands(c.MultiArgs[2])}";
+				? $"My commands: {string.Join(", ", v.GetCommands())}"
+				: $"\x02{c.MultiArgs[2]}\x0F {v.GetCommands(c.MultiArgs[2]).First()}";
 
+			return c;
+		}
+	}
+
+	public class GetUsers : IModule {
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			["users"] = "returns full list of stored users."
+		};
+
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
+				return null;
+
+			c.Message = $"Users in database: {string.Join(", ", v.GetUsers().Select(e => e.Realname))}";
 			return c;
 		}
 	}
@@ -182,21 +189,20 @@ namespace Eve.Core {
 			["user"] = "(<user>) — returns stored nickname and access level of specified user."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
-			c.MultiArgs[2] = c.MultiArgs[2].ToLower();
-
 			if (c.MultiArgs.Count < 3)
 				c.Message = "Insufficient parameters. Type 'eve help user' to view command's help index.";
-			else if (v.QueryName(c.MultiArgs[2]) == null)
+			else if (v.GetUser(c.MultiArgs[2].ToLower()) == null)
 				c.Message = $"User {c.MultiArgs[2]} does not exist in database.";
 
 			if (!string.IsNullOrEmpty(c.Message))
 				return c;
 
-			c.Message = $"{v.QueryName(c.MultiArgs[2]).Realname}({v.QueryName(c.MultiArgs[2]).Access})";
+			string who = c.MultiArgs[2].ToLower();
+			c.Message = $"{v.GetUser(who).Realname}({v.GetUser(who).Access})";
 
 			return c;
 		}
@@ -207,19 +213,19 @@ namespace Eve.Core {
 			["seen"] = "(<user>) — returns a DateTime of the last message by user in any channel."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			if (c.MultiArgs.Count < 3)
 				c.Message = "Insufficient parameters. Type 'eve help seen' to view correct usage.";
-			else if (v.QueryName(c.MultiArgs[2].ToLower()) == null)
+			else if (v.GetUser(c.MultiArgs[2].ToLower()) == null)
 				c.Message = "User does not exist in database.";
 
 			if (!string.IsNullOrEmpty(c.Message))
 				return c;
 
-			User u = v.QueryName(c.MultiArgs[2].ToLower());
+			User u = v.GetUser(c.MultiArgs[2].ToLower());
 			c.Message = $"{u.Realname} was last seen on: {u.Seen} (UTC)";
 
 			return c;
@@ -231,7 +237,7 @@ namespace Eve.Core {
 			["setaccess"] = "(<user> <new access>) — updates specified user's access level."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
@@ -240,7 +246,7 @@ namespace Eve.Core {
 
 			if (c.MultiArgs.Count < 4)
 				c.Message = "Insuffient parameters. Type 'eve help setaccess' to view command's help index.";
-			else if (v.QueryName(c.MultiArgs[2]) == null)
+			else if (v.GetUser(c.MultiArgs[2]) == null)
 				c.Message = "User does not exist in database.";
 			else if (!int.TryParse(c.MultiArgs[3], out i))
 				c.Message = "Invalid access parameter.";
@@ -253,11 +259,9 @@ namespace Eve.Core {
 			if (!string.IsNullOrEmpty(c.Message))
 				return c;
 
-			IrcBot.QueryDefaultDatabase($"UPDATE users SET access={i} WHERE id={v.QueryName(c.MultiArgs[2]).Id}");
+			v.GetUser(c.MultiArgs[2]).SetAccess(i);
 
-			User.SetAccess(c.MultiArgs[2], i);
 			c.Message = $"User {c.MultiArgs[2]}'s access changed to ({i}).";
-
 			return c;
 		}
 	}
@@ -267,7 +271,7 @@ namespace Eve.Core {
 			["about"] = "returns general information about Evealyn IRCBot."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
@@ -276,26 +280,26 @@ namespace Eve.Core {
 		}
 	}
 
-	//public class GetModules : IModule {
-	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
-	//		["modules"] = "returns a list of all currently active modules."
-	//	};
+	public class GetModules : IModule {
+		public Dictionary<string, string> Def => new Dictionary<string, string> {
+			["modules"] = "returns a list of all currently active modules."
+		};
 
-	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
-	//		if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-	//			return null;
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
+				return null;
 
-	//		c.Message = $"Active modules: {string.Join(", ", v.Modules)}";
-	//		return c;
-	//	}
-	//}
+			c.Message = $"Active modules: {string.Join(", ", v.GetModules())}";
+			return c;
+		}
+	}
 
 	//public class ReloadModules : IModule {
 	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
 	//		["reload"] = "(<module>) — reloads specified module."
 	//	};
 
-	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 	//		if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 	//			return null;
 
@@ -317,7 +321,7 @@ namespace Eve.Core {
 			["quit"] = "ends program's execution."
 		};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PropertyReference v) {
+		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
 			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 

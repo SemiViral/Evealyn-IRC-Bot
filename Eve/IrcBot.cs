@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
-using System.Threading;
 using Eve.Ref.Irc;
 using Eve.Types;
 
 namespace Eve {
-	public partial class IrcBot : Utilities, IDisposable {
+	public partial class IrcBot : IDisposable {
 		private bool _identified;
 		private bool _disposed;
 
@@ -21,7 +18,7 @@ namespace Eve {
 		private StreamReader _in;
 		internal static StreamWriter Out;
 
-		public static PropertyReference V { get; set; }
+		public static PassableMutableObject V { get; private set; }
 
 		/// <summary>
 		///     initialises class
@@ -30,11 +27,14 @@ namespace Eve {
 		public IrcBot(IrcConfig config) {
 			_config = config;
 
-			V = new PropertyReference(_config.Database) {
-				IgnoreList = _config.IgnoreList
+			V = new PassableMutableObject(_config.Database) {
+				IgnoreList = _config.IgnoreList,
 			};
 
+			V.ModuleControl = new ModuleManager(ref V.CommandList);
+
 			InitializeConnections();
+
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace Eve {
 		}
 
 		/// <summary>
-		///     Recieves incoming data, parses it, and passes it to <see cref="DoModuleIteration(ChannelMessage, PropertyReference)" />
+		///     Recieves incoming data, parses it, and passes it to <see cref="DoModuleIteration(ChannelMessage)" />
 		/// </summary>
 		public void Runtime() {
 			string data;
@@ -65,7 +65,7 @@ namespace Eve {
 			try {
 				data = _in.ReadLine();
 			} catch (NullReferenceException) {
-				Console.WriteLine("||| Stream disconnected. Attempting to reconnect.");
+				Utils.Output("Stream disconnected. Attempting to reconnect.");
 
 				InitializeConnections();
 				return;
@@ -85,12 +85,11 @@ namespace Eve {
 			_log.WriteLine($"({DateTime.Now}) {data}");
 			_log.Flush();
 
-			Channel.CheckAdd(c.Recipient);
+			V.AddChannel(c.Recipient);
 
-			if (User.CheckExists(c.Realname))
-				User.UpdateCurrentUser(c.Realname, c.Nickname);
-			else if (c.SenderIdentifiable)
-				User.Create(new User {
+			if (V.GetUser(c.Realname) == null &&
+				c.SenderIdentifiable)
+				V.CreateUser(new User {
 					Access = 3,
 					Nickname = c.Nickname,
 					Realname = c.Realname,
@@ -98,52 +97,55 @@ namespace Eve {
 					Attempts = 0
 				});
 
+			V.CurrentUser = V.GetUser(c.Realname);
 			if (PreprocessMessage(c)) return;
-			ThreadPool.QueueUserWorkItem(e => DoModuleIteration(c, V));
+			V.CurrentUser.UpdateUser(c.Nickname);
+
+			DoModuleIteration(c);
 		}
 
-		private void DoModuleIteration(ChannelMessage c, PropertyReference v) {
+		private static void DoModuleIteration(ChannelMessage c) {
 			c.Target = c.Recipient;
+			
+			foreach (Module m in V.ModuleControl.Modules)
+			foreach (ChannelMessage cm in m.OnChannelMessageIterate(c, V)) {
+				Console.WriteLine("FUCK OFF");
 
-			//foreach (Module m in v.Modules) {
-			//	var ac = ((IModule) Activator.CreateInstance(m.Assembly));
-			//	ChannelMessage cm = ac.OnChannelMessage(c, v);
+				if (cm == null) {
+					Console.WriteLine("FUCK OFF 4, FUCK OFF HARDER");
+					c.Reset();
+					continue;
+				}
 
-			//foreach (ChannelMessage cm in v.Modules.Select(e => ((IModule)Activator.CreateInstance(e.Assembly)).OnChannelMessage(c, v))) {
-			//	if (cm == null) {
-			//		c.Reset();
-			//		continue;
-			//	}
+				bool stopLoop = false;
 
-			//	bool stopLoop = false;
+				switch (cm.ExitType) {
+					case ExitType.Exit:
+						stopLoop = true;
+						break;
+					case ExitType.MessageAndExit:
+						SendData(Out, Protocols.Privmsg, $"{cm.Target} {cm.Message}");
+						stopLoop = true;
+						break;
+					case ExitType.DoNotExit:
+						break;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
 
-			//	switch (cm.ExitType) {
-			//		case ExitType.Exit:
-			//			stopLoop = true;
-			//			break;
-			//		case ExitType.MessageAndExit:
-			//			SendData(Out, Protocols.Privmsg, $"{cm.Target} {cm.Message}");
-			//			stopLoop = true;
-			//			break;
-			//		case ExitType.DoNotExit:
-			//			break;
-			//		default:
-			//			throw new ArgumentOutOfRangeException();
-			//	}
+				if (stopLoop) {
+					c.Reset();
+					break;
+				}
 
-			//	if (stopLoop) {
-			//		c.Reset();
-			//		break;
-			//	}
+				if (cm.MultiMessage.Any())
+					foreach (string s in cm.MultiMessage)
+						SendData(Out, cm.Type, $"{cm.Target} {s}");
+				else if (!string.IsNullOrEmpty(cm.Message))
+					SendData(Out, cm.Type, $"{cm.Target} {cm.Message}");
 
-			//	if (cm.MultiMessage.Any())
-			//		foreach (string s in cm.MultiMessage)
-			//			SendData(Out, cm.Type, $"{cm.Target} {s}");
-			//	else if (!string.IsNullOrEmpty(cm.Message))
-			//		SendData(Out, cm.Type, $"{cm.Target} {cm.Message}");
-
-			//	c.Reset();
-			//}
+				c.Reset();
+			}
 		}
 	}
 
@@ -155,7 +157,7 @@ namespace Eve {
 		public void InitializeConnections() {
 			int retries = 0;
 
-			while (retries < 4) {
+			while (retries < 3) {
 				try {
 					_connection = new TcpClient(_config.Server, _config.Port);
 					_networkStream = _connection.GetStream();
@@ -167,7 +169,7 @@ namespace Eve {
 					SendData(Out, Protocols.Nick, _config.Nickname);
 					break;
 				} catch (SocketException) {
-					Console.WriteLine($"||| Communication error, attempting to connect again...");
+					Utils.Output("Communication error, attempting to connect again...");
 					retries++;
 				}
 			}
@@ -189,44 +191,39 @@ namespace Eve {
 
 					foreach (string s in _config.Channels) {
 						SendData(Out, Protocols.Join, s);
-						V.Channels.Add(new Channel {
-							Name = s,
-							UserList = new List<string>()
-						});
+						V.AddChannel(s);
 					}
 
 					_identified = true;
 					break;
 				case Protocols.Nick:
-					QueryDefaultDatabase($"UPDATE users SET nickname='{c.Recipient}' WHERE realname='{c.Realname}'");
+					PassableMutableObject.QueryDefaultDatabase($"UPDATE users SET nickname='{c.Recipient}' WHERE realname='{c.Realname}'");
 					break;
 				case Protocols.Join:
-					if (V.QueryName(c.Realname) != null &&
-						V.CurrentUser.Messages != null) {
+					if (V.GetUser(c.Realname) != null &&
+						V.CurrentUser.Messages.Count > 0) {
 						c.Target = c.Nickname;
 
 						foreach (Message m in V.CurrentUser.Messages)
 							c.MultiMessage.Add($"({m.Date}) {m.Sender}: {Regex.Unescape(m.Contents)}");
 
-						V.Users.First(e => e.Realname == c.Realname).Messages = new List<Message>();
-
-						QueryDefaultDatabase($"DELETE FROM messages WHERE id={V.CurrentUser.Id}");
+						PassableMutableObject.QueryDefaultDatabase($"DELETE FROM messages WHERE id={V.CurrentUser.Id}");
 					}
 
-					Channel.AddUserToChannel(c.Recipient, c.Realname);
+					V.AddUserToChannel(c.Recipient, c.Realname);
 					break;
 				case Protocols.Part:
-					Channel.RemoveUserFromChannel(c.Recipient, c.Realname);
+					V.RemoveUserFromChannel(c.Recipient, c.Realname);
 					break;
 				case Protocols.NameReply:
 					// splits the channel user list in half by the :, then splits each user into an array object to be iterated
 					foreach (string s in c.Args.Split(':')[1].Split(' '))
-						Channel.AddUserToChannel(c.Recipient, s);
+						V.AddUserToChannel(c.Recipient, s);
 					break;
 				default:
 					if (!c.MultiArgs[0].Replace(",", string.Empty).CaseEquals(_config.Nickname) ||
 						V.IgnoreList.Contains(c.Realname) ||
-						User.GetTimeout(c.Realname))
+						V.CurrentUser.GetTimeout())
 						break;
 
 					if (c.MultiArgs.Count < 2) {
@@ -272,37 +269,6 @@ namespace Eve {
 
 				Console.WriteLine($"{cmd} {param}");
 			}
-		}
-
-
-
-		/// <summary>
-		/// Execute a query on the default IrcBot database
-		/// </summary>
-		/// <param name="query"></param>
-		public static void QueryDefaultDatabase(string query) {
-			using (SQLiteConnection db = new SQLiteConnection($"Data Source={_config.Database};Version=3;"))
-			using (SQLiteCommand com = new SQLiteCommand(query, db)) {
-				db.Open();
-				com.ExecuteNonQuery();
-			}
-		}
-
-		/// <summary>
-		/// Returns int value of last ID in database
-		/// </summary>
-		/// <returns><see cref="Int32"/></returns>
-		public static int GetLastDatabaseId() {
-			int id = -1;
-
-			using (SQLiteConnection db = new SQLiteConnection($"Data Source={_config.Database};Version=3;")) {
-				db.Open();
-
-				using (SQLiteDataReader r = new SQLiteCommand("SELECT MAX(id) FROM users", db).ExecuteReader())
-					while (r.Read())
-						id = Convert.ToInt32(r.GetValue(0));
-			}
-			return id;
 		}
 	}
 }

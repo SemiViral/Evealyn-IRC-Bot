@@ -91,7 +91,7 @@ namespace Eve.Core.Calculator {
 			}
 		}
 
-		private double PostProcess(double result) {
+		private static double PostProcess(double result) {
 			return Math.Round(result, 10);
 		}
 	}

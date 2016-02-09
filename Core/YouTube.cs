@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Eve.ModuleControl;
 using Eve.Types;
 using Newtonsoft.Json.Linq;
 
 namespace Eve.Core {
-	public class YouTube : Utils, IModule {
+	public class YouTube : Utils, IPlugin {
 		public Dictionary<string, string> Def => new Dictionary<string, string> {
 			["youtube"] = "outputs video information for any given YouTube link in messages."
 		};

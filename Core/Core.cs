@@ -1,335 +1,385 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Eve.Ref.Irc;
-using Eve.Types;
+using System.Diagnostics;
+using Eve.Plugin;
 
 namespace Eve.Core {
-	public class Join : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["join"] = "(<channel>) — joins specified channel."
-		};
+	[Serializable]
+	internal class Core : IPlugin {
+		public string Id => Guid.NewGuid().ToString();
+		public string Name => "Core";
+		public string Version => "2.0";
+		public bool TerminateRequestRecieved { get; private set; }
+		public PluginStatus Status { get; private set; } = PluginStatus.Stopped;
+		public Dictionary<string, string> Definition => null;
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
+		public void ProcessEnded() {
+			if (!TerminateRequestRecieved) {}
+		}
 
-			if (v.CurrentUser.Access > 1)
-				c.Message = "Insufficient permissions.";
-			else if (string.IsNullOrEmpty(c.MultiArgs[2]))
-				c.Message = "Insufficient parameters. Type 'eve help join' to view ccommand's help index.";
-			else if (!c.MultiArgs[2].StartsWith("#"))
-				c.Message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (v.GetChannel(c.MultiArgs[2].ToLower()) != null)
-				c.Message = "I'm already in that channel.";
+		public void OnChannelMessage(object source, ChannelMessageEventArgs e) {
+			Status = PluginStatus.Processing;
 
-			if (!string.IsNullOrEmpty(c.Message)) {
-				c.Type = Protocols.Privmsg;
-				return c;
+			Status = PluginStatus.Stopped;
+		}
+
+		public bool Start() {
+			DoCallback(new PluginEventArgs(PluginEventMessageType.Message, $"{Name} loaded."));
+			return true;
+		}
+
+		public bool Stop() {
+			if (Status == PluginStatus.Running) {
+				TerminateRequestRecieved = true;
+				DoCallback(new PluginEventArgs(PluginEventMessageType.Message, $"Stop called but process is running from: {Name}"));
+			} else {
+				TerminateRequestRecieved = true;
+				DoCallback(new PluginEventArgs(PluginEventMessageType.Message, $"Stop called from: {Name}"));
+				Call_Die();
 			}
 
-			c.Target = string.Empty;
-			c.Message = c.MultiArgs[2];
-			c.Type = Protocols.Join;
-			return c;
+			return true;
+		}
+
+		public void LogError(string message, EventLogEntryType logType) {
+			Writer.Log(message, logType);
+		}
+
+		public void Call_Die() {
+			Status = PluginStatus.Stopped;
+			DoCallback(new PluginEventArgs(PluginEventMessageType.Message,
+				$"Calling die, stopping process, sending unload —— from: {Name}"));
+			DoCallback(new PluginEventArgs(PluginEventMessageType.Action, null, new PluginEventAction {
+				ActionToTake = PluginActionType.Unload
+			}));
+		}
+
+		public event EventHandler<PluginEventArgs> CallbackEvent;
+
+		public void DoCallback(PluginEventArgs e) {
+			CallbackEvent?.Invoke(this, e);
 		}
 	}
 
-	public class Part : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["part"] = "(<channel> *<message>) — parts from specified channel."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			if (v.CurrentUser.Access > 1)
-				c.Message = "Insufficient permissions.";
-			else if (c.MultiArgs.Count < 3)
-				c.Message = "Insufficient parameters. Type 'eve help part' to view ccommand's help index.";
-			else if (!c.MultiArgs[2].StartsWith("#"))
-				c.Message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-			else if (v.GetChannel(c.MultiArgs[2].ToLower()) == null)
-				c.Message = "I'm not in that channel.";
-
-			if (!string.IsNullOrEmpty(c.Message)) {
-				c.Type = Protocols.Privmsg;
-				return c;
-			}
-
-			string channel = c.MultiArgs[2].ToLower();
-			v.RemoveChannel(channel);
-
-			c.Target = string.Empty;
-			c.Message = c.MultiArgs.Count > 3 ? $"{channel} {c.MultiArgs[3]}" : channel;
-			c.Type = Protocols.Part;
-			return c;
-		}
-	}
-
-	public class Say : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["say"] = "(*<channel> <message>) — returns specified message to (optionally) specified channel."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			if (c.MultiArgs.Count < 3
-				||
-				(c.MultiArgs[2].StartsWith("#")
-				 && c.MultiArgs.Count < 4)) {
-				c.Message = "Insufficient parameters. Type 'eve help say' to view ccommand's help index.";
-				return c;
-			}
-
-			string msg = c.MultiArgs[2].StartsWith("#")
-				? $"{c.MultiArgs[2]} {c.MultiArgs[3]}"
-				: c.MultiArgs[2];
-			string chan = c.MultiArgs[2].StartsWith("#") ? c.MultiArgs[2] : string.Empty;
-
-			c.Message = string.IsNullOrEmpty(chan) ? msg : $"{chan} {msg}";
-			return c;
-		}
-	}
-
-	public class Channels : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["channels"] = "ouputs a list of channels currently connected to."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			c.Message = string.Join(", ", v.ChannelList().Select(e => e.Name));
-			return c;
-		}
-	}
-
-	public class SaveMessage : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["message"] =
-				"(<recipient> <message>) — saves message to be sent to specified recipient upon their rejoining a channel."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			if (c.MultiArgs.Count > 3)
-				c.MultiArgs[2] = c.MultiArgs[2].ToLower();
-
-			if (c.MultiArgs.Count < 4)
-				c.Message = "Insufficient parameters. Type 'eve help message' to view correct usage.";
-			else if (v.GetUser(c.MultiArgs[2]) == null)
-				c.Message = "User does not exist in database.";
-
-			if (!string.IsNullOrEmpty(c.Message)) {
-				c.ExitType = ExitType.MessageAndExit;
-				return c;
-			}
-
-			string who = Regex.Escape(c.MultiArgs[2]);
-			Message m = new Message {
-				Sender = c.Nickname,
-				Contents = Regex.Escape(c.MultiArgs[3]),
-				Date = DateTime.UtcNow
-			};
-
-			v.GetUser(who).AddMessage(m);
-
-			c.Message = $"Message recorded and will be sent to {who}.";
-			return c;
-		}
-	}
-
-	public class Help : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["help"] = "(*<command>) — prints the definition index for specified command."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			if (c.MultiArgs.Count > 2 &&
-				!v.HasCommand(c.MultiArgs[2])) {
-				c.Message = "Command does not exist.";
-				return c;
-			}
-
-			c.Message = c.MultiArgs.Count < 3
-				? $"My commands: {string.Join(", ", v.GetCommands())}"
-				: $"\x02{c.MultiArgs[2]}\x0F {v.GetCommands(c.MultiArgs[2]).First()}";
-
-			return c;
-		}
-	}
-
-	public class GetUsers : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["users"] = "returns full list of stored users."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			c.Message = $"Users in database: {string.Join(", ", v.GetUsers().Select(e => e.Realname))}";
-			return c;
-		}
-	}
-
-	public class GetUser : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["user"] = "(<user>) — returns stored nickname and access level of specified user."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			if (c.MultiArgs.Count < 3)
-				c.Message = "Insufficient parameters. Type 'eve help user' to view command's help index.";
-			else if (v.GetUser(c.MultiArgs[2].ToLower()) == null)
-				c.Message = $"User {c.MultiArgs[2]} does not exist in database.";
-
-			if (!string.IsNullOrEmpty(c.Message))
-				return c;
-
-			string who = c.MultiArgs[2].ToLower();
-			c.Message = $"{v.GetUser(who).Realname}({v.GetUser(who).Access})";
-
-			return c;
-		}
-	}
-
-	public class Seen : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["seen"] = "(<user>) — returns a DateTime of the last message by user in any channel."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			if (c.MultiArgs.Count < 3)
-				c.Message = "Insufficient parameters. Type 'eve help seen' to view correct usage.";
-			else if (v.GetUser(c.MultiArgs[2].ToLower()) == null)
-				c.Message = "User does not exist in database.";
-
-			if (!string.IsNullOrEmpty(c.Message))
-				return c;
-
-			User u = v.GetUser(c.MultiArgs[2].ToLower());
-			c.Message = $"{u.Realname} was last seen on: {u.Seen} (UTC)";
-
-			return c;
-		}
-	}
-
-	public class SetAccess : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["setaccess"] = "(<user> <new access>) — updates specified user's access level."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			int i = 3;
-			if (c.MultiArgs.Count > 2) c.MultiArgs[2] = c.MultiArgs[2].ToLower();
-
-			if (c.MultiArgs.Count < 4)
-				c.Message = "Insuffient parameters. Type 'eve help setaccess' to view command's help index.";
-			else if (v.GetUser(c.MultiArgs[2]) == null)
-				c.Message = "User does not exist in database.";
-			else if (!int.TryParse(c.MultiArgs[3], out i))
-				c.Message = "Invalid access parameter.";
-			else if (i > 9 ||
-					 i < 1)
-				c.Message = "Invalid access setting. Please use a number between 1 and 9.";
-			else if (v.CurrentUser.Access > 1)
-				c.Message = "Insufficient permissions. Only users with an access level of 1 or 0 can promote.";
-
-			if (!string.IsNullOrEmpty(c.Message))
-				return c;
-
-			v.GetUser(c.MultiArgs[2]).SetAccess(i);
-
-			c.Message = $"User {c.MultiArgs[2]}'s access changed to ({i}).";
-			return c;
-		}
-	}
-
-	public class About : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["about"] = "returns general information about Evealyn IRCBot."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			c.Message = v.Info;
-			return c;
-		}
-	}
-
-	public class GetModules : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["modules"] = "returns a list of all currently active modules."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			c.Message = $"Active modules: {string.Join(", ", v.GetModules())}";
-			return c;
-		}
-	}
-
-	//public class ReloadModules : IModule {
+	//public class Join : IPlugin {
 	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
-	//		["reload"] = "(<module>) — reloads specified module."
+	//		["join"] = "(<channel>) — joins specified channel."
 	//	};
 
 	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-	//		if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
 	//			return null;
 
-	//		if (v.CurrentUser.Access > 1) {
-	//			c.Message = "Insufficient permissions.";
+	//		if (v.CurrentUser.Access > 1)
+	//			c.message = "Insufficient permissions.";
+	//		else if (string.IsNullOrEmpty(c.SplitArgs[2]))
+	//			c.message = "Insufficient parameters. Type 'eve help join' to view ccommand's help index.";
+	//		else if (!c.SplitArgs[2].StartsWith("#"))
+	//			c.message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
+	//		else if (v.GetChannel(c.SplitArgs[2].ToLower()) != null)
+	//			c.message = "I'm already in that channel.";
+
+	//		if (!string.IsNullOrEmpty(c.message)) {
+	//			c.Type = Protocols.Privmsg;
 	//			return c;
 	//		}
 
-	//		v.ReloadModules();
-
-	//		c.ExitType = ExitType.MessageAndExit;
-	//		c.Message = "Modules reloaded.";
+	//		c.Target = string.Empty;
+	//		c.message = c.SplitArgs[2];
+	//		c.Type = Protocols.Join;
 	//		return c;
 	//	}
 	//}
 
-	public class Quit : IModule {
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["quit"] = "ends program's execution."
-		};
+	//public class Part : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["part"] = "(<channel> *<message>) — parts from specified channel."
+	//	};
 
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
 
-			if (v.CurrentUser.Access == 0) {
-				Environment.Exit(0);
-			} else c.Message = "Insufficient permissions.";
+	//		if (v.CurrentUser.Access > 1)
+	//			c.message = "Insufficient permissions.";
+	//		else if (c.SplitArgs.Count < 3)
+	//			c.message = "Insufficient parameters. Type 'eve help part' to view ccommand's help index.";
+	//		else if (!c.SplitArgs[2].StartsWith("#"))
+	//			c.message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
+	//		else if (v.GetChannel(c.SplitArgs[2].ToLower()) == null)
+	//			c.message = "I'm not in that channel.";
 
-			return c;
-		}
-	}
+	//		if (!string.IsNullOrEmpty(c.message)) {
+	//			c.Type = Protocols.Privmsg;
+	//			return c;
+	//		}
+
+	//		string channel = c.SplitArgs[2].ToLower();
+	//		v.RemoveChannel(channel);
+
+	//		c.Target = string.Empty;
+	//		c.message = c.SplitArgs.Count > 3 ? $"{channel} {c.SplitArgs[3]}" : channel;
+	//		c.Type = Protocols.Part;
+	//		return c;
+	//	}
+	//}
+
+	//public class Say : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["say"] = "(*<channel> <message>) — returns specified message to (optionally) specified channel."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		if (c.SplitArgs.Count < 3
+	//			||
+	//			(c.SplitArgs[2].StartsWith("#")
+	//			 && c.SplitArgs.Count < 4)) {
+	//			c.message = "Insufficient parameters. Type 'eve help say' to view ccommand's help index.";
+	//			return c;
+	//		}
+
+	//		string msg = c.SplitArgs[2].StartsWith("#")
+	//			? $"{c.SplitArgs[2]} {c.SplitArgs[3]}"
+	//			: c.SplitArgs[2];
+	//		string chan = c.SplitArgs[2].StartsWith("#") ? c.SplitArgs[2] : string.Empty;
+
+	//		c.message = string.IsNullOrEmpty(chan) ? msg : $"{chan} {msg}";
+	//		return c;
+	//	}
+	//}
+
+	//public class Channels : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["channels"] = "ouputs a list of channels currently connected to."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		c.message = string.Join(", ", v.ChannelList().Select(e => e.Name));
+	//		return c;
+	//	}
+	//}
+
+	//public class SaveMessage : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["message"] =
+	//			"(<recipient> <message>) — saves message to be sent to specified recipient upon their rejoining a channel."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		string who = string.Empty;
+
+	//		if (c.SplitArgs.Count < 4) c.message = "Insufficient parameters. Type 'eve help message' to view correct usage.";
+	//		else who = c.SplitArgs[2].ToLower();
+
+	//		if (v.GetUser(who) == null)
+	//			c.message = "User does not exist in database.";
+	//		else if (!v.GetUser(who).AddMessage(new message {
+	//			Sender = c.Nickname,
+	//			Contents = Regex.Escape(c.SplitArgs[3]),
+	//			Date = DateTime.UtcNow
+	//		})) c.message = "Error occurred, aborting operation.";
+
+	//		if (!string.IsNullOrEmpty(c.message)) {
+	//			c.ExitType = ExitType.MessageAndExit;
+	//			return c;
+	//		}
+
+	//		c.message = $"message recorded and will be sent to {who}.";
+	//		return c;
+	//	}
+	//}
+
+	//public class Help : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["help"] = "(*<command>) — prints the definition index for specified command."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		if (c.SplitArgs.Count > 2 &&
+	//			!v.HasCommand(c.SplitArgs[2])) {
+	//			c.message = "Command does not exist.";
+	//			return c;
+	//		}
+
+	//		c.message = c.SplitArgs.Count < 3
+	//			? $"My commands: {string.Join(", ", v.GetCommands())}"
+	//			: $"\x02{c.SplitArgs[2]}\x0F {v.GetCommands(c.SplitArgs[2]).First()}";
+
+	//		return c;
+	//	}
+	//}
+
+	//public class GetUsers : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["users"] = "returns full list of stored users."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		c.message = $"Users in database: {string.Join(", ", v.GetUsers().Select(e => e.Realname))}";
+	//		return c;
+	//	}
+	//}
+
+	//public class GetUser : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["user"] = "(<user>) — returns stored nickname and access level of specified user."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		if (c.SplitArgs.Count < 3)
+	//			c.message = "Insufficient parameters. Type 'eve help user' to view command's help index.";
+	//		else if (v.GetUser(c.SplitArgs[2].ToLower()) == null)
+	//			c.message = $"User {c.SplitArgs[2]} does not exist in database.";
+
+	//		if (!string.IsNullOrEmpty(c.message))
+	//			return c;
+
+	//		string who = c.SplitArgs[2].ToLower();
+	//		c.message = $"{v.GetUser(who).Realname}({v.GetUser(who).Access})";
+
+	//		return c;
+	//	}
+	//}
+
+	//public class Seen : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["seen"] = "(<user>) — returns a DateTime of the last message by user in any channel."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		if (c.SplitArgs.Count < 3)
+	//			c.message = "Insufficient parameters. Type 'eve help seen' to view correct usage.";
+	//		else if (v.GetUser(c.SplitArgs[2].ToLower()) == null)
+	//			c.message = "User does not exist in database.";
+
+	//		if (!string.IsNullOrEmpty(c.message))
+	//			return c;
+
+	//		User u = v.GetUser(c.SplitArgs[2].ToLower());
+	//		c.message = $"{u.Realname} was last seen on: {u.Seen} (UTC)";
+
+	//		return c;
+	//	}
+	//}
+
+	//public class SetAccess : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["setaccess"] = "(<user> <new access>) — updates specified user's access level."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		int i = 3;
+	//		if (c.SplitArgs.Count > 2) c.SplitArgs[2] = c.SplitArgs[2].ToLower();
+
+	//		if (c.SplitArgs.Count < 4)
+	//			c.message = "Insuffient parameters. Type 'eve help setaccess' to view command's help index.";
+	//		else if (v.GetUser(c.SplitArgs[2]) == null)
+	//			c.message = "User does not exist in database.";
+	//		else if (!int.TryParse(c.SplitArgs[3], out i))
+	//			c.message = "Invalid access parameter.";
+	//		else if (i > 9 ||
+	//				 i < 1)
+	//			c.message = "Invalid access setting. Please use a number between 1 and 9.";
+	//		else if (v.CurrentUser.Access > 1)
+	//			c.message = "Insufficient permissions. Only users with an access level of 1 or 0 can promote.";
+	//		else if (!v.GetUser(c.SplitArgs[2]).SetAccess(i))
+	//			c.message = "Error occured, aborting operation.";
+
+	//		if (!string.IsNullOrEmpty(c.message))
+	//			return c;
+
+	//		c.message = $"User {c.SplitArgs[2]}'s access changed to ({i}).";
+	//		return c;
+	//	}
+	//}
+
+	//public class About : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["about"] = "returns general information about Evealyn IRCBot."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		c.message = v.Info;
+	//		return c;
+	//	}
+	//}
+
+	//public class GetPlugins : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["modules"] = "returns a list of all currently active modules."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		c.message = $"Active modules: {string.Join(", ", v.GetModules())}";
+	//		return c;
+	//	}
+	//}
+
+	////public class ReloadModules : IPlugin {
+	////	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	////		["reload"] = "(<module>) — reloads specified module."
+	////	};
+
+	////	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	////		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	////			return null;
+
+	////		if (v.CurrentUser.Access > 1) {
+	////			c.message = "Insufficient permissions.";
+	////			return c;
+	////		}
+
+	////		v.ReloadModules();
+
+	////		c.ExitType = ExitType.MessageAndExit;
+	////		c.message = "Modules reloaded.";
+	////		return c;
+	////	}
+	////}
+
+	//public class Quit : IPlugin {
+	//	public Dictionary<string, string> Def => new Dictionary<string, string> {
+	//		["quit"] = "ends program's execution."
+	//	};
+
+	//	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
+	//		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+	//			return null;
+
+	//		if (v.CurrentUser.Access == 0) Environment.Exit(0);
+	//		else c.message = "Insufficient permissions.";
+
+	//		return c;
+	//	}
+	//}
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Eve.Types;
 
-namespace Eve.Core.Calculator {
-	public partial class Calculator : IModule {
+namespace Eve.Core.Calc {
+	public partial class Calculator {
 		private string _expression;
 		private Stack<double> _operands;
 		private Stack<string> _operators;
@@ -14,62 +14,34 @@ namespace Eve.Core.Calculator {
 		private string _token;
 		private int _tokenPos;
 
-		public Calculator() {
-			Reset();
-		}
-
-		public Dictionary<string, string> Def => new Dictionary<string, string> {
-			["calc"] = "(<expression>) — evaluates given mathematical expression."
-		};
-
-		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return null;
-
-			if (c.MultiArgs.Count < 3) c.Message = "Not enough parameters.";
-
-			string evalArgs = c.MultiArgs.Count > 3 ?
-				c.MultiArgs[2] + c.MultiArgs[3] : c.MultiArgs[2];
-
-			try {
-				c.Message = Evaluate(evalArgs).ToString(CultureInfo.CurrentCulture);
-			} catch (Exception e) {
-				c.Message = e.Message;
-			}
-
-			return c;
-		}
-
-		public void Reset() {
-			LoadConstants();
-			Clear();
-		}
-
 		public void Clear() {
 			_operands = new Stack<double>();
 			_operators = new Stack<string>();
 
-			_operators.Push(Token.Sentinel);
-			_token = Token.None;
+			_operators.Push(Token.SENTINEL);
+			_token = Token.NONE;
 			_tokenPos = -1;
 		}
 
-		public double Evaluate(string expr) {
+		public double Evaluate(string expression) {
 			Clear();
-			_expression = expr;
+			LoadConstants();
+
+			_expression = expression;
 
 			if (Normalize(ref _expression)) {
 				double result = Parse();
-				SetVariable(AnswerVar, result);
+				SetVariable(ANSWER_VAR, result);
 				return result;
 			}
+
 			ThrowException("Blank input expression.");
 			return 0;
 		}
 
 		private double Parse() {
 			ParseBinary();
-			Expect(Token.End);
+			Expect(Token.END);
 			return _operands.Peek();
 		}
 
@@ -82,8 +54,9 @@ namespace Eve.Core.Calculator {
 				ParsePrimary();
 			}
 
-			while (_operators.Peek() != Token.Sentinel)
+			while (_operators.Peek() != Token.SENTINEL) {
 				PopOperator();
+			}
 		}
 
 		private void ParsePrimary() {
@@ -96,25 +69,26 @@ namespace Eve.Core.Calculator {
 					PushOperator(Token.ConvertOperator(_token));
 					NextToken();
 					continue;
-				} else
+				} else {
 					switch (_token) {
-						case Token.PLeft:
+						case Token.P_LEFT:
 							NextToken();
-							_operators.Push(Token.Sentinel);
+							_operators.Push(Token.SENTINEL);
 							ParseBinary();
-							Expect(Token.PRight, Token.Seperator);
+							Expect(Token.P_RIGHT, Token.SEPERATOR);
 							_operators.Pop();
 
 							TryInsertMultiply();
 							TryRightSideOperator();
 							break;
-						case Token.Seperator:
+						case Token.SEPERATOR:
 							NextToken();
 							continue;
 						default:
 							ThrowException("Syntax error.");
 							break;
 					}
+				}
 				break;
 			}
 		}
@@ -122,7 +96,9 @@ namespace Eve.Core.Calculator {
 		private void ParseDigit() {
 			StringBuilder tmpNumber = new StringBuilder();
 
-			while (Token.IsDigit(_token)) CollectToken(ref tmpNumber);
+			while (Token.IsDigit(_token)) {
+				CollectToken(ref tmpNumber);
+			}
 
 			_operands.Push(double.Parse(tmpNumber.ToString(), CultureInfo.InvariantCulture));
 			TryInsertMultiply();
@@ -132,15 +108,16 @@ namespace Eve.Core.Calculator {
 		private void ParseName() {
 			StringBuilder tmpName = new StringBuilder();
 
-			while (Token.IsName(_token))
+			while (Token.IsName(_token)) {
 				CollectToken(ref tmpName);
+			}
 
 			string name = tmpName.ToString();
 
 			if (Token.IsFunction(name)) {
 				PushOperator(name);
 				ParsePrimary();
-			} else if (_token == Token.Store) {
+			} else if (_token == Token.STORE) {
 				NextToken();
 				SetVariable(name, Parse());
 			} else {
@@ -154,31 +131,32 @@ namespace Eve.Core.Calculator {
 			if (Token.IsBinary(_token) ||
 				Token.IsSpecial(_token) ||
 				Token.IsRightSide(_token)) return;
-			PushOperator(Token.Multiply);
+			PushOperator(Token.MULTIPLY);
 			ParsePrimary();
 		}
 
 		private void TryRightSideOperator() {
 			switch (_token) {
-				case Token.Factorial:
-					PushOperator(Token.Factorial);
+				case Token.FACTORIAL:
+					PushOperator(Token.FACTORIAL);
 					NextToken();
 					TryInsertMultiply();
 					break;
-				case Token.Seperator:
+				case Token.SEPERATOR:
 					ParsePrimary();
 					break;
 			}
 		}
 
 		private void PushOperator(string op) {
-			if (Token.UnaryMinus == op) {
+			if (Token.UNARY_MINUS == op) {
 				_operators.Push(op);
 				return;
 			}
 
-			while (Token.Compare(_operators.Peek(), op) > 0)
+			while (Token.Compare(_operators.Peek(), op) > 0) {
 				PopOperator();
+			}
 
 			_operators.Push(op);
 		}
@@ -193,7 +171,7 @@ namespace Eve.Core.Calculator {
 		}
 
 		private void NextToken() {
-			if (_token != Token.End)
+			if (_token != Token.END)
 				_token = _expression[++_tokenPos].ToString();
 		}
 
@@ -212,7 +190,7 @@ namespace Eve.Core.Calculator {
 		}
 
 		private bool Normalize(ref string s) {
-			s = s.Replace(" ", "").Replace("\t", " ").ToLower() + Token.End;
+			s = s.Replace(" ", "").Replace("\t", " ").ToLower() + Token.END;
 
 			if (s.Length < 2) return false;
 
@@ -221,14 +199,13 @@ namespace Eve.Core.Calculator {
 		}
 
 		private void ThrowException(string message) {
-			Console.WriteLine(_token);
-			Console.WriteLine(_operands.ToString());
-			Console.WriteLine(_operators.ToString());
+			Writer.Log(_token, EventLogEntryType.Error);
+			Writer.Log(_operands.ToString(), EventLogEntryType.Error);
+			Writer.Log(_operators.ToString(), EventLogEntryType.Error);
 			throw new CalculateException(message, _tokenPos);
 		}
 	}
 
-	[Serializable]
 	public class CalculateException : Exception {
 		public CalculateException(string message, int position)
 			: base($"Error at position: {position}, {message}") {

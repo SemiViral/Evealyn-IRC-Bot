@@ -2,7 +2,7 @@
 
 // ReSharper disable InconsistentNaming
 
-namespace Eve.Ref.Irc {
+namespace Eve.Ref {
 	public static class Modes {
 		// Several modes mean different things on
 		// seperate servers, so this may require some
@@ -145,7 +145,7 @@ namespace Eve.Ref.Irc {
 			modes.Add(new IrcMode {
 				Mode = 'V',
 				Translation = "NO_INVITES",
-				Syntax = "MODE %c +V"
+				Syntax = "MODE %c +VarManagement"
 			}); // This mode prevents users from sending channel
 			// invites to users outside the channel.
 		}

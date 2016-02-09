@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Eve.Ref.Irc;
+using Eve.Ref;
 using Newtonsoft.Json.Linq;
 
 namespace Eve.Types {
-	[Serializable]
 	public class User {
 		public int Id { get; set; }
 		public string Nickname { get; set; }
@@ -18,14 +18,12 @@ namespace Eve.Types {
 		public List<Message> Messages { get; set; } = new List<Message>();
 	}
 
-	[Serializable]
 	public class Message {
 		public string Sender { get; set; }
 		public string Contents { get; set; }
 		public DateTime Date { get; set; }
 	}
 
-	[Serializable]
 	public class Channel {
 		public string Name { get; set; }
 		public string Topic { get; set; }
@@ -57,14 +55,15 @@ namespace Eve.Types {
 			const string baseConfig =
 				"{ \"Nickname\": \"TestyBot\", \"Realname\": \"SemiViral\", \"Password\": \"testypass\", \"Server\": \"irc.foonetic.net\", \"Port\": 6667, \"Channels\": [\"#testgrounds\"],  \"IgnoreList\": [], \"DatabaseLocation\": \"users.sqlite\" }";
 
-			if (!File.Exists("config.json"))
+			if (!File.Exists("config.json")) {
 				using (FileStream stream = new FileStream(@"config.json", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
-					Utils.Output("Configuration file not found, creating.");
+					Writer.Log("Configuration file not found, creating.", EventLogEntryType.Information);
 
 					StreamWriter writer = new StreamWriter(stream);
 					writer.Write(baseConfig);
 					writer.Flush();
 				}
+			}
 
 			JObject config = JObject.Parse(File.ReadAllText("config.json"));
 

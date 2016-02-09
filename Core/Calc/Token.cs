@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Eve.Core.Calculator {
+namespace Eve.Core.Calc {
 	public partial class Calculator {
 		public enum CalcMode {
 			Numeric,
@@ -10,107 +10,107 @@ namespace Eve.Core.Calculator {
 		}
 
 		public static class Token {
-			public const string PLeft = "(",
-				PRight = ")",
-				Power = "^",
-				UnaryMinus = "_",
-				Add = "+",
-				Subtract = "-",
-				Multiply = "*",
-				Divide = "/",
-				Factorial = "!",
-				Mod = "%",
-				Sentinel = "#",
-				End = ";",
-				Store = "=",
-				None = " ",
-				Seperator = ",";
+			public const string P_LEFT = "(",
+				P_RIGHT = ")",
+				POWER = "^",
+				UNARY_MINUS = "_",
+				ADD = "+",
+				SUBTRACT = "-",
+				MULTIPLY = "*",
+				DIVIDE = "/",
+				FACTORIAL = "!",
+				MOD = "%",
+				SENTINEL = "#",
+				END = ";",
+				STORE = "=",
+				NONE = " ",
+				SEPERATOR = ",";
 
-			public const string Sine = "sin",
-				Cosine = "cos",
-				Tangent = "tan",
-				ASine = "asin",
-				ACosine = "acos",
-				ATangent = "atan",
-				Log = "log",
-				Log10 = "log10",
-				Ln = "ln",
-				Exp = "exp",
-				Abs = "abs",
-				Sqrt = "sqrt",
-				Root = "rt";
+			public const string SINE = "sin",
+				COSINE = "cos",
+				TANGENT = "tan",
+				A_SINE = "asin",
+				A_COSINE = "acos",
+				A_TANGENT = "atan",
+				LOG = "log",
+				LOG10 = "log10",
+				LN = "ln",
+				EXP = "exp",
+				ABS = "abs",
+				SQRT = "sqrt",
+				ROOT = "rt";
 
 			private static readonly string[] BinaryOperators = {
-				Multiply,
-				Divide,
-				Subtract,
-				Add,
-				Power,
-				Log,
-				Root,
-				Mod
+				MULTIPLY,
+				DIVIDE,
+				SUBTRACT,
+				ADD,
+				POWER,
+				LOG,
+				ROOT,
+				MOD
 			};
 
 			private static readonly string[] UnaryOperators = {
-				Subtract,
-				Sine,
-				Cosine,
-				Tangent,
-				ASine,
-				ACosine,
-				ATangent,
-				Log10,
-				Ln,
-				Exp,
-				Abs,
-				Sqrt
+				SUBTRACT,
+				SINE,
+				COSINE,
+				TANGENT,
+				A_SINE,
+				A_COSINE,
+				A_TANGENT,
+				LOG10,
+				LN,
+				EXP,
+				ABS,
+				SQRT
 			};
 
-			private static readonly string[] SpecialOperators = {Sentinel, End, Store, None, Seperator, PRight};
+			private static readonly string[] SpecialOperators = {SENTINEL, END, STORE, NONE, SEPERATOR, P_RIGHT};
 
-			private static readonly string[] RightSideOperators = {Factorial};
+			private static readonly string[] RightSideOperators = {FACTORIAL};
 
 			private static readonly string[] FunctionList = {
-				Sine,
-				Cosine,
-				Tangent,
-				ASine,
-				ACosine,
-				ATangent,
-				Log,
-				Log10,
-				Ln,
-				Exp,
-				Abs,
-				Sqrt,
-				Root
+				SINE,
+				COSINE,
+				TANGENT,
+				A_SINE,
+				A_COSINE,
+				A_TANGENT,
+				LOG,
+				LOG10,
+				LN,
+				EXP,
+				ABS,
+				SQRT,
+				ROOT
 			};
 
-			private static readonly string[] LastProcessedOperators = {Power};
+			private static readonly string[] LastProcessedOperators = {POWER};
 
 			private static int Precedence(string op) {
 				if (IsFunction(op)) return 64;
 
 				switch (op) {
-					case Subtract:
+					case SUBTRACT:
 						return 4;
-					case Add:
+					case ADD:
 						return 4;
-					case UnaryMinus:
+					case UNARY_MINUS:
 						return 8;
-					case Multiply:
+					case MULTIPLY:
 						return 16;
-					case Divide:
+					case DIVIDE:
 						return 16;
-					case Power:
+					case POWER:
 						return 24;
-					case Mod:
+					case MOD:
 						return 32;
-					case Factorial:
+					case FACTORIAL:
 						return 48;
-					case PLeft:
+					case P_LEFT:
 						return 64;
-					case PRight:
+					case P_RIGHT:
 						return 64;
 
 					default:
@@ -136,7 +136,7 @@ namespace Eve.Core.Calculator {
 
 			public static string ToString(string op) {
 				switch (op) {
-					case End:
+					case END:
 						return "END";
 					default:
 						return op;

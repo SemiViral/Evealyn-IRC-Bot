@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Eve.Core.Calculator {
+namespace Eve.Core.Calc {
 	public partial class Calculator {
 		public delegate void CalcVariableDelegate(object sender, EventArgs e);
 
-		public const string AnswerVar = "r";
+		public const string ANSWER_VAR = "r";
 
 		public Dictionary<string, double> Variables { get; private set; }
 
@@ -15,7 +15,7 @@ namespace Eve.Core.Calculator {
 			Variables = new Dictionary<string, double> {
 				{"pi", Math.PI},
 				{"e", Math.E},
-				{AnswerVar, 0}
+				{ANSWER_VAR, 0}
 			};
 
 			OnVariableStore?.Invoke(this, new EventArgs());

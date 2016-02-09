@@ -1,36 +1,38 @@
 ﻿using System;
 
-namespace Eve.Core.Calculator {
+namespace Eve.Core.Calc {
 	public partial class Calculator {
 		private void Calculate(string op, double op1, double op2) {
-			double res = 0;
-
 			try {
+				double res;
+
 				switch (op) {
-					case Token.Add:
+					case Token.ADD:
 						res = op1 + op2;
 						break;
-					case Token.Subtract:
+					case Token.SUBTRACT:
 						res = op1 - op2;
 						break;
-					case Token.Multiply:
-						res = op1*op2;
+					case Token.MULTIPLY:
+						res = op1 * op2;
 						break;
-					case Token.Divide:
-						res = op1/op2;
+					case Token.DIVIDE:
+						res = op1 / op2;
 						break;
-					case Token.Mod:
-						res = op1%op2;
+					case Token.MOD:
+						res = op1 % op2;
 						break;
-					case Token.Power:
+					case Token.POWER:
 						res = Math.Pow(op1, op2);
 						break;
-					case Token.Log:
+					case Token.LOG:
 						res = Math.Log(op2, op1);
 						break;
-					case Token.Root:
-						res = Math.Pow(op2, 1/op1);
+					case Token.ROOT:
+						res = Math.Pow(op2, 1 / op1);
 						break;
+					default:
+						throw new ArgumentOutOfRangeException();
 				}
 
 				_operands.Push(PostProcess(res));
@@ -44,45 +46,47 @@ namespace Eve.Core.Calculator {
 
 			try {
 				switch (op) {
-					case Token.UnaryMinus:
+					case Token.UNARY_MINUS:
 						res = -operand;
 						break;
-					case Token.Abs:
+					case Token.ABS:
 						res = Math.Abs(operand);
 						break;
-					case Token.ACosine:
+					case Token.A_COSINE:
 						res = Math.Acos(operand);
 						break;
-					case Token.ASine:
+					case Token.A_SINE:
 						res = Math.Asin(operand);
 						break;
-					case Token.ATangent:
+					case Token.A_TANGENT:
 						res = Math.Atan(operand);
 						break;
-					case Token.Cosine:
+					case Token.COSINE:
 						res = Math.Cos(operand);
 						break;
-					case Token.Sine:
+					case Token.SINE:
 						res = Math.Sin(operand);
 						break;
-					case Token.Tangent:
+					case Token.TANGENT:
 						res = Math.Tan(operand);
 						break;
-					case Token.Ln:
+					case Token.LN:
 						res = Math.Log(operand);
 						break;
-					case Token.Log10:
+					case Token.LOG10:
 						res = Math.Log10(operand);
 						break;
-					case Token.Sqrt:
+					case Token.SQRT:
 						res = Math.Sqrt(operand);
 						break;
-					case Token.Exp:
+					case Token.EXP:
 						res = Math.Exp(operand);
 						break;
-					case Token.Factorial:
-						for (int i = 2; i <= (int) operand; res *= i++) ;
+					case Token.FACTORIAL:
+						//for (int i = 2; i <= (int) operand; res *= i++)
 						break;
+					default:
+						throw new ArgumentOutOfRangeException();
 				}
 
 				_operands.Push(PostProcess(res));

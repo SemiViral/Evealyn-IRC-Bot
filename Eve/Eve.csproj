@@ -105,20 +105,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IrcBot.cs" />
-    <Compile Include="Ref\Irc\Modes.cs" />
-    <Compile Include="Ref\Irc\Protocols.cs" />
+    <Compile Include="IrcBot.Extended.cs" />
+    <Compile Include="Plugin\Controller.cs" />
+    <Compile Include="Plugin\Wrapper.cs" />
+    <Compile Include="Ref\Modes.cs" />
+    <Compile Include="Ref\Protocols.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="IModule.cs" />
-    <Compile Include="ModuleManager.cs" />
+    <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Translators\ModeTranslator.cs" />
-    <Compile Include="Translators\ProtocolTranslator.cs" />
-    <Compile Include="Types\ChannelMessage.cs" />
-    <Compile Include="Types\Extensions.cs" />
+    <Compile Include="Utility\Extensions.cs" />
     <Compile Include="Types\IrcExceptions.cs" />
-    <Compile Include="Types\PropertyClasses.cs" />
-    <Compile Include="Types\PassableMutableObject.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Types\GeneralClasses.cs" />
+    <Compile Include="VariablesManagement.cs" />
+    <Compile Include="Utility\Utility.cs" />
+    <Compile Include="Writer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

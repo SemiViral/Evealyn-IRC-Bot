@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Eve.ModuleControl;
 using Eve.Types;
 using Newtonsoft.Json.Linq;
 
 namespace Eve.Core {
-	public class Define : Utils, IModule {
+	public class Define : Utils, IPlugin {
 		public Dictionary<string, string> Def => new Dictionary<string, string> {
 			["define"] = "(<word> *<part of speech>) — returns definition for given word."
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
-				return c;
+			if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
+				return null;
 
-			if (c.MultiArgs.Count < 3) {
+			if (c.SplitArgs.Count < 3) {
 				c.Message = "Insufficient parameters. Type 'eve help lookup' to view correct usage.";
 				return c;
 			}
@@ -22,7 +23,7 @@ namespace Eve.Core {
 			JObject entry =
 				JObject.Parse(
 					HttpGet(
-						$"https://api.pearson.com:443/v2/dictionaries/lasde/entries?headword={c.MultiArgs[2]}&limit=1&part_of_speech={(c.MultiArgs.Count > 3 ? c.MultiArgs[3] : null)}"));
+						$"https://api.pearson.com:443/v2/dictionaries/lasde/entries?headword={c.SplitArgs[2]}&limit=1&part_of_speech={(c.SplitArgs.Count > 3 ? c.SplitArgs[3] : null)}"));
 			var _out = new Dictionary<string, string>();
 
 			if ((int) entry.SelectToken("count") < 1) {
@@ -44,22 +45,22 @@ namespace Eve.Core {
 		}
 	}
 
-	public class Lookup : Utils, IModule {
+	public class Lookup : Utils, IPlugin {
 		public Dictionary<string, string> Def => new Dictionary<string, string> {
 			["lookup"] = "(<term/phrase>) — returns the wikipedia summary of given term or phrase."
 		};
 
 		public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-			if (!c.MultiArgs[1].CaseEquals(Def.Keys.First()))
+			if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
 				return null;
 
 			c.Target = c.Nickname;
-			string query = c.MultiArgs.Count < 4 ? c.MultiArgs[2] : $"{c.MultiArgs[2]}%20{c.MultiArgs[3]}".Replace(" ", "%20"),
+			string query = c.SplitArgs.Count < 4 ? c.SplitArgs[2] : $"{c.SplitArgs[2]}%20{c.SplitArgs[3]}".Replace(" ", "%20"),
 				response =
 					HttpGet("https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=" +
 							query);
 
-			if (c.MultiArgs.Count < 3) {
+			if (c.SplitArgs.Count < 3) {
 				c.Message = "Insufficient parameters. Type 'eve help lookup' to view correct usage.";
 				return c;
 			}

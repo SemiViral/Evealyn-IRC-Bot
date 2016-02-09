@@ -1,17 +1,11 @@
-To-Do list:
-#Handlers
+1. Get simple commands structure functioning
+2. Implement plugin unloading
+3. Implement custom exceptions for more accurate error reporting
 - ~~Add handlers for each message type (PRIVMSG, JOIN, PART, 376, etc.)~~
 - ~~Create Enum types for each handler type~~ abandoned enums
 - ~~Create TranslateHandler method to translate methods into their respective enums, and returning them~~
 - ~~Possibly insert the handlers into a custom(?) or dictionary generic for referencing quicker~~
 - ~~Modify ChannelMessage object's `string Type` to `HandlerType Type`~~ used IrcPtotocol
-
-#DataWriting
-- Create a new namespace for sending data (Eve.DataWriting, Eve.Messaging, something like that)
-
-#Modules
+- ~~Create a new namespace for sending data (Eve.DataWriting, Eve.Messaging, something like that)~~
 - ~~Place module interface and module loading methods into new namespace, Eve.Modules~~
-- Upgrade current system to load new modules into an AppDomain, so that they can be unloaded/reloaded
-
-#Exceptions
-- Implement custom exceptions for more accurate error reporting
+- ~~Upgrade current system to load new modules into an AppDomain, so that they can be unloaded/reloaded~~

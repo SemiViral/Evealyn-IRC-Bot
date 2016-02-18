@@ -2,7 +2,7 @@
 
 ## 4.x.x
 
-### 4.1.2 — Plugins and commands list functional, more resutructuring/refactoring
+### 4.1.2 â€” Plugins and commands list functional, more resutructuring/refactoring
 
 - The `Result` field of a `PluginEventArgs` is now of type `object`
 
@@ -16,7 +16,9 @@
 
 - `CalcPlugin` and `Core` have been merged into one plugin.
 
-### 4.0.0 — Events, a CHANGELOG
+- Split `Runtime()` method into two pieces, `ListenToStream()` and `ExecuteRuntime()`
+
+### 4.0.0 â€” Events, a CHANGELOG
 
  - Added a changelog. I think I should've done this a while ago.
 

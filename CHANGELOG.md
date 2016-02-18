@@ -14,6 +14,8 @@
 
 - Utilities no longer exists in the Eve namespace. User/Channel static extension methods have been moved to their respective classes while `CaseEquals` for strings and `AddFrom` for dictionaries has been completely removed. The Utilities class has been moved to the `Core` project, and will be employed when the define and lookup commands are functional.
 
+- `CalcPlugin` and `Core` have been merged into one plugin.
+
 ### 4.0.0 — Events, a CHANGELOG
 
  - Added a changelog. I think I should've done this a while ago.

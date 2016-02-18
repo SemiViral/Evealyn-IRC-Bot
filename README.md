@@ -1,3 +1,5 @@
+#This is grossly out-of-date, and will be updated eventually
+
 # Evealyn, a C# IRC bot
 Evealyn is an IRC bot that I decided to start as a way to get known with the programming language C#. I'd say she's taught me fairly well about various things, including but of course not limited to:
 - Modularity

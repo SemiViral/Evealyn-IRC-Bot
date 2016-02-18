@@ -1,8 +1,9 @@
 ﻿using System;
 
 namespace Eve.Ref {
-	public static class Protocols {
+	public class Protocols {
 		public const string DEFAULT = "",
+			ABORT = "ABORT",
 			USER = "USER",
 			NICK = "NICK",
 			QUIT = "QUIT",

@@ -5,16 +5,27 @@ using System.Runtime.CompilerServices;
 using Eve.Ref;
 
 namespace Eve {
-	public static class Writer {
-		private static StreamWriter _output;
-		private static string _writeOut;
+	public class Streams : MarshalByRefObject {}
+
+	public class Writer : MarshalByRefObject {
+		private static StreamWriter Output { get; set; }
+		private static string ToWrite { get; set; }
+
+		internal static bool Ping(string data) {
+			if (!data.StartsWith(Protocols.PING) ||
+				String.IsNullOrEmpty(data)) return false;
+
+			// cut 'PING ' from data and send it back as PONG
+			SendData(Protocols.PONG, data.Remove(0, 5));
+			return true;
+		}
 
 		/// <summary>
 		///     Initiailises the Writer object with an output stream
 		/// </summary>
 		/// <message name="stream">object to get stream from</message>
 		public static void Initialise(Stream stream) {
-			_output = new StreamWriter(stream);
+			Output = new StreamWriter(stream);
 		}
 
 		/// <summary>
@@ -23,20 +34,25 @@ namespace Eve {
 		/// <message name="command">command to be sent, i.e. PONG or PRIVMSG</message>
 		/// <message name="message">message for command</message>
 		public static void SendData(string command, string parameters = null) {
-			if (_output == null) {
+			if (Output == null) {
 				Log("Output stream is not connected to any endpoint. Call method `Intiailise'.", EventLogEntryType.Warning);
 				return;
 			}
 
-			_writeOut = parameters == null ? command : string.Concat(command, ' ', parameters);
+			ToWrite = parameters == null ? command : $"{command} {parameters}";
 
-			_output.WriteLine(_writeOut + "\r\n");
-			_output.Flush();
+			try {
+				Output.WriteLine(ToWrite);
+				Output.Flush();
+			} catch (Exception ex) {
+				Log($"Error occured writing to stream: {ex}", EventLogEntryType.Error);
+				return;
+			}
 
 			if (command.Equals(Protocols.PING) ||
 				command.Equals(Protocols.PONG)) return;
 
-			Log($" >> {_writeOut}", EventLogEntryType.Information);
+			Log($" >> {ToWrite}", EventLogEntryType.Information);
 		}
 
 		/// <summary>
@@ -45,7 +61,7 @@ namespace Eve {
 		/// <param name="recipient">who to send to </param>
 		/// <param name="message">the message to send</param>
 		public static void Privmsg(string recipient, string message) {
-			SendData("PRIVMSG", string.Concat(recipient, ' ', message));
+			SendData("PRIVMSG", String.Concat(recipient, ' ', message));
 		}
 
 		public static void Log(string message, EventLogEntryType logType, [CallerMemberName] string memberName = "",
@@ -53,6 +69,7 @@ namespace Eve {
 			try {
 				using (StreamWriter log = new StreamWriter("logs.txt", true)) {
 					string _out = $"[{DateTime.Now.ToString("hh:mm:ss")} {Enum.GetName(typeof(EventLogEntryType), logType)}] ";
+					
 
 					switch (logType) {
 						case EventLogEntryType.SuccessAudit:
@@ -77,7 +94,7 @@ namespace Eve {
 					}
 				}
 			} catch (Exception ex) {
-				Console.WriteLine($"Logging error occured: {ex}", EventLogEntryType.Error);
+				Console.WriteLine($"||| Logging error occured: {ex}", EventLogEntryType.Error);
 			}
 		}
 	}

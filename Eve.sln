@@ -3,25 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdventureData", "AdventureData", "{E601A291-4E80-42F7-AD96-123777C50258}"
-	ProjectSection(SolutionItems) = preProject
-		..\Game01\Game01\classes.json = ..\Game01\Game01\classes.json
-		..\Game01\Game01\entityData.json = ..\Game01\Game01\entityData.json
-		..\Game01\Game01\items.json = ..\Game01\Game01\items.json
-		..\Game01\Game01\saveIndexing.json = ..\Game01\Game01\saveIndexing.json
-		..\Game01\Game01\spells.json = ..\Game01\Game01\spells.json
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eve", "Eve\Eve.csproj", "{DF4BDEA7-BDC3-4B8D-8AAA-1563FA22D801}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{5BC9BD56-3EFB-4E87-AFCA-FF9C6FF359A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{727ED12C-95FB-4F15-861D-95864770EE87}"
 	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
 		Eve\bin\Debug\config.json = Eve\bin\Debug\config.json
 		Eve\bin\Debug\logs.txt = Eve\bin\Debug\logs.txt
 		README.md = README.md
-		To-Do.md = To-Do.md
+		TO-DO.md = TO-DO.md
 		Eve\bin\Debug\users.sqlite = Eve\bin\Debug\users.sqlite
 	EndProjectSection
 EndProject

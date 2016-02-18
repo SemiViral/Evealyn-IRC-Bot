@@ -8,11 +8,9 @@ namespace Eve {
 		private static IrcBot _bot;
 		private static IrcConfig _config;
 
-		public static bool ShouldRun { get; set; } = true;
-
 		private static void ParseAndDo(object sender, DoWorkEventArgs e) {
-			while (ShouldRun) {
-				_bot.Runtime();
+			while (_bot.CanExecute) {
+				_bot.ExecuteRuntime();
 			}
 		}
 
@@ -24,8 +22,8 @@ namespace Eve {
 
 			using (_bot = new IrcBot(_config)) {
 				#if DEBUG
-					while (ShouldRun && _bot.CanExecute) {
-						_bot.Runtime();
+					while (_bot.CanExecute) {
+						_bot.ExecuteRuntime();
 					}
 				#else
 					BackgroundWorker backgroundDataParser = new BackgroundWorker();

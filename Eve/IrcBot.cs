@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using Eve.Plugin;
 using Eve.Ref;
 using Eve.Types;
-using Eve.Utility;
 
 namespace Eve {
 	internal partial class IrcBot : IDisposable {
-		private static IrcConfig _config;
+		internal static IrcConfig Config;
 		private TcpClient _connection;
 		private bool _disposed;
-		private bool _identified;
 		private StreamReader _in;
 		private NetworkStream _networkStream;
 
@@ -21,30 +20,60 @@ namespace Eve {
 		/// </summary>
 		/// <param name="config">configuration for object variables</param>
 		public IrcBot(IrcConfig config) {
-			_config = config;
+			Config = config;
 
-			Wrapper.Start();
 			if (!(CanExecute = InitializeConnections())) return;
 
-			Writer.Initialise(_networkStream);
-			VarManagement = new VariablesManagement(_config.Database) {
-				IgnoreList = _config.IgnoreList
-			};
+			Wrapper.Start();
 
-			Writer.SendData(Protocols.USER, $"{_config.Nickname} 0 * {_config.Realname}");
-			Writer.SendData(Protocols.NICK, _config.Nickname);
+			Database = new Database(Config.Database);
+
+			Writer.Initialise(_networkStream);
+			Writer.SendData(Protocols.USER, $"{Config.Nickname} 0 * {Config.Realname}");
+			Writer.SendData(Protocols.NICK, Config.Nickname);
 		}
 
-		public static VariablesManagement VarManagement { get; set; }
+		public static string Info
+			=> "Evealyn is an IRC bot created by SemiViral as a primary learning project for C#. Version 4.1.2";
+
+		public static List<string> IgnoreList { get; internal set; } = new List<string>();
+
+		public static Database Database { get; set; }
 		internal static PluginWrapper Wrapper { get; } = new PluginWrapper();
 
 		public bool CanExecute { get; }
 
+		public void ExecuteRuntime() {
+			string data = ListenToStream();
+
+			if (string.IsNullOrEmpty(data)) return;
+
+			ChannelMessageEventArgs message = new ChannelMessageEventArgs(data);
+
+			Writer.Log(message.Type.Equals(Protocols.PRIVMSG) ?
+				$"<{message.Recipient} {message.Nickname}> {message.Args}" :
+				data, EventLogEntryType.Information);
+
+			if (message.Type == Protocols.ABORT) return;
+
+			Channel.Add(message.Recipient);
+
+			if (User.Get(message.Realname) == null &&
+				message.IsRealUser) {
+				User.Create(3, message.Nickname, message.Realname, DateTime.UtcNow, true);
+				User.Current = User.Get(message.Realname);
+			}
+
+			User.Current.UpdateUser(message.Nickname);
+
+			Wrapper.PluginHost.TriggerChannelMessageCallback(this, message);
+		}
+
 		/// <summary>
 		///     Handles the data I/O and plugin firing
 		/// </summary>
-		public void Runtime() {
-			string data;
+		public string ListenToStream() {
+			string data = string.Empty;
 
 			try {
 				data = _in.ReadLine();
@@ -52,41 +81,12 @@ namespace Eve {
 				Writer.Log("Stream disconnected. Attempting to reconnect.", EventLogEntryType.Error);
 
 				InitializeConnections();
-				return;
+			} catch (Exception ex) {
+				Writer.Log(ex.ToString(), EventLogEntryType.Error);
 			}
 
-			if (data.StartsWith(Protocols.PING)) {
-				// cut 'PING ' from data and send it back
-				Writer.SendData($"{Protocols.PONG} {data.Remove(0, 5)}");
-				return;
-			}
-
-			ChannelMessageEventArgs message = new ChannelMessageEventArgs(data);
-
-			if (message.Nickname.Equals(_config.Nickname)) return;
-
-			Writer.Log(message.Type.Equals(Protocols.PRIVMSG) ?
-				$"<{message.Recipient} {message.Nickname}> {message.Args}" :
-				data, EventLogEntryType.Information);
-
-			VarManagement.AddChannel(message.Recipient);
-
-			if (VarManagement.GetUser(message.Realname) == null &&
-				message.IsRealUser) {
-				VarManagement.CreateUser(new User {
-					Access = 3,
-					Nickname = message.Nickname,
-					Realname = message.Realname,
-					Seen = DateTime.UtcNow,
-					Attempts = 0
-				});
-			}
-
-			if (PreprocessMessage(message)) return;
-
-			VarManagement.CurrentUser.UpdateUser(message.Nickname);
-
-			Wrapper.PluginHost.TriggerChannelMessageCallback(this, message);
+			// true means ping check and do succeeded
+			return Writer.Ping(data) ? string.Empty : data;
 		}
 	}
 }

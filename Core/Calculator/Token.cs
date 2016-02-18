@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Eve.Core.Calc {
+namespace Eve.Core {
 	public partial class Calculator {
 		public enum CalcMode {
 			Numeric,

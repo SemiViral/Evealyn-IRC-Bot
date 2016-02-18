@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
-namespace Eve.Utility {
+namespace Eve.Core {
 	public static class Utility {
 		/// <summary>
 		///     Obtain HTTP response from a GET request

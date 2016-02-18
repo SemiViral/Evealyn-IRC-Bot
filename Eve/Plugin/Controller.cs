@@ -9,11 +9,11 @@ namespace Eve.Plugin {
 	internal class PluginHost : MarshalByRefObject {
 		private const string DOMAIN_NAME_COMMAND = "DOM_COMMAND";
 		private const string DOMAIN_NAME_PLUGINS = "DOM_PLUGINS";
+
 		private AppDomain _domainPlugins;
-
 		private AppDomain _domainPrePlugins;
-		private PluginController _pluginController;
 
+		private PluginController _pluginController;
 		private PluginController _prePluginController;
 
 		public bool HostIsTerminating = false;
@@ -73,7 +73,7 @@ namespace Eve.Plugin {
 				case PluginAssemblyType.Plugin:
 					_pluginController =
 						(PluginController)
-							_domainPrePlugins.CreateInstanceAndUnwrap(typeof(PluginController).Assembly.FullName,
+							_domainPlugins.CreateInstanceAndUnwrap(typeof(PluginController).Assembly.FullName,
 								typeof(PluginController).FullName);
 					_pluginController.Callback += PluginCallback;
 					_pluginController.LoadPlugins(PluginAssemblyType.Plugin);
@@ -129,7 +129,8 @@ namespace Eve.Plugin {
 			}
 		}
 
-		private void StopAllPlugins() {}
+		private void StopAllPlugins() { /* todo make this do something */
+		}
 
 		public void StopPlugins(PluginAssemblyType typeToStop) {
 			switch (typeToStop) {
@@ -182,7 +183,7 @@ namespace Eve.Plugin {
 				case PluginActionType.UpdatePlugin:
 					if (AllDomainPluginsStopped()) OnCallback(e);
 					break;
-				case PluginActionType.ProcessChannelMessage:
+				case PluginActionType.AddCommand:
 					break;
 				default:
 					OnCallback(e);
@@ -193,7 +194,7 @@ namespace Eve.Plugin {
 
 	internal class PluginController : MarshalByRefObject {
 		private const string DOMAIN_COMMAND = "COMMAND";
-		private const string DOMAIN_PLUGIN= "PLUGIN";
+		private const string DOMAIN_PLUGIN = "PLUGIN";
 
 		private const string PRE_PLUGIN_MASK = "Pre.*.dll";
 		private const string PLUGIN_MASK = "Eve.*.dll";
@@ -214,23 +215,23 @@ namespace Eve.Plugin {
 			ChannelMessageCallback?.Invoke(this, e);
 		}
 
-		public IPlugin Load(string assemblyName, EventHandler<PluginEventArgs> proxyLoaderRaiseCallbackEvent) {
+		public List<IPlugin> Load(string assemblyName, EventHandler<PluginEventArgs> proxyLoaderRaiseCallbackEvent) {
 			Assembly pluginAssembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(assemblyName));
-			IPlugin instance = null;
+			List<IPlugin> instances = new List<IPlugin>();
 
-			foreach (Type type in pluginAssembly.GetTypes().Where(type => type.GetInterface("IPlugin") != null)) {
-				instance = (IPlugin)Activator.CreateInstance(type, null, null);
+			foreach (IPlugin instance in pluginAssembly.GetTypes().Where(a => a.GetInterface("IPlugin") != null).Select(type => (IPlugin)Activator.CreateInstance(type, null, null))) {
 				instance.CallbackEvent += proxyLoaderRaiseCallbackEvent;
 				ChannelMessageCallback += instance.OnChannelMessage;
 
-				//if (instance.Definition == null) continue;
+				foreach (KeyValuePair<string, string> kvp in instance.Commands)
+					Callback?.Invoke(this, new PluginEventArgs(PluginEventMessageType.Action, kvp, new PluginEventAction {
+						ActionToTake = PluginActionType.AddCommand
+					}));
 
-				//foreach (KeyValuePair<string, string> kvp in instance.Definition) {
-				// todo - find a way to add the kvp to IrcBot.VarManagement.CommandList
-				//}
+				instances.Add(instance);
 			}
 
-			return instance;
+			return instances;
 		}
 
 		private void Initialise() {
@@ -255,14 +256,21 @@ namespace Eve.Plugin {
 					Writer.Log($"{loaderException.Message}\n{loaderException.StackTrace}", EventLogEntryType.Error);
 				}
 			} catch (Exception ex) {
+				if (ex is ArgumentException ||
+					ex is FormatException) {
+					Writer.Log($"Error loading json file.", EventLogEntryType.Error);
+					return;
+				}
+
 				Writer.Log($"Error loading plugin: {ex.Message}\n{ex.StackTrace}", EventLogEntryType.Error);
 			}
 		}
 
-		public void AddPlugin(IPlugin plugin, PluginAssemblyType pluginType, bool autoStart) {
+		public void AddPlugin(List<IPlugin> plugin, PluginAssemblyType pluginType, bool autoStart) {
 			try {
+				foreach (IPlugin instance in plugin)
 				Plugins.Add(new PluginInstance {
-					Instance = plugin,
+					Instance = instance,
 					PluginType = pluginType,
 					Status = PluginStatus.Stopped
 				});
@@ -296,7 +304,7 @@ namespace Eve.Plugin {
 						if (Callback == null) break;
 
 						e.MessageType = PluginEventMessageType.Message;
-						e.ResultMessage = "Unload recieved from plugin.";
+						e.Result = "Unload recieved from plugin.";
 						Callback(this, e);
 
 						if (!IsShuttingDown) break;
@@ -305,7 +313,7 @@ namespace Eve.Plugin {
 
 						foreach (PluginStatus status in Plugins.Select(plgn => plgn.Instance.Status)) {
 							e.MessageType = PluginEventMessageType.Message;
-							e.ResultMessage = $"Unload —— checking for stopped: {status}";
+							e.Result = $"Unload —— checking for stopped: {status}";
 							Callback(this, e);
 
 							if (status == PluginStatus.Stopped) continue;
@@ -322,7 +330,7 @@ namespace Eve.Plugin {
 						}
 
 						e.MessageType = PluginEventMessageType.Message;
-						e.ResultMessage = $"Can terminate: {canTerminate}";
+						e.Result = $"Can terminate: {canTerminate}";
 						Callback(this, e);
 						break;
 					case PluginActionType.RunProcess:
@@ -335,7 +343,7 @@ namespace Eve.Plugin {
 						if (Callback == null) break;
 
 						e.MessageType = PluginEventMessageType.Message;
-						e.ResultMessage = "UNLOAD ALL RECIEVED — shutting down.";
+						e.Result = "UNLOAD ALL RECIEVED — shutting down.";
 						Callback(this, e);
 
 						e.MessageType = PluginEventMessageType.Action;
@@ -346,7 +354,7 @@ namespace Eve.Plugin {
 						break;
 					case PluginActionType.UpdatePlugin:
 						break;
-					case PluginActionType.ProcessChannelMessage:
+					case PluginActionType.AddCommand:
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();

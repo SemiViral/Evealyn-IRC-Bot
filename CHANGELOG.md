@@ -1,6 +1,20 @@
-#Eve 4.0
+#Eve
 
-### Events, a CHANGELOG
+## 4.x.x
+
+### 4.1.2 — Plugins and commands list functional, more resutructuring/refactoring
+
+- The `Result` field of a `PluginEventArgs` is now of type `object`
+
+- Plugins can now send back a response class type, called `PluginChannelMessageResponse` (working on the name)
+
+- Command list is now working, and is held inside of `PluginWrapper` as a static dictionary
+
+- VariablesManager/PassableMutableObject/Whatever else I have named it is now gone. In it's place is a `Database.cs` file. The methods related to the User and Channel lists/classes have been moved to their respective classes in GeneralClasses (will restructure this too).
+
+- Utilities no longer exists in the Eve namespace. User/Channel static extension methods have been moved to their respective classes while `CaseEquals` for strings and `AddFrom` for dictionaries has been completely removed. The Utilities class has been moved to the `Core` project, and will be employed when the define and lookup commands are functional.
+
+### 4.0.0 — Events, a CHANGELOG
 
  - Added a changelog. I think I should've done this a while ago.
 

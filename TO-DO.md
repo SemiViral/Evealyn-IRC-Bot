@@ -1,6 +1,8 @@
-1. Get simple commands structure functioning
-2. Implement plugin unloading
-3. Implement custom exceptions for more accurate error reporting
+1. Allow plugins to access User and Channel lists/static fields
+2. Restructure a bit more to increase scalability
+- ~~Get simple commands structure functioning~~
+- Implement plugin unloading
+- Implement custom exceptions for more accurate error reporting
 - ~~Add handlers for each message type (PRIVMSG, JOIN, PART, 376, etc.)~~
 - ~~Create Enum types for each handler type~~ abandoned enums
 - ~~Create TranslateHandler method to translate methods into their respective enums, and returning them~~

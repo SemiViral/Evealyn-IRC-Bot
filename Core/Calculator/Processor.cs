@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Eve.Core.Calc {
+namespace Eve.Core {
 	public partial class Calculator {
 		private void Calculate(string op, double op1, double op2) {
 			try {

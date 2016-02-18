@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Eve.Core.Calc {
+namespace Eve.Core {
 	public partial class Calculator {
 		public delegate void CalcVariableDelegate(object sender, EventArgs e);
 

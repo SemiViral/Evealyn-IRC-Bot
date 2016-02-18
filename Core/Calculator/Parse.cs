@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace Eve.Core.Calc {
+namespace Eve.Core {
 	public partial class Calculator {
 		private string _expression;
 		private Stack<double> _operands;

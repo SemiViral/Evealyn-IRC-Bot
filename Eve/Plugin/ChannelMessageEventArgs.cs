@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Eve.Ref;
+using Eve.Types;
 
 namespace Eve.Plugin {
 	[Serializable]
-	public class ChannelMessageEventArgs : EventArgs {
+	public class ChannelMessageEventArgs {
 		// Unused regexs
 		// private readonly Regex _argMessageRegex = new Regex(@"^:(?<Arg1>[^\s]+)\s(?<Arg2>[^\s]+)\s(?<Arg3>[^\s]+)\s?:?(?<Arg4>.*)", RegexOptions.Compiled);
-		// private static readonly Regex PingRegex = new Regex(@"^PING :(?<Message>.+)", RegexOptions.None);
+		//private static readonly Regex PingRegex = new Regex(@"^PING :(?<Message>.+)", RegexOptions.None);
 
 		// Regex for parsing raw messages
 		private static readonly Regex MessageRegex =
@@ -26,8 +27,7 @@ namespace Eve.Plugin {
 		public ChannelMessageEventArgs(string rawData) {
 			RawMessage = rawData;
 			Parse(RawMessage);
-
-			if (PreprocessAndAbort()) Type = Protocols.ABORT;
+			Preprocess();
 		}
 
 		public string RawMessage { get; }
@@ -36,8 +36,6 @@ namespace Eve.Plugin {
 		///     Represents whether the realname processed was contained in the specified identifier list (ChanServ, NickServ)
 		/// </summary>
 		public bool IsRealUser { get; private set; }
-
-		public DateTime Timestamp { get; private set; }
 
 		public string Nickname { get; private set; }
 		public string Realname { get; private set; }
@@ -49,8 +47,6 @@ namespace Eve.Plugin {
 
 		public void Parse(string rawData) {
 			if (!MessageRegex.IsMatch(rawData)) return;
-
-			Timestamp = DateTime.Now;
 
 			// begin parsing message into sections
 			Match mVal = MessageRegex.Match(rawData);
@@ -80,58 +76,71 @@ namespace Eve.Plugin {
 		/// <summary>
 		///     Preprocess ChannelMessage and determine whether to fire OnChannelMessage event
 		/// </summary>
-		private bool PreprocessAndAbort() {
+		private void Preprocess() {
+			User.Current = User.Get(Realname);
+
 			switch (Type) {
 				case Protocols.MOTD_REPLY_END:
-					if (Program.Bot.Config.Identified) break;
+					if (IrcBot.Config.Identified) return;
 
-					Writer.SendData(Protocols.PRIVMSG, $"NICKSERV IDENTIFY {Program.Bot.Config.Password}");
-					Writer.SendData(Protocols.MODE, $"{Program.Bot.Config.Nickname} +B");
+					Writer.SendData(Protocols.PRIVMSG, $"NICKSERV IDENTIFY {IrcBot.Config.Password}");
+					Writer.SendData(Protocols.MODE, $"{IrcBot.Config.Nickname} +B");
 
-					foreach (string channel in Program.Bot.Config.Channels) {
+					foreach (string channel in IrcBot.Config.Channels) {
 						Writer.SendData(Protocols.JOIN, channel);
-						Program.Bot.Channels.Add(channel);
+						Channel.Add(channel);
 					}
 
-					Program.Bot.Config.Identified = true;
+					IrcBot.Config.Identified = true;
+					SetAbort();
 					break;
 				case Protocols.NICK:
 					Database.QueryDefaultDatabase(
 						$"UPDATE users SET nickname='{Recipient}' WHERE realname='{Realname}'");
+
+					SetAbort();
 					break;
 				case Protocols.JOIN:
 					// todo write code to send messages inside user object to channel
 
-					Program.Bot.Channels.Get(Recipient).AddUser(Realname);
+					Channel.Get(Recipient).AddUser(Realname);
+
+					SetAbort();
 					break;
 				case Protocols.PART:
-					Program.Bot.Channels.Get(Recipient).RemoveUser(Realname);
+					Channel.Get(Recipient).RemoveUser(Realname);
+
+					SetAbort();
 					break;
 				case Protocols.NAME_REPLY:
 					// splits the channel user list in half by the :, then splits each user into an array object to be iterated
 					foreach (string s in Args.Split(':')[1].Split(' ')) {
-						Program.Bot.Channels.Get(Recipient)?.AddUser(s);
+						Channel.Get(Recipient)?.AddUser(s);
 					}
+
+					SetAbort();
 					break;
 				default:
-					if (!SplitArgs[0].Replace(",", string.Empty).Equals(Program.Bot.Config.Nickname.ToLower()) ||
-						Program.Bot.IgnoreList.Contains(Realname)) {
+					if (!SplitArgs[0].Replace(",", string.Empty).Equals(IrcBot.Config.Nickname.ToLower()) ||
+						IrcBot.IgnoreList.Contains(Realname) ||
+						User.Current.GetTimeout()) {
+						SetAbort();
 						break;
 					}
 
 					if (SplitArgs.Count < 2) {
 						Writer.Privmsg(Recipient, "Please provide a command. Type 'eve help' to view my command list.");
-						break;
+						SetAbort();
 					}
 
-					if (!Program.Bot.HasCommand(SplitArgs[1].ToLower())) break;
+					if (PluginWrapper.Commands.Keys.Contains(SplitArgs[1].ToLower())) return;
 
 					// built-in `help' command
 					if (SplitArgs[1].ToLower().Equals("help")) {
-						if (SplitArgs.Count == 2) {
+						if (SplitArgs.Count == 2)
 							Writer.SendData(Protocols.PRIVMSG,
-								$"{Recipient} Active commands: {string.Join(", ", Program.Bot.GetCommands())}");
-						} else {
+								$"{Recipient} Active commands: {string.Join(", ", PluginWrapper.Commands.Keys)}");
+						else {
 							if (SplitArgs.Count < 3) {
 								Writer.Privmsg(Recipient, "Insufficient parameters.");
 								break;
@@ -142,15 +151,18 @@ namespace Eve.Plugin {
 								break;
 							}
 
-							Writer.Privmsg(Recipient, $"{SplitArgs[2]} {Program.Bot.GetCommands(SplitArgs[1])}");
+							Writer.Privmsg(Recipient, $"{SplitArgs[2]} {PluginWrapper.Commands[SplitArgs[2]]}");
 						}
+						break;
 					}
 
 					Writer.Privmsg(Recipient, "Invalid command. Type 'eve help' to view my command list.");
 					break;
 			}
+		}
 
-			return true;
+		private void SetAbort() {
+			Type = Protocols.ABORT;
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using Eve.Ref;
 
 namespace Eve.Plugin {
 	/// <summary>
@@ -27,16 +28,16 @@ namespace Eve.Plugin {
 	}
 
 	[Serializable]
-	public class PluginReturnMessage {
-		public PluginReturnMessage(string protocol, string target, string message) {
+	public class PluginChannelMessageResponse {
+		public string Protocol { get; set; }
+		public string Target { get; set; }
+		public string Message { get; set; }
+
+		public PluginChannelMessageResponse(string protocol, string target, string message) {
 			Protocol = protocol;
 			Target = target;
 			Message = message;
 		}
-
-		public string Protocol { get; set; }
-		public string Target { get; set; }
-		public string Message { get; set; }
 	}
 
 	[Serializable]

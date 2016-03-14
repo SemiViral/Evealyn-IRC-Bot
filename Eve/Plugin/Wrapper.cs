@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 
 namespace Eve.Plugin {
@@ -7,11 +8,11 @@ namespace Eve.Plugin {
 		public static Dictionary<string, string> Commands = new Dictionary<string, string>();
 		public PluginHost PluginHost;
 
-		private static void PluginsCallback(object source, PluginEventArgs e) {
+		private void PluginsCallback(object source, PluginEventArgs e) {
 			switch (e.MessageType) {
 				case PluginEventMessageType.Message:
-					if (e.Result is PluginReturnMessage) {
-						PluginReturnMessage response = (PluginReturnMessage)e.Result;
+					if (e.Result is PluginChannelMessageResponse) {
+						PluginChannelMessageResponse response = (PluginChannelMessageResponse)e.Result;
 						Writer.SendData(response.Protocol, $"{response.Target} {response.Message}");
 						break;
 					}
@@ -26,6 +27,8 @@ namespace Eve.Plugin {
 
 						var temp = (KeyValuePair<string, string>)e.Result;
 						Commands.Add(temp.Key, temp.Value);
+					} else if (false) {
+						/* later conditionals */
 					}
 					break;
 				default:

@@ -8,7 +8,7 @@ using Eve.Plugin;
 
 namespace Eve {
 	// Non-declarative or generic methods
-	public partial class IrcBot {
+	internal partial class IrcBot {
 		/// <summary>
 		///     Dispose of all streams and objects
 		/// </summary>
@@ -30,38 +30,22 @@ namespace Eve {
 		/// <summary>
 		///     Method for initialising all data streams
 		/// </summary>
-		public bool InitializeConnections(int maxRetries) {
+		public bool InitializeConnections() {
 			int retries = 0;
 
-			while (retries <= maxRetries) {
+			while (retries < 3) {
 				try {
 					_connection = new TcpClient(Config.Server, Config.Port);
 					_networkStream = _connection.GetStream();
 					_in = new StreamReader(_networkStream);
 					break;
 				} catch (SocketException) {
-					Writer.Log(
-						retries < maxRetries
-							? "Communication error, attempting to connect again..." : "Communication could not be established with address.",
-						EventLogEntryType.Error);
-
+					Writer.Log("Communication error, attempting to connect again...", EventLogEntryType.Error);
 					retries++;
 				}
 			}
 
 			return retries != 4;
-		}
-
-		public void UpdateCurrentUser(string realname) {
-			if (Users.Get(realname) != null)
-				Users.Current = Users.Get(realname);
-		}
-
-		public void CheckCreateUser(ChannelMessageEventArgs message) {
-			if (Users.Get(message.Realname) != null ||
-				!message.IsRealUser) return;
-
-			Users.Create(3, message.Nickname, message.Realname, message.Timestamp, true);
 		}
 
 		/// <summary>

@@ -1,53 +1,40 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using Eve.Classes;
+using Eve.Types;
 
 namespace Eve {
-	public class Program {
-		public static IrcBot Bot;
-		private static BotConfig _config;
+	internal class Program {
+		private static IrcBot _bot;
+		private static IrcConfig _config;
 
 		private static void ParseAndDo(object sender, DoWorkEventArgs e) {
-			while (Bot.CanExecute) {
-				Bot.ExecuteRuntime();
-			}
-		}
-
-		private static void NonDebugRun() {
-			string input = string.Empty;
-
-			BackgroundWorker backgroundDataParser = new BackgroundWorker();
-			backgroundDataParser.DoWork += ParseAndDo;
-			backgroundDataParser.RunWorkerAsync();
-
-			do {
-				input = Console.ReadLine();
-			} while (!string.IsNullOrEmpty(input) &&
-					 !input.ToLower().Equals("exit"));
-		}
-
-		private static void DebugRun() {
-			while (Bot.CanExecute) {
-				Bot.ExecuteRuntime();
-			}
-		}
-
-		private static void RunOverlay() {
-			using (Bot = new IrcBot(_config)) {
-#if DEBUG
-				DebugRun();
-#else
-				NonDebugRun();
-#endif
+			while (_bot.CanExecute) {
+				_bot.ExecuteRuntime();
 			}
 		}
 
 		private static void Main() {
-			_config = BotConfig.GetDefaultConfig();
+			string input = string.Empty;
+
+			_config = IrcConfig.GetDefaultConfig();
 			Writer.Log("Configuration file loaded.", EventLogEntryType.Information);
 
-			RunOverlay();
+			using (_bot = new IrcBot(_config)) {
+				#if DEBUG
+					while (_bot.CanExecute) {
+						_bot.ExecuteRuntime();
+					}
+				#else
+					BackgroundWorker backgroundDataParser = new BackgroundWorker();
+					backgroundDataParser.DoWork += ParseAndDo;
+					backgroundDataParser.RunWorkerAsync();
+
+					do {
+						input = Console.ReadLine();
+					} while (!input.CaseEquals("exit"));
+				#endif
+			}
 
 			Writer.Log("Bot has shutdown. Press any key to exit program.", EventLogEntryType.Information);
 			Console.ReadLine();

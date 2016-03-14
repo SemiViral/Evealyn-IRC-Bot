@@ -217,21 +217,16 @@ namespace Eve.Plugin {
 
 		public List<IPlugin> Load(string assemblyName, EventHandler<PluginEventArgs> proxyLoaderRaiseCallbackEvent) {
 			Assembly pluginAssembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(assemblyName));
-			var instances = new List<IPlugin>();
+			List<IPlugin> instances = new List<IPlugin>();
 
-			foreach (
-				IPlugin instance in
-					pluginAssembly.GetTypes()
-						.Where(a => a.GetInterface("IPlugin") != null)
-						.Select(type => (IPlugin)Activator.CreateInstance(type, null, null))) {
+			foreach (IPlugin instance in pluginAssembly.GetTypes().Where(a => a.GetInterface("IPlugin") != null).Select(type => (IPlugin)Activator.CreateInstance(type, null, null))) {
 				instance.CallbackEvent += proxyLoaderRaiseCallbackEvent;
 				ChannelMessageCallback += instance.OnChannelMessage;
 
-				foreach (KeyValuePair<string, string> kvp in instance.Commands) {
+				foreach (KeyValuePair<string, string> kvp in instance.Commands)
 					Callback?.Invoke(this, new PluginEventArgs(PluginEventMessageType.Action, kvp, new PluginEventAction {
 						ActionToTake = PluginActionType.AddCommand
 					}));
-				}
 
 				instances.Add(instance);
 			}
@@ -273,13 +268,12 @@ namespace Eve.Plugin {
 
 		public void AddPlugin(List<IPlugin> plugin, PluginAssemblyType pluginType, bool autoStart) {
 			try {
-				foreach (IPlugin instance in plugin) {
-					Plugins.Add(new PluginInstance {
-						Instance = instance,
-						PluginType = pluginType,
-						Status = PluginStatus.Stopped
-					});
-				}
+				foreach (IPlugin instance in plugin)
+				Plugins.Add(new PluginInstance {
+					Instance = instance,
+					PluginType = pluginType,
+					Status = PluginStatus.Stopped
+				});
 			} catch (Exception ex) {
 				Writer.Log($"Error adding plugin: {ex.Message}", EventLogEntryType.Error);
 			}

@@ -1,5 +1,6 @@
 1. Allow plugins to access User and Channel lists/static fields
 2. Restructure a bit more to increase scalability
+- Add modes that are missing from Modes file
 - ~~Get simple commands structure functioning~~
 - Implement plugin unloading
 - Implement custom exceptions for more accurate error reporting

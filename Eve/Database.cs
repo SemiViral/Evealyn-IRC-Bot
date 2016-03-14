@@ -2,17 +2,20 @@
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
-using Eve.Types;
+using Eve.Classes;
 
 namespace Eve {
 	public class Database {
+		private readonly UserOverlord overlordRef;
+
 		/// <summary>
 		///     Initialise connections to database and sets properties
 		/// </summary>
 		/// <param name="databaseLocation">Database location to be read from/write to</param>
-		public Database(string databaseLocation) {
+		public Database(string databaseLocation, UserOverlord overlord) {
 			if (string.IsNullOrEmpty(databaseLocation)) throw new NullReferenceException("Database location cannot be empty.");
 			DatabaseLocation = databaseLocation;
+			overlordRef = overlord;
 
 			if (!File.Exists(DatabaseLocation))
 				CreateDatabase(DatabaseLocation);
@@ -29,7 +32,7 @@ namespace Eve {
 				}
 			}
 
-			if (User.GetAll() == null) throw new SQLiteException("Failed to read from database.");
+			if (overlordRef.GetAll() == null) throw new SQLiteException("Failed to read from database.");
 
 			Writer.Log("Loaded database.", EventLogEntryType.Information);
 		}
@@ -66,10 +69,10 @@ namespace Eve {
 			}
 		}
 
-		private static void ReadUsersIntoList(SQLiteConnection db) {
+		private void ReadUsersIntoList(SQLiteConnection db) {
 			using (SQLiteDataReader userEntry = new SQLiteCommand("SELECT * FROM users", db).ExecuteReader()) {
 				while (userEntry.Read()) {
-					User.Create((int)userEntry["access"],
+					overlordRef.Create((int)userEntry["access"],
 						(string)userEntry["nickname"],
 						(string)userEntry["realname"],
 						DateTime.Parse((string)userEntry["seen"]),
@@ -79,11 +82,11 @@ namespace Eve {
 			}
 		}
 
-		private static void ReadMessagesIntoUsers(SQLiteConnection db) {
+		private void ReadMessagesIntoUsers(SQLiteConnection db) {
 			try {
 				using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", db).ExecuteReader()) {
 					while (m.Read()) {
-						User.Get(Convert.ToInt32(m["id"]))?.Messages.Add(new Message {
+						overlordRef.Get(Convert.ToInt32(m["id"]))?.Messages.Add(new Message {
 							Sender = (string)m["sender"],
 							Contents = (string)m["message"],
 							Date = DateTime.Parse((string)m["datetime"])

@@ -1,4 +1,11 @@
-﻿using System;
+﻿// You by no means have to use this list of protocols in your code.
+// This file is more of a reference for ease of association and
+// reading through code involving protocol numbers; in that
+// each protocol number has it's output as the summary of the
+// variable.
+//
+// I would reccommend making use of them, though. Took me like
+// two and a half hours to make this file...
 
 namespace Eve.Ref {
 	public class Protocols {
@@ -549,14 +556,5 @@ namespace Eve.Ref {
 		///     :Cannot change mode for other user
 		/// </summary>
 		public const string ERROR_USERS_DONT_MATCH = "502";
-	}
-
-	public class ProtocolTranslateException : Exception {
-		public ProtocolTranslateException(string originalProtocol)
-			: base($"ProtocolTranslateException: failed to convert string '{originalProtocol}' to any IrcResponse enum.") {
-			OrginalProtocol = originalProtocol;
-		}
-
-		public string OrginalProtocol { get; private set; }
 	}
 }

@@ -5,15 +5,13 @@ using System.Runtime.CompilerServices;
 using Eve.Ref;
 
 namespace Eve {
-	public class Streams : MarshalByRefObject {}
-
 	public class Writer : MarshalByRefObject {
 		private static StreamWriter Output { get; set; }
 		private static string ToWrite { get; set; }
 
 		internal static bool Ping(string data) {
 			if (!data.StartsWith(Protocols.PING) ||
-				String.IsNullOrEmpty(data)) return false;
+				string.IsNullOrEmpty(data)) return false;
 
 			// cut 'PING ' from data and send it back as PONG
 			SendData(Protocols.PONG, data.Remove(0, 5));
@@ -61,15 +59,14 @@ namespace Eve {
 		/// <param name="recipient">who to send to </param>
 		/// <param name="message">the message to send</param>
 		public static void Privmsg(string recipient, string message) {
-			SendData("PRIVMSG", String.Concat(recipient, ' ', message));
+			SendData("PRIVMSG", string.Concat(recipient, ' ', message));
 		}
 
 		public static void Log(string message, EventLogEntryType logType, [CallerMemberName] string memberName = "",
 			[CallerLineNumber] int lineNumber = 0) {
 			try {
 				using (StreamWriter log = new StreamWriter("logs.txt", true)) {
-					string _out = $"[{DateTime.Now.ToString("hh:mm:ss")} {Enum.GetName(typeof(EventLogEntryType), logType)}] ";
-					
+					string _out = $"[{DateTime.Now.ToString("dd/MM hh:mm")} {Enum.GetName(typeof(EventLogEntryType), logType)}] ";
 
 					switch (logType) {
 						case EventLogEntryType.SuccessAudit:

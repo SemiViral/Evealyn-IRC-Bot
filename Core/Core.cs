@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using Eve.Plugin;
 using Eve.Ref;
-using Eve.Types;
 
 namespace Eve.Core {
 	public class Core : IPlugin {
@@ -27,16 +26,13 @@ namespace Eve.Core {
 		public void OnChannelMessage(object source, ChannelMessageEventArgs e) {
 			Status = PluginStatus.Processing;
 
-			if (!Commands.Keys.Contains(e.SplitArgs[1].ToLower())) {
-				Status = PluginStatus.Stopped;
-				return;
-			}
+			Console.WriteLine(Program.Bot.Users.GetAll().First().Realname);
 
 			PluginEventArgs responseEvent = new PluginEventArgs {
 				MessageType = PluginEventMessageType.Message
 			};
 
-			PluginChannelMessageResponse response = new PluginChannelMessageResponse(Protocols.PRIVMSG, e.Recipient,
+			PluginReturnMessage response = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient,
 				string.Empty);
 
 			switch (e.SplitArgs[1]) {
@@ -64,13 +60,13 @@ namespace Eve.Core {
 					}
 					break;
 				case "join":
-					if (User.Current.Access > 1)
+					if (Program.Bot.Users.Current.Access > 1)
 						response.Message = "Insufficient permissions.";
 					else if (e.SplitArgs.Count < 3)
 						response.Message = "Insufficient parameters. Type 'eve help join' to view command's help index.";
 					else if (!e.SplitArgs[2].StartsWith("#"))
 						response.Message = "Channel name must start with '#'.";
-					else if (Channel.Get(e.SplitArgs[2].ToLower()) != null)
+					else if (Program.Bot.Channels.Get(e.SplitArgs[2].ToLower()) != null)
 						response.Message = "I'm already in that channel.";
 
 					if (!string.IsNullOrEmpty(response.Message)) {

@@ -60,7 +60,7 @@ namespace Eve.Core {
 					}
 					break;
 				case "join":
-					if (Program.Bot.Users.Current.Access > 1)
+					if (Program.Bot.Users.LastSeen.Access > 1)
 						response.Message = "Insufficient permissions.";
 					else if (e.SplitArgs.Count < 3)
 						response.Message = "Insufficient parameters. Type 'eve help join' to view command's help index.";

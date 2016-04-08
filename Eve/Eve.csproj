@@ -105,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Channel.cs" />
-    <Compile Include="Classes\Users.cs" />
+    <Compile Include="Classes\User.cs" />
     <Compile Include="IrcBot.cs" />
     <Compile Include="IrcBot.Extended.cs" />
     <Compile Include="Plugin\ChannelMessageEventArgs.cs" />

@@ -1,3 +1,3 @@
 ﻿namespace Eve.Classes {
-	// custom exceptions will be implemented in future, maybe
+    // custom exceptions will be implemented in future, maybe
 }

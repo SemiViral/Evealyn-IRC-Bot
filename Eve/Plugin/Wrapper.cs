@@ -14,8 +14,7 @@ namespace Eve.Plugin {
         private static void PluginsCallback(object source, PluginEventArgs e) {
             switch (e.MessageType) {
                 case PluginEventMessageType.Message:
-                    if (e.Result is PluginReturnMessage) {
-                        PluginReturnMessage response = (PluginReturnMessage)e.Result;
+                    if (e.Result is PluginReturnMessage response) {
                         Writer.SendData(response.Protocol, $"{response.Target} {response.Message}");
                         break;
                     }

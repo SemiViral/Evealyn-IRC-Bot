@@ -1,4 +1,4 @@
-﻿namespace Eve.Ref {
+﻿namespace Eve.References {
     public class Protocols {
         public const string DEFAULT = "",
             ABORT = "ABORT",

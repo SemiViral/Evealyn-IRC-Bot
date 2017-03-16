@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eve", "Eve\Eve.csproj", "{DF4BDEA7-BDC3-4B8D-8AAA-1563FA22D801}"
 EndProject
@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		CHANGELOG.md = CHANGELOG.md
 		Eve\bin\Debug\config.json = Eve\bin\Debug\config.json
-		Eve\bin\Debug\logs.txt = Eve\bin\Debug\logs.txt
+		Eve\bin\Debug\Log.txt = Eve\bin\Debug\Log.txt
 		README.md = README.md
 		TO-DO.md = TO-DO.md
 		Eve\bin\Debug\users.sqlite = Eve\bin\Debug\users.sqlite

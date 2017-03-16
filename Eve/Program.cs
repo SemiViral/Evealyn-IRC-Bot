@@ -10,7 +10,7 @@ using Eve.Classes;
 namespace Eve {
     public class Program {
         public static IrcBot Bot;
-        private static BotConfig _config;
+        private static BotConfig config;
 
         private static void ParseAndDo(object sender, DoWorkEventArgs e) {
             while (Bot.CanExecute) {
@@ -38,7 +38,7 @@ namespace Eve {
         }
 
         private static void RunOverlay() {
-            using (Bot = new IrcBot(_config)) {
+            using (Bot = new IrcBot(config)) {
 #if DEBUG
                 DebugRun();
 #else
@@ -48,7 +48,7 @@ namespace Eve {
         }
 
         private static void Main() {
-            _config = BotConfig.GetDefaultConfig();
+            config = BotConfig.GetDefaultConfig();
             Writer.Log("Configuration file loaded.", EventLogEntryType.Information);
 
             RunOverlay();

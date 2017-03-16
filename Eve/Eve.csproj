@@ -60,7 +60,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -107,12 +107,11 @@
     <Compile Include="Classes\Channel.cs" />
     <Compile Include="Classes\User.cs" />
     <Compile Include="IrcBot.cs" />
-    <Compile Include="IrcBot.Extended.cs" />
     <Compile Include="Plugin\ChannelMessageEventArgs.cs" />
     <Compile Include="Plugin\Controller.cs" />
     <Compile Include="Plugin\Wrapper.cs" />
-    <Compile Include="Ref\Modes.cs" />
-    <Compile Include="Ref\Protocols.cs" />
+    <Compile Include="References\Modes.cs" />
+    <Compile Include="References\Protocols.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

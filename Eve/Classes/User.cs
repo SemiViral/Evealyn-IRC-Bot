@@ -4,70 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Eve.Plugin;
 
 #endregion
 
 namespace Eve.Classes {
-    public class UserOverlord : MarshalByRefObject {
-        public User LastSeen { get; internal set; }
-
-        private List<User> List { get; } = new List<User>();
-
-        /// <summary>
-        ///     Checks whether or not a specified user exists in default database
-        /// </summary>
-        /// <param name="identifier">user ID to return by</param>
-        /// <returns></returns>
-        public User Get(int identifier) {
-            return List.FirstOrDefault(a => a.Id == identifier);
-        }
-
-        /// <summary>
-        ///     Checks whether or not a specified user exists in default database
-        /// </summary>
-        /// <param name="identifier">user realname to return by</param>
-        /// <returns>true: user exists; false: user does not exist</returns>
-        public User Get(string identifier) {
-            return List.FirstOrDefault(a => a.Realname == identifier);
-        }
-
-        public List<User> GetAll() {
-            return List;
-        }
-
-        /// <summary>
-        ///     Creates a new user and updates the users & userTimeouts collections
-        /// </summary>
-        /// <param name="access">access level of user</param>
-        /// <param name="nickname">nickname of user</param>
-        /// <param name="realname">realname of user</param>
-        /// <param name="seen">last time user was seen</param>
-        /// <param name="addToDatabase">whether or not to add user to database as well</param>
-        /// <param name="id">id of user</param>
-        public void Create(int access, string nickname, string realname, DateTime seen, bool addToDatabase = false,
-            int id = -1) {
-            User user = new User {
-                Id = id,
-                Access = access,
-                Nickname = nickname,
-                Realname = realname,
-                Seen = seen,
-                Attempts = 0
-            };
-
-            List.Add(user);
-
-            if (!addToDatabase) return;
-
-            Writer.Log($"Creating database entry for {user.Realname}.", EventLogEntryType.Information);
-
-            user.Id = Program.Bot.Database.GetLastDatabaseId() + 1;
-
-            Database.QueryDefaultDatabase(
-                $"INSERT INTO users VALUES ({user.Id}, '{user.Nickname}', '{user.Realname}', {user.Access}, '{user.Seen}')");
-        }
-    }
-
     public class User {
         public int Id { get; set; }
         public int Attempts { get; set; }
@@ -76,7 +17,16 @@ namespace Eve.Classes {
         public int Access { get; set; }
         public DateTime Seen { get; set; }
 
-        public List<Message> Messages { get; set; } = new List<Message>();
+        public List<Message> Messages { get; } = new List<Message>();
+        public List<Channel> Channels { get; } = new List<Channel>();
+
+        public User(int access, string nickname, string realname, DateTime seen, int id = -1) {
+            Access = access;
+            Nickname = nickname;
+            Realname = realname;
+            Seen = seen;
+            Id = id;
+        }
 
         /// <summary>
         ///     Updates specified user's `seen` data and sets user to LastSeen
@@ -87,7 +37,7 @@ namespace Eve.Classes {
 
             Database.QueryDefaultDatabase($"UPDATE users SET seen='{DateTime.UtcNow}' WHERE realname='{Realname}'");
 
-            if (nickname != Nickname)
+            if (nickname != Nickname) // checks if nickname has changed
                 Database.QueryDefaultDatabase($"UPDATE users SET nickname='{nickname}' WHERE realname='{Realname}'");
         }
 

@@ -11,6 +11,8 @@ using Newtonsoft.Json.Linq;
 namespace Eve.Classes {
     public class BotConfig {
         public List<string> IgnoreList { get; set; } = new List<string>();
+        private const string baseConfig =
+               "{ \"Nickname\": \"TestyBot\", \"Realname\": \"SemiViral\", \"Password\": \"testypass\", \"Server\": \"irc.foonetic.net\", \"Port\": 6667, \"Channels\": [\"#testgrounds\"],  \"IgnoreList\": [], \"DatabaseLocation\": \"users.sqlite\" }";
 
         public bool Identified { get; set; }
 
@@ -23,6 +25,16 @@ namespace Eve.Classes {
 
         public int Port { get; set; }
 
+        private static void CreateDefaultConfig() {
+            using (FileStream stream = new FileStream(@"config.json", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+                Writer.Log("Configuration file not found, creating.", EventLogEntryType.Information);
+
+                StreamWriter writer = new StreamWriter(stream);
+                writer.Write(baseConfig);
+                writer.Flush();
+            }
+        }
+
         /// <summary>
         ///     Check that the default config file exists, then return an object of it
         /// </summary>
@@ -30,18 +42,7 @@ namespace Eve.Classes {
         ///     <see cref="BotConfig" />
         /// </returns>
         public static BotConfig GetDefaultConfig() {
-            const string baseConfig =
-                "{ \"Nickname\": \"TestyBot\", \"Realname\": \"SemiViral\", \"Password\": \"testypass\", \"Server\": \"irc.foonetic.net\", \"Port\": 6667, \"Channels\": [\"#testgrounds\"],  \"IgnoreList\": [], \"DatabaseLocation\": \"users.sqlite\" }";
-
-            if (!File.Exists("config.json")) {
-                using (FileStream stream = new FileStream(@"config.json", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
-                    Writer.Log("Configuration file not found, creating.", EventLogEntryType.Information);
-
-                    StreamWriter writer = new StreamWriter(stream);
-                    writer.Write(baseConfig);
-                    writer.Flush();
-                }
-            }
+            if (!File.Exists("config.json")) CreateDefaultConfig();
 
             JObject config = JObject.Parse(File.ReadAllText("config.json"));
 

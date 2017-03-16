@@ -53,7 +53,7 @@ namespace Eve.Plugin {
         public string PluginName;
         public object Result;
 
-        public PluginEventArgs(PluginEventMessageType messageType = PluginEventMessageType.Message, object result = null,
+        public PluginEventArgs(PluginEventMessageType messageType, object result = null,
             PluginEventAction eventAction = new PluginEventAction()) {
             MessageType = messageType;
             Result = result;

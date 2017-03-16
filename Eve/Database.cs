@@ -1,107 +1,129 @@
-﻿#region
+﻿#region usings
 
 using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Eve.Classes;
 
 #endregion
 
 namespace Eve {
     public class Database {
-        private readonly UserOverlord overlordRef;
-
         /// <summary>
         ///     Initialise connections to database and sets properties
         /// </summary>
         /// <param name="databaseLocation">Database location to be read from/write to</param>
-        public Database(string databaseLocation, UserOverlord overlord) {
-            if (string.IsNullOrEmpty(databaseLocation))
-                throw new NullReferenceException("Database location cannot be empty.");
-            DatabaseLocation = databaseLocation;
-            overlordRef = overlord;
+        public Database(string databaseLocation) {
+            Location = databaseLocation;
 
-            if (!File.Exists(DatabaseLocation))
-                CreateDatabase(DatabaseLocation);
-            else {
-                try {
-                    using (SQLiteConnection db = new SQLiteConnection($"Data Source={DatabaseLocation};Version=3;")) {
-                        db.Open();
-                        CheckUsersTableForEmptyAndFill(db);
-                        ReadUsersIntoList(db);
-                        ReadMessagesIntoUsers(db);
-                    }
-                } catch (Exception e) {
-                    throw new SQLiteException("Unable to connect to database, error: " + e);
-                }
-            }
+            if (!File.Exists(Location)) CreateDatabase();
+            else CheckUsersTableForEmptyAndFill();
 
-            if (overlordRef.GetAll() == null) throw new SQLiteException("Failed to read from database.");
-
-            Writer.Log("Loaded database.", EventLogEntryType.Information);
+            Writer.Log("Loaded database.", EventLogEntryType.SuccessAudit);
         }
 
-        internal static string DatabaseLocation { get; private set; }
+        internal static string Location { get; private set; }
+        internal static bool Connected { get; private set; }
 
-        private static void CreateDatabase(string databaseLocation) {
+        internal static void Initialise(List<User> users) {
+            CheckUsersTableForEmptyAndFill();
+            ReadUsersIntoList();
+            ReadMessagesIntoUsers(users);
+
+            Writer.Log("Database initialised.", EventLogEntryType.SuccessAudit);
+        }
+
+        private static void CreateDatabase() {
             Writer.Log("Database not found, creating.", EventLogEntryType.Information);
 
-            using (SQLiteConnection db = new SQLiteConnection($"Data Source={databaseLocation};Version=3;")) {
+            using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                 db.Open();
 
-                using (SQLiteCommand com = new SQLiteCommand(
-                    "CREATE TABLE users (id int, nickname string, realname string, access int, seen string)", db))
-                    com.ExecuteNonQuery();
+                try {
+                    using (SQLiteCommand com = new SQLiteCommand(
+                        "CREATE TABLE users (id int, nickname string, realname string, access int, seen string)", db)) {
+                        com.ExecuteNonQuery();
+                    }
 
-                using (SQLiteCommand com2 =
-                    new SQLiteCommand("CREATE TABLE messages (id int, sender string, message string, datetime string)", db))
-                    com2.ExecuteNonQuery();
-            }
-        }
-
-        private static void CheckUsersTableForEmptyAndFill(SQLiteConnection db) {
-            using (SQLiteCommand a = new SQLiteCommand("SELECT COUNT(id) FROM users", db)) {
-                if (Convert.ToInt32(a.ExecuteScalar()) != 0) return;
-
-                Writer.Log("Inhabitants table in database is empty. Creating initial record.", EventLogEntryType.Information);
-
-                using (
-                    SQLiteCommand b =
-                        new SQLiteCommand($"INSERT INTO users VALUES (0, '0', '0', 9, '{DateTime.UtcNow}')",
-                            db))
-                    b.ExecuteNonQuery();
-            }
-        }
-
-        private void ReadUsersIntoList(SQLiteConnection db) {
-            using (SQLiteDataReader userEntry = new SQLiteCommand("SELECT * FROM users", db).ExecuteReader()) {
-                while (userEntry.Read()) {
-                    overlordRef.Create((int)userEntry["access"],
-                        (string)userEntry["nickname"],
-                        (string)userEntry["realname"],
-                        DateTime.Parse((string)userEntry["seen"]),
-                        false,
-                        (int)userEntry["id"]);
+                    using (SQLiteCommand com2 =
+                        new SQLiteCommand("CREATE TABLE messages (id int, sender string, message string, datetime string)",
+                            db)) {
+                        com2.ExecuteNonQuery();
+                    }
+                } catch (Exception e) {
+                    Writer.Log($"Unable to create database: {e}", EventLogEntryType.Error);
                 }
             }
         }
 
-        private void ReadMessagesIntoUsers(SQLiteConnection db) {
+        private static void CheckUsersTableForEmptyAndFill() {
             try {
-                using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", db).ExecuteReader()) {
-                    while (m.Read()) {
-                        overlordRef.Get(Convert.ToInt32(m["id"]))?.Messages.Add(new Message {
-                            Sender = (string)m["sender"],
-                            Contents = (string)m["message"],
-                            Date = DateTime.Parse((string)m["datetime"])
-                        });
+                using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
+                    db.Open();
+
+                    using (SQLiteCommand a = new SQLiteCommand("SELECT COUNT(id) FROM users", db)) {
+                        if (Convert.ToInt32(a.ExecuteScalar()) != 0) return;
+
+                        Writer.Log("Inhabitants table in database is empty. Creating initial record.",
+                            EventLogEntryType.Information);
+
+                        using (SQLiteCommand b =
+                            new SQLiteCommand($"INSERT INTO users VALUES (0, '0', '0', 9, '{DateTime.UtcNow}')", db)) {
+                            b.ExecuteNonQuery();
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                Writer.Log($"Unable to execute database operation: {e}", EventLogEntryType.Error);
+            }
+        }
+
+        private static List<User> ReadUsersIntoList() {
+            var tempUsers = new List<User>();
+
+            try {
+                using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
+                    db.Open();
+
+                    using (SQLiteDataReader userEntry = new SQLiteCommand("SELECT * FROM users", db).ExecuteReader()) {
+                        db.Open();
+                        while (userEntry.Read())
+                            tempUsers.Add(new User((int)userEntry["access"], (string)userEntry["nickname"],
+                                (string)userEntry["realname"],
+                                DateTime.Parse((string)userEntry["seen"]),
+                                (int)userEntry["id"]));
+                    }
+                }
+            } catch (Exception e) {
+                Writer.Log($"Unable to execute database operation: {e}", EventLogEntryType.Error);
+            }
+
+            return tempUsers;
+        }
+
+        private static void ReadMessagesIntoUsers(List<User> users) {
+            try {
+                using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
+                    db.Open();
+
+                    using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", db).ExecuteReader()) {
+                        while (m.Read())
+                            users.Single(e => e.Id == Convert.ToInt32(m["id"]))?.Messages.Add(new Message {
+                                Sender = (string)m["sender"],
+                                Contents = (string)m["message"],
+                                Date = DateTime.Parse((string)m["datetime"])
+                            });
                     }
                 }
             } catch (NullReferenceException) {
                 Writer.Log(
-                    "||| NullReferenceException occured upon loading messages from database. This most likely means a user record was deleted and the ID cannot be referenced from the message entry.",
+                    "NullReferenceException occured upon loading messages from database. This most likely means a user record was deleted and the ID cannot be referenced from the message entry.",
                     EventLogEntryType.Error);
+            } catch (Exception e) {
+                Writer.Log($"Unable to execute database operation: {e}", EventLogEntryType.Error);
             }
         }
 
@@ -111,10 +133,12 @@ namespace Eve {
         /// <param name="query"></param>
         public static string QueryDefaultDatabase(string query) {
             try {
-                using (SQLiteConnection db = new SQLiteConnection($"Data Source={DatabaseLocation};Version=3;"))
-                using (SQLiteCommand com = new SQLiteCommand(query, db)) {
+                using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                     db.Open();
-                    com.ExecuteNonQuery();
+
+                    using (SQLiteCommand com = new SQLiteCommand(query, db)) {
+                        com.ExecuteNonQuery();
+                    }
                 }
 
                 return null;
@@ -133,13 +157,11 @@ namespace Eve {
         public int GetLastDatabaseId() {
             int id = -1;
 
-            using (SQLiteConnection db = new SQLiteConnection($"Data Source={DatabaseLocation};Version=3;")) {
+            using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                 db.Open();
 
                 using (SQLiteDataReader r = new SQLiteCommand("SELECT MAX(id) FROM users", db).ExecuteReader()) {
-                    while (r.Read()) {
-                        id = Convert.ToInt32(r.GetValue(0));
-                    }
+                    while (r.Read()) id = Convert.ToInt32(r.GetValue(0));
                 }
             }
 

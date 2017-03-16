@@ -9,16 +9,17 @@ using System.Reflection;
 
 #endregion
 
-namespace Eve.Plugin {
+namespace Eve.Plugin
+{
     internal class PluginHost : MarshalByRefObject {
         private const string DOMAIN_NAME_COMMAND = "DOM_COMMAND";
         private const string DOMAIN_NAME_PLUGINS = "DOM_PLUGINS";
 
-        private AppDomain _domainPlugins;
-        private AppDomain _domainPrePlugins;
+        private AppDomain domainPlugins;
+        private AppDomain domainPrePlugins;
 
-        private PluginController _pluginController;
-        private PluginController _prePluginController;
+        private PluginController pluginController;
+        private PluginController prePluginController;
 
         public bool HostIsTerminating = false;
 
@@ -42,12 +43,16 @@ namespace Eve.Plugin {
         }
 
         public void TriggerChannelMessageCallback(object source, ChannelMessageEventArgs e) {
-            ChannelMessageCallback?.Invoke(this, e);
+            try {
+                ChannelMessageCallback?.Invoke(this, e);
+            } catch (Exception f) {
+                Writer.Log(f.ToString(), EventLogEntryType.Error);
+            }
         }
 
         public void Initialise() {
-            if (_domainPrePlugins == null) _domainPrePlugins = AppDomain.CreateDomain(DOMAIN_NAME_COMMAND);
-            if (_domainPlugins == null) _domainPlugins = AppDomain.CreateDomain(DOMAIN_NAME_PLUGINS);
+            if (domainPrePlugins == null) domainPrePlugins = AppDomain.CreateDomain(DOMAIN_NAME_COMMAND);
+            if (domainPlugins == null) domainPlugins = AppDomain.CreateDomain(DOMAIN_NAME_PLUGINS);
         }
 
         public void LoadAllDomains() {
@@ -67,21 +72,21 @@ namespace Eve.Plugin {
 
             switch (controllerToLoad) {
                 case PluginAssemblyType.PrePlugin:
-                    _prePluginController =
+                    prePluginController =
                         (PluginController)
-                            _domainPrePlugins.CreateInstanceAndUnwrap(typeof(PluginController).Assembly.FullName,
+                            domainPrePlugins.CreateInstanceAndUnwrap(typeof(PluginController).Assembly.FullName,
                                 typeof(PluginController).FullName);
-                    _prePluginController.Callback += PluginCallback;
-                    _prePluginController.LoadPlugins(PluginAssemblyType.PrePlugin);
+                    prePluginController.Callback += PluginCallback;
+                    prePluginController.LoadPlugins(PluginAssemblyType.PrePlugin);
                     return;
                 case PluginAssemblyType.Plugin:
-                    _pluginController =
+                    pluginController =
                         (PluginController)
-                            _domainPlugins.CreateInstanceAndUnwrap(typeof(PluginController).Assembly.FullName,
+                            domainPlugins.CreateInstanceAndUnwrap(typeof(PluginController).Assembly.FullName,
                                 typeof(PluginController).FullName);
-                    _pluginController.Callback += PluginCallback;
-                    _pluginController.LoadPlugins(PluginAssemblyType.Plugin);
-                    ChannelMessageCallback += _pluginController.OnChannelMessageCallback;
+                    pluginController.Callback += PluginCallback;
+                    pluginController.LoadPlugins(PluginAssemblyType.Plugin);
+                    ChannelMessageCallback += pluginController.OnChannelMessageCallback;
                     break;
                 case PluginAssemblyType.None:
                     break;
@@ -97,16 +102,16 @@ namespace Eve.Plugin {
                 case PluginAssemblyType.None:
                     break;
                 case PluginAssemblyType.PrePlugin:
-                    if (_domainPrePlugins == null) break;
+                    if (domainPrePlugins == null) break;
 
-                    AppDomain.Unload(_domainPrePlugins);
-                    _domainPrePlugins = null;
+                    AppDomain.Unload(domainPrePlugins);
+                    domainPrePlugins = null;
                     break;
                 case PluginAssemblyType.Plugin:
-                    if (_domainPlugins == null) break;
+                    if (domainPlugins == null) break;
 
-                    AppDomain.Unload(_domainPlugins);
-                    _domainPlugins = null;
+                    AppDomain.Unload(domainPlugins);
+                    domainPlugins = null;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(typeToUnload), typeToUnload, null);
@@ -123,17 +128,18 @@ namespace Eve.Plugin {
                 case PluginAssemblyType.None:
                     break;
                 case PluginAssemblyType.PrePlugin:
-                    _prePluginController?.StartPluginType(typeToStart);
+                    prePluginController?.StartPluginType(typeToStart);
                     break;
                 case PluginAssemblyType.Plugin:
-                    _pluginController?.StartPluginType(typeToStart);
+                    pluginController?.StartPluginType(typeToStart);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(typeToStart), typeToStart, null);
             }
         }
 
-        private void StopAllPlugins() { /* todo make this do something */
+        private void StopAllPlugins() {
+            // todo make this do something
         }
 
         public void StopPlugins(PluginAssemblyType typeToStop) {
@@ -141,17 +147,17 @@ namespace Eve.Plugin {
                 case PluginAssemblyType.None:
                     break;
                 case PluginAssemblyType.PrePlugin: {
-                    if (_prePluginController == null) return;
+                    if (prePluginController == null) return;
 
-                    _prePluginController.IsShuttingDown = true;
-                    _prePluginController.StopPluginType(typeToStop);
+                    prePluginController.IsShuttingDown = true;
+                    prePluginController.StopPluginType(typeToStop);
                     return;
                 }
                 case PluginAssemblyType.Plugin: {
-                    if (_pluginController == null) return;
+                    if (pluginController == null) return;
 
-                    _pluginController.IsShuttingDown = true;
-                    _pluginController.StopPluginType(typeToStop);
+                    pluginController.IsShuttingDown = true;
+                    pluginController.StopPluginType(typeToStop);
                     return;
                 }
                 default:
@@ -160,7 +166,7 @@ namespace Eve.Plugin {
         }
 
         private bool AllDomainPluginsStopped() {
-            return _prePluginController.CanUnload & _pluginController.CanUnload;
+            return prePluginController.CanUnload & pluginController.CanUnload;
         }
 
         /// <summary>
@@ -325,7 +331,7 @@ namespace Eve.Plugin {
                         foreach (PluginStatus status in Plugins.Select(plgn => plgn.Instance.Status)) {
                             e.MessageType = PluginEventMessageType.Message;
                             e.Result = $"Unload —— checking for stopped: {status}";
-                            Callback(this, e);
+                            Callback?.Invoke(this, e);
 
                             if (status == PluginStatus.Stopped) continue;
                             canTerminate = false;
@@ -337,12 +343,12 @@ namespace Eve.Plugin {
 
                             e.MessageType = PluginEventMessageType.Action;
                             e.EventAction.ActionToTake = PluginActionType.UpdatePlugin;
-                            Callback(this, e);
+                            Callback?.Invoke(this, e);
                         }
 
                         e.MessageType = PluginEventMessageType.Message;
                         e.Result = $"Can terminate: {canTerminate}";
-                        Callback(this, e);
+                        Callback?.Invoke(this, e);
                         break;
                     case PluginActionType.RunProcess:
                         break;
@@ -359,13 +365,15 @@ namespace Eve.Plugin {
 
                         e.MessageType = PluginEventMessageType.Action;
                         e.EventAction.ActionToTake = PluginActionType.SignalTerminate;
-                        Callback(this, e);
+                        Callback?.Invoke(this, e);
                         break;
                     case PluginActionType.SignalTerminate:
                         break;
                     case PluginActionType.UpdatePlugin:
                         break;
                     case PluginActionType.AddCommand:
+                        break;
+                    case PluginActionType.SendMessage:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

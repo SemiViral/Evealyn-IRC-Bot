@@ -28,12 +28,13 @@ namespace Eve {
         internal static string Location { get; private set; }
         internal static bool Connected { get; private set; }
 
-        internal static void Initialise(List<User> users) {
+        internal static bool Initialise(List<User> users) {
             CheckUsersTableForEmptyAndFill();
-            ReadUsersIntoList();
-            ReadMessagesIntoUsers(users);
+            if (!ReadUsersIntoList(users) ||
+                !ReadMessagesIntoUsers(users)) return false;
 
-            Writer.Log("Database initialised.", EventLogEntryType.SuccessAudit);
+            Writer.Log("Database information initialised.", EventLogEntryType.SuccessAudit);
+            return true;
         }
 
         private static void CreateDatabase() {
@@ -81,17 +82,14 @@ namespace Eve {
             }
         }
 
-        private static List<User> ReadUsersIntoList() {
-            var tempUsers = new List<User>();
-
+        private static bool ReadUsersIntoList(List<User> users) {
             try {
                 using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                     db.Open();
 
                     using (SQLiteDataReader userEntry = new SQLiteCommand("SELECT * FROM users", db).ExecuteReader()) {
-                        db.Open();
                         while (userEntry.Read())
-                            tempUsers.Add(new User((int)userEntry["access"], (string)userEntry["nickname"],
+                            users.Add(new User((int)userEntry["access"], (string)userEntry["nickname"],
                                 (string)userEntry["realname"],
                                 DateTime.Parse((string)userEntry["seen"]),
                                 (int)userEntry["id"]));
@@ -99,19 +97,23 @@ namespace Eve {
                 }
             } catch (Exception e) {
                 Writer.Log($"Unable to execute database operation: {e}", EventLogEntryType.Error);
+                return false;
             }
 
-            return tempUsers;
+            Writer.Log("User list loaded.", EventLogEntryType.SuccessAudit);
+            return true;
         }
 
-        private static void ReadMessagesIntoUsers(List<User> users) {
+        private static bool ReadMessagesIntoUsers(List<User> users) {
+            if (users.Count.Equals(0)) return false;
+
             try {
                 using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                     db.Open();
 
                     using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", db).ExecuteReader()) {
                         while (m.Read())
-                            users.Single(e => e.Id == Convert.ToInt32(m["id"]))?.Messages.Add(new Message {
+                            users.Single(e => e.Id.Equals(Convert.ToInt32(m["id"]))).Messages.Add(new Message {
                                 Sender = (string)m["sender"],
                                 Contents = (string)m["message"],
                                 Date = DateTime.Parse((string)m["datetime"])
@@ -122,9 +124,14 @@ namespace Eve {
                 Writer.Log(
                     "NullReferenceException occured upon loading messages from database. This most likely means a user record was deleted and the ID cannot be referenced from the message entry.",
                     EventLogEntryType.Error);
+                return false;
             } catch (Exception e) {
                 Writer.Log($"Unable to execute database operation: {e}", EventLogEntryType.Error);
+                return false;
             }
+
+            Writer.Log("Messages loaded.", EventLogEntryType.SuccessAudit);
+            return true;
         }
 
         /// <summary>

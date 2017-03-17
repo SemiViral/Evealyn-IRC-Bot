@@ -1,4 +1,4 @@
-﻿#region
+﻿#region usings
 
 using System;
 using System.Collections.Generic;
@@ -12,9 +12,9 @@ namespace Eve.Plugin {
     public class ChannelMessageEventArgs : EventArgs {
         // Unused regexs
         // private readonly Regex _argMessageRegex = new Regex(@"^:(?<Arg1>[^\s]+)\s(?<Arg2>[^\s]+)\s(?<Arg3>[^\s]+)\s?:?(?<Arg4>.*)", RegexOptions.Compiled);
-        // private static readonly Regex PingRegex = new Regex(@"^PING :(?<Message>.+)", RegexOptions.None);
+        // private static readonly Regex PingRegex = new Regex(@"^PING :(?<Args>.+)", RegexOptions.None);
 
-        // Regex for parsing raw messages
+        // Regex for parsing RawMessage messages
         private static readonly Regex _messageRegex =
             new Regex(@"^:(?<Sender>[^\s]+)\s(?<Type>[^\s]+)\s(?<Recipient>[^\s]+)\s?:?(?<Args>.*)", RegexOptions.Compiled);
 
@@ -22,17 +22,19 @@ namespace Eve.Plugin {
             @"^(?<Nickname>[^\s]+)!(?<Realname>[^\s]+)@(?<Hostname>[^\s]+)",
             RegexOptions.Compiled);
 
-        private static readonly string[] ShortIgnoreList = {
+        private static readonly string[] _shortIgnoreList = {
             "nickserv",
             "chanserv"
         };
+
+        public IrcBot MainBot;
 
         public Dictionary<string, string> Tags = new Dictionary<string, string>();
 
         public ChannelMessageEventArgs(IrcBot bot, string rawData) {
             MainBot = bot;
-            RawMessage = rawData;
-            Parse(RawMessage);
+            RawMessage = rawData.Trim();
+            Parse();
         }
 
         public bool IsIRCv3Message { get; private set; }
@@ -46,8 +48,6 @@ namespace Eve.Plugin {
 
         public DateTime Timestamp { get; private set; }
 
-        public IrcBot MainBot;
-
         public string Nickname { get; private set; }
         public string Realname { get; private set; }
         public string Hostname { get; private set; }
@@ -56,30 +56,27 @@ namespace Eve.Plugin {
         public string Args { get; private set; }
         public List<string> SplitArgs { get; private set; } = new List<string>();
 
-        private void ParseTagsPrefix(string raw) {
-            if (!raw.StartsWith("@")) return;
+        private void ParseTagsPrefix() {
+            if (!RawMessage.StartsWith("@")) return;
 
             IsIRCv3Message = true;
 
-            string fullTagsPrefix = raw.Substring(0, raw.IndexOf(' '));
-            string[] primitiveTagsCollection = raw.Split(';');
+            string fullTagsPrefix = RawMessage.Substring(0, RawMessage.IndexOf(' '));
+            string[] primitiveTagsCollection = RawMessage.Split(';');
 
-            foreach (string[] splitPrimitiveTag in primitiveTagsCollection.Select(primitiveTag => primitiveTag.Split('='))) {
+            foreach (string[] splitPrimitiveTag in primitiveTagsCollection.Select(primitiveTag => primitiveTag.Split('=')))
                 Tags.Add(splitPrimitiveTag[0], splitPrimitiveTag[1] ?? string.Empty);
-            }
         }
 
-        public void Parse(string rawData) {
-            if (!_messageRegex.IsMatch(rawData)) return;
+        public void Parse() {
+            if (!_messageRegex.IsMatch(RawMessage)) return;
 
-            ParseTagsPrefix(rawData);
-
-
+            ParseTagsPrefix();
 
             Timestamp = DateTime.Now;
 
             // begin parsing message into sections
-            Match mVal = _messageRegex.Match(rawData);
+            Match mVal = _messageRegex.Match(RawMessage);
             Match sMatch = _senderRegex.Match(mVal.Groups["Sender"].Value);
 
             // class property setting

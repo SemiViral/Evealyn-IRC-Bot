@@ -1,91 +1,54 @@
-﻿using Eve.Plugin;
+﻿#region usings
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
+using Eve.Plugin;
 using Eve.References;
 
-namespace Eve.Core
-{
+#endregion
+
+namespace Eve.Core {
     public class Core : IPlugin {
-		public string Name => "Core";
-		public string Author => "SemiViral";
-		public string Version => "3.0.2";
-		public string Id => Guid.NewGuid().ToString();
-		public bool TerminateRequestRecieved { get; private set; }
-		public Dictionary<string, string> Commands => new Dictionary<string, string> {
-			["eval"] = "(<expression>) — evaluates given mathematical expression.",
-			["join"] = "(<channel>) — joins specified channel."
-		}; 
-		public PluginStatus Status { get; private set; } = PluginStatus.Stopped;
+        public string Name => "Core";
+        public string Author => "SemiViral";
+        public string Version => "3.0.3";
+        public string Id => Guid.NewGuid().ToString();
+        public bool TerminateRequestRecieved { get; private set; }
 
-		public void ProcessEnded() {
-			if (!TerminateRequestRecieved) { }
-		}
+        public Dictionary<string, string> Commands => new Dictionary<string, string> {
+            ["eval"] = "(<expression>) — evaluates given mathematical expression.",
+            ["join"] = "(<channel>) — joins specified channel.",
+            ["channels"] = "returns a list of connected channels.",
+            ["reload"] = "reloads the plugin domain."
+        };
 
-		public void OnChannelMessage(object source, ChannelMessageEventArgs e) {
-			Status = PluginStatus.Processing;
+        public PluginStatus Status { get; private set; } = PluginStatus.Stopped;
 
-		    PluginEventArgs responseEvent = new PluginEventArgs(PluginEventMessageType.Message);
+        public void ProcessEnded() {
+            if (!TerminateRequestRecieved) {}
+        }
 
-			PluginReturnMessage response = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient,
-				string.Empty);
+        public void OnChannelMessage(object source, ChannelMessageEventArgs e) {
+            Status = PluginStatus.Processing;
 
-		    if (!e.MainBot.Inhabitants.Any(f => f.Equals(e.Nickname))) return;
+            if (!e.MainBot.Inhabitants.Any(f => f.Equals(e.Nickname)) ||
+                !Commands.Keys.Contains(e.SplitArgs[1])) return;
 
-		    switch (e.SplitArgs[1])
-            {
+            switch (e.SplitArgs[1]) {
+                case "reload":
+                    Reload(e);
+                    break;
                 case "eval":
-                    if (e.SplitArgs.Count < 3)
-                    {
-                        response.Message = "Not enough parameters.";
-                        responseEvent.Result = response;
-                        DoCallback(responseEvent);
-                        Status = PluginStatus.Stopped;
-                        break;
-                    }
-
-                    Status = PluginStatus.Running;
-                    string evalArgs = e.SplitArgs.Count > 3 ?
-                        e.SplitArgs[2] + e.SplitArgs[3] : e.SplitArgs[2];
-
-                    try
-                    {
-                        response.Message = new Calculator().Evaluate(evalArgs).ToString(CultureInfo.CurrentCulture);
-                        responseEvent.Result = response;
-                        DoCallback(responseEvent);
-                    }
-                    catch (Exception ex)
-                    {
-                        response.Message = ex.Message;
-                        responseEvent.Result = response;
-                        DoCallback(responseEvent);
-                    }
+                    Eval(e);
                     break;
                 case "join":
-                    if (e.MainBot.Users.Single(f => f.Realname.Equals(e.Realname)).Access > 1)
-                        response.Message = "Insufficient permissions.";
-                    else if (e.SplitArgs.Count < 3)
-                        response.Message = "Insufficient parameters. Type 'eve help join' to view command's help index.";
-                    else if (!e.SplitArgs[2].StartsWith("#"))
-                        response.Message = "Channel name must start with '#'.";
-                    else if (e.MainBot.Channels.Any(f => f.Name.Equals(e.SplitArgs[2].ToLower())))
-                        response.Message = "I'm already in that channel.";
-
-                    if (!string.IsNullOrEmpty(response.Message))
-                    {
-                        responseEvent.Result = response;
-                        DoCallback(responseEvent);
-                        return;
-                    }
-
-                    response.Target = string.Empty;
-                    response.Message = e.SplitArgs[2];
-                    response.Protocol = Protocols.JOIN;
-                    responseEvent.Result = response;
-                    DoCallback(responseEvent);
+                    Join(e);
+                    break;
+                case "channels":
+                    Channels(e);
                     break;
                 default:
                     break;
@@ -95,41 +58,122 @@ namespace Eve.Core
         }
 
         public bool Start() {
-			DoCallback(new PluginEventArgs(PluginEventMessageType.Message, $"{Name} loaded."));
-			return true;
-		}
+            DoCallback(new PluginEventArgs(PluginEventMessageType.Message, $"{Name} loaded."));
+            Debug.WriteLine(" 4 >> " + AppDomain.CurrentDomain.FriendlyName);
+            return true;
+        }
 
-		public bool Stop() {
-			if (Status == PluginStatus.Running) {
-				TerminateRequestRecieved = true;
-				DoCallback(new PluginEventArgs(PluginEventMessageType.Message, $"Stop called but process is running from: {Name}"));
-			} else {
-				TerminateRequestRecieved = true;
-				DoCallback(new PluginEventArgs(PluginEventMessageType.Message, $"Stop called from: {Name}"));
-				Call_Die();
-			}
+        public bool Stop() {
+            if (Status.Equals(PluginStatus.Running)) {
+                TerminateRequestRecieved = true;
+                DoCallback(new PluginEventArgs(PluginEventMessageType.Message,
+                    $"Stop called but process is running from: {Name}"));
+            } else {
+                TerminateRequestRecieved = true;
+                DoCallback(new PluginEventArgs(PluginEventMessageType.Message, $"Stop called from: {Name}"));
+                Call_Die();
+            }
 
-			return true;
-		}
+            return true;
+        }
 
-		public void LogError(string message, EventLogEntryType logType) {
-			Writer.Log(message, logType);
-		}
+        public void LogError(string message, EventLogEntryType logType) {
+            Writer.Log(message, logType);
+        }
 
-		public void Call_Die() {
-			Status = PluginStatus.Stopped;
-			DoCallback(new PluginEventArgs(PluginEventMessageType.Message,
-				$"Calling die, stopping process, sending unload —— from: {Name}"));
-			DoCallback(new PluginEventArgs(PluginEventMessageType.Action, null, new PluginEventAction {
-				ActionToTake = PluginActionType.Unload
-			}));
-		}
+        public void Call_Die() {
+            Status = PluginStatus.Stopped;
+            DoCallback(new PluginEventArgs(PluginEventMessageType.Message,
+                $"Calling die, stopping process, sending unload —— from: {Name}"));
+            DoCallback(PluginEventMessageType.Action, null, PluginActionType.Unload);
+        }
 
-		public event EventHandler<PluginEventArgs> CallbackEvent;
+        public event EventHandler<PluginEventArgs> CallbackEvent;
 
-		public void DoCallback(PluginEventArgs e) {
-			CallbackEvent?.Invoke(this, e);
-		}
+        public void DoCallback(PluginEventArgs e) {
+            CallbackEvent?.Invoke(this, e);
+        }
+
+        public void DoCallback(PluginEventMessageType type, object result,
+            PluginActionType actionType = PluginActionType.None) {
+            CallbackEvent?.Invoke(this, new PluginEventArgs(type, result, actionType));
+        }
+
+        private void Reload(ChannelMessageEventArgs e) {
+            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, string.Empty);
+
+            if (e.MainBot.Users.Single(f => f.Realname.Equals(e.Realname)).Access > 1) {
+                message.Args = "Insufficient permissions.";
+                DoCallback(PluginEventMessageType.Message, message);
+                return;
+            }
+
+            message.Args = "Attempting to reload plugins.";
+            DoCallback(PluginEventMessageType.Message, message);
+
+            try {
+                DoCallback(PluginEventMessageType.Action, null, PluginActionType.Unload);
+                DoCallback(PluginEventMessageType.Action, null, PluginActionType.Load);
+            } catch (Exception ex) {
+                message.Args = "Error occured reloading plugins.";
+                DoCallback(PluginEventMessageType.Message, message);
+                Writer.Log($"Error reloading plugins: {ex}", EventLogEntryType.Error);
+                return;
+            }
+
+            message.Args = "Error occured reloading plugins.";
+            DoCallback(PluginEventMessageType.Message, message);
+        }
+
+        private void Eval(ChannelMessageEventArgs e) {
+            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, string.Empty);
+
+            if (e.SplitArgs.Count < 3) message.Args = "Not enough parameters.";
+
+            if (string.IsNullOrEmpty(message.Args)) {
+                Status = PluginStatus.Running;
+                string evalArgs = e.SplitArgs.Count > 3 ?
+                    e.SplitArgs[2] + e.SplitArgs[3] : e.SplitArgs[2];
+
+                try {
+                    message.Args = new Calculator().Evaluate(evalArgs).ToString(CultureInfo.CurrentCulture);
+                } catch (Exception ex) {
+                    message.Args = ex.Message;
+                }
+            }
+
+            DoCallback(PluginEventMessageType.Message, message);
+        }
+
+        private void Join(ChannelMessageEventArgs e) {
+            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, string.Empty);
+
+            if (e.MainBot.Users.Single(f => f.Realname.Equals(e.Realname)).Access > 1)
+                message.Args = "Insufficient permissions.";
+            else if (e.SplitArgs.Count < 3)
+                message.Args = "Insufficient parameters. Type 'eve help join' to view command's help index.";
+            else if (!e.SplitArgs[2].StartsWith("#"))
+                message.Args = "Channel name must start with '#'.";
+            else if (e.MainBot.Channels.Any(f => f.Name.Equals(e.SplitArgs[2].ToLower())))
+                message.Args = "I'm already in that channel.";
+
+            Status = PluginStatus.Running;
+
+            if (string.IsNullOrEmpty(message.Args)) {
+                DoCallback(PluginEventMessageType.Message,
+                    new PluginReturnMessage(Protocols.JOIN, string.Empty, e.SplitArgs[2]));
+                message.Args = $"Joined channel {e.SplitArgs[2]}.";
+            }
+
+            DoCallback(PluginEventMessageType.Message, message);
+        }
+
+        private void Channels(ChannelMessageEventArgs e) {
+            Status = PluginStatus.Running;
+            DoCallback(PluginEventMessageType.Message,
+                new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient,
+                    string.Join(", ", e.MainBot.Channels.SelectMany(f => f.Name))));
+        }
     }
 
     //public class Join : IPlugin {
@@ -140,7 +184,6 @@ namespace Eve.Core
     //	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
     //		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
     //			return null;
-
 
     //	}
     //}

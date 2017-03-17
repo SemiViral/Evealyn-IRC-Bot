@@ -14,8 +14,11 @@ using Eve.References;
 
 namespace Eve {
     public class IrcBot : MarshalByRefObject, IDisposable {
+        private readonly Dictionary<string, string> commands = new Dictionary<string, string>();
         private StreamReader _in;
 
+        //internal EventHandler<CommandRegistrarEventArgs> CommandRegissEventHandler;
+        //internal CommandRegistrarEventArgs CommandRegistrar;
         private ChannelMessageEventArgs channelMessage;
         internal BotConfig Config;
         private TcpClient connection;
@@ -38,10 +41,13 @@ namespace Eve {
             // check if connection is established, don't execute if not
             if (!(CanExecute = InitializeConnections())) return;
 
-            Wrapper.Start();
+            Wrapper.Start(CommandRegistrarCallbackEvent);
 
             Database = new Database(Config.Database);
-            Database.Initialise(Users);
+            if (!Database.Initialise(Users)) {
+                CanExecute = false;
+                Initialised = false;
+            }
 
             Writer.Initialise(networkStream);
             Writer.SendData(Protocols.USER, $"{Config.Nickname} 0 * {Config.Realname}");
@@ -74,6 +80,35 @@ namespace Eve {
             GC.SuppressFinalize(this);
         }
 
+        internal void CommandRegistrarCallbackEvent(object source, CommandRegistrarEventArgs e) {
+            commands.Add(e.Key, e.Value);
+        }
+
+        /// <summary>
+        ///     Method for initialising all data streams
+        /// </summary>
+        public bool InitializeConnections(int maxRetries = 3) {
+            int retries = 0;
+
+            while (retries <= maxRetries)
+                try {
+                    connection = new TcpClient(Config.Server, Config.Port);
+                    networkStream = connection.GetStream();
+                    _in = new StreamReader(networkStream);
+                    break;
+                } catch (SocketException) {
+                    Writer.Log(
+                        retries <= maxRetries
+                            ? "Communication error, attempting to connect again..."
+                            : "Communication could not be established with address.",
+                        EventLogEntryType.Error);
+
+                    retries++;
+                }
+
+            return retries <= maxRetries;
+        }
+
         public void ExecuteRuntime() {
             ListenToStream();
 
@@ -92,7 +127,7 @@ namespace Eve {
 
             MessageRecievedOperations();
 
-            PreprocessAndAbort();
+            if (PreprocessAndCheckAbort()) return;
 
             Wrapper.PluginHost.TriggerChannelMessageCallback(this, channelMessage);
         }
@@ -104,7 +139,7 @@ namespace Eve {
         private bool RefreshCurrentMessage() {
             channelMessage = new ChannelMessageEventArgs(this, rawData);
 
-            if (channelMessage.Type == Protocols.ABORT) return false;
+            if (channelMessage.Type.Equals(Protocols.ABORT)) return false;
 
             Writer.Log(channelMessage.Type.Equals(Protocols.PRIVMSG) ?
                     $"<{channelMessage.Recipient} {channelMessage.Nickname}> {channelMessage.Args}" : rawData,
@@ -160,10 +195,10 @@ namespace Eve {
         /// <summary>
         ///     Preprocess ChannelMessage and determine whether to fire OnChannelMessage event
         /// </summary>
-        private void PreprocessAndAbort() {
+        private bool PreprocessAndCheckAbort() {
             switch (channelMessage.Type) {
                 case Protocols.MOTD_REPLY_END:
-                    if (Config.Identified) break;
+                    if (Config.Identified) return true;
 
                     Writer.SendData(Protocols.PRIVMSG, $"NICKSERV IDENTIFY {Config.Password}");
                     Writer.SendData(Protocols.MODE, $"{Config.Nickname} +B");
@@ -206,37 +241,37 @@ namespace Eve {
                     break;
                 default:
                     if (!channelMessage.SplitArgs[0].Replace(",", string.Empty).Equals(Config.Nickname.ToLower()) ||
-                        IgnoreList.Contains(channelMessage.Realname)) break;
+                        IgnoreList.Contains(channelMessage.Realname)) return true;
 
                     if (channelMessage.SplitArgs.Count < 2) {
-                        Writer.Privmsg(channelMessage.Recipient,
-                            "Please provide a command. Type 'eve help' to view my command list.");
-                        break;
+                        Writer.Privmsg(channelMessage.Recipient, "Type 'eve help' to view my command list.");
+                        return true;
                     }
 
                     // built-in `help' command
-                    if (channelMessage.SplitArgs[1].ToLower().Equals("help"))
-                        if (channelMessage.SplitArgs.Count == 2) {
-                            Writer.SendData(Protocols.PRIVMSG,
-                                $"{channelMessage.Recipient} Active commands: {string.Join(", ", GetCommands().Keys)}");
-                            break;
-                        } else {
-                            if (channelMessage.SplitArgs.Count < 3) {
-                                Writer.Privmsg(channelMessage.Recipient, "Insufficient parameters.");
-                                break;
-                            }
-
-                            if (!PluginWrapper.Commands.ContainsKey(channelMessage.SplitArgs[2])) {
-                                Writer.Privmsg(channelMessage.Recipient, "Command not found.");
-                                break;
-                            }
-
-                            //Writer.Privmsg(Recipient, $"{SplitArgs[2]} {MainBot.GetCommands(SplitArgs[1])}");
+                    if (channelMessage.SplitArgs[1].ToLower().Equals("help")) {
+                        if (channelMessage.SplitArgs.Count.Equals(2)) { // in this case, 'help' is the only text in the string.
+                            Writer.Privmsg(channelMessage.Recipient, $"Active commands: {string.Join(", ", commands.Keys)}");
+                            return true;
                         }
 
-                    Writer.Privmsg(channelMessage.Recipient, "Invalid command. Type 'eve help' to view my command list.");
+                        KeyValuePair<string, string> queriedCommand = GetCommand(channelMessage.SplitArgs[2]);
+
+                        Writer.Privmsg(channelMessage.Recipient,
+                            queriedCommand.Equals(default(KeyValuePair<string, string>))
+                                ? "Command not found." : $"{queriedCommand.Key}: {queriedCommand.Value}");
+
+                        return true;
+                    }
+
+                    if (!HasCommand(channelMessage.SplitArgs[1].ToLower())) {
+                        Writer.Privmsg(channelMessage.Recipient, "Invalid command. Type 'eve help' to view my command list.");
+                        return true;
+                    }
                     break;
             }
+
+            return false;
         }
 
         protected virtual void Dispose(bool dispose) {
@@ -250,41 +285,12 @@ namespace Eve {
         }
 
         /// <summary>
-        ///     Method for initialising all data streams
+        ///     Returns a specified command from commands list
         /// </summary>
-        public bool InitializeConnections(int maxRetries = 3) {
-            int retries = 0;
-
-            while (retries <= maxRetries)
-                try {
-                    connection = new TcpClient(Config.Server, Config.Port);
-                    networkStream = connection.GetStream();
-                    _in = new StreamReader(networkStream);
-                    break;
-                } catch (SocketException) {
-                    Writer.Log(
-                        retries <= maxRetries
-                            ? "Communication error, attempting to connect again..."
-                            : "Communication could not be established with address.",
-                        EventLogEntryType.Error);
-
-                    retries++;
-                }
-
-            return retries <= maxRetries;
-        }
-
-        /// <summary>
-        ///     Return list of commands or a single command, or null if the command is unmatched
-        /// </summary>
-        /// <param name="commands">Command list to be checked and returned, if specified</param>
+        /// <param name="command">Command to be returned</param>
         /// <returns></returns>
-        public Dictionary<string, string> GetCommands(List<string> commands = null) {
-            return commands == null ?
-                PluginWrapper.Commands :
-                new Dictionary<string, string>(
-                    PluginWrapper.Commands.Where(e => commands.Contains(e.Key))
-                        .ToDictionary(dict => dict.Key, dict => dict.Value));
+        public KeyValuePair<string, string> GetCommand(string command) {
+            return commands.SingleOrDefault(x => x.Key.Equals(command));
         }
 
         /// <summary>
@@ -293,7 +299,7 @@ namespace Eve {
         /// <param name="command">comamnd name to be checked</param>
         /// <returns>True: exists; false: does not exist</returns>
         public bool HasCommand(string command) {
-            return PluginWrapper.Commands.Keys.Contains(command);
+            return commands.Keys.Contains(command);
         }
     }
 }

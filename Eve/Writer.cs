@@ -3,31 +3,17 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using Eve.References;
+using System.Text;
+using System.Timers;
 
 #endregion
 
 namespace Eve {
     public class Writer : MarshalByRefObject {
-        private static readonly string[] _resitrictedLoggingList = {Protocols.PING, Protocols.PONG};
+        private static StringBuilder Backlog { get; } = new StringBuilder();
         private static StreamWriter Output { get; set; }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        private static bool CheckSkipLogging(string command) {
-            string[] fullCommand = command.Split(' ');
-
-            if (fullCommand.Length > 1)
-                Log(
-                    "Pre-logging check input string exceeded normal paramater count. Please review input strings to ensure code quality.",
-                    EventLogEntryType.Warning);
-
-            return _resitrictedLoggingList.Contains(fullCommand[0]); // 0th index should be the IRC protocol
-        }
+        internal static Timer RecursiveBacklogTrigger { get; set; }
 
         /// <summary>
         ///     Initiailises the Writer object with an output stream
@@ -35,6 +21,24 @@ namespace Eve {
         /// <message name="stream">object to get stream from</message>
         public static void Initialise(Stream stream) {
             Output = new StreamWriter(stream);
+
+            RecursiveBacklogTrigger = new Timer(5000);
+            RecursiveBacklogTrigger.Elapsed += LogBacklog;
+            RecursiveBacklogTrigger.Start();
+        }
+
+        private static void LogBacklog(object source, ElapsedEventArgs e) {
+            if (Backlog.Length.Equals(0)) return;
+
+            try {
+                using (StreamWriter log = new StreamWriter("Log.txt", true)) {
+                    log.WriteLine(Backlog.ToString().Trim());
+                    Backlog.Clear();
+                    log.Flush();
+                }
+            } catch (Exception ex) {
+                Console.WriteLine($"||| Logging error occured: {ex}", EventLogEntryType.Error);
+            }
         }
 
         /// <summary>
@@ -43,8 +47,9 @@ namespace Eve {
         /// <message name="command">command to be sent, i.e. PONG or PRIVMSG</message>
         /// <message name="message">message for command</message>
         public static void SendData(string command, string parameters = null) {
-            if (Output?.BaseStream == null) {
-                Log("Output stream is not connected to any endpoint. Call method `Intiailise'.", EventLogEntryType.Warning);
+            if (Output.BaseStream.Equals(null)) {
+                Log("Output stream is not connected to any endpoint. Call method `Intiailise'.",
+                    EventLogEntryType.Warning);
                 return;
             }
 
@@ -58,8 +63,7 @@ namespace Eve {
                 return;
             }
 
-            if (!CheckSkipLogging(command))
-                Log($" >> {stringToWrite}", EventLogEntryType.Information);
+            Log($" >> {stringToWrite}", EventLogEntryType.Information);
         }
 
         /// <summary>
@@ -75,39 +79,40 @@ namespace Eve {
             [CallerLineNumber] int lineNumber = 0) {
             string timestamp = DateTime.Now.ToString("dd/MM hh:mm");
 
-            try {
-                using (StreamWriter log = new StreamWriter("Log.txt", true)) {
-                    string _out =
-                        $"[{timestamp} {Enum.GetName(typeof(EventLogEntryType), logType)}] ";
+            string _out =
+                $"[{timestamp} {Enum.GetName(typeof(EventLogEntryType), logType)}] ";
 
-                    switch (logType) {
-                        case EventLogEntryType.SuccessAudit:
-                        case EventLogEntryType.FailureAudit:
-                        case EventLogEntryType.Warning:
-                        case EventLogEntryType.Error:
-                            _out += $"from `{memberName}' at line {lineNumber}";
+            switch (logType) {
+                case EventLogEntryType.SuccessAudit:
+                    if (message.StartsWith("PONG")) break;
 
-                            Console.WriteLine(_out);
+                    _out += $" >> {message}";
+                    Console.WriteLine(_out);
+                    break;
+                case EventLogEntryType.FailureAudit:
+                case EventLogEntryType.Warning:
+                case EventLogEntryType.Error:
+                    _out += $"from `{memberName}' at line {lineNumber}";
 
-                            _out = $"\n{_out}\n{message}\n";
+                    Console.WriteLine(_out);
 
-                            break;
-                        case EventLogEntryType.Information:
-                            _out += message;
+                    _out = $"\n{_out}\n{message}\n";
 
-                            Console.WriteLine(_out);
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(logType), logType,
-                                "Use of undefined EventLogEntryType.");
-                    }
+                    break;
+                case EventLogEntryType.Information:
+                    _out += message;
 
-                    log.WriteLine(_out);
-                    log.Flush();
-                }
-            } catch (Exception ex) {
-                Console.WriteLine($"||| Logging error occured: {ex}", EventLogEntryType.Error);
+                    Console.WriteLine(_out);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(logType), logType,
+                        "Use of undefined EventLogEntryType.");
             }
+
+            if (!_out.EndsWith(Environment.NewLine))
+                _out += Environment.NewLine;
+
+            Backlog.Append(_out);
         }
     }
 }

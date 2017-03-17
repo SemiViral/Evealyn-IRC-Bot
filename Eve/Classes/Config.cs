@@ -1,4 +1,4 @@
-﻿#region
+﻿#region usings
 
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,9 +10,10 @@ using Newtonsoft.Json.Linq;
 
 namespace Eve.Classes {
     public class BotConfig {
+        private const string BASE_CONFIG =
+            "{ \"Nickname\": \"TestyBot\", \"Realname\": \"SemiViral\", \"Password\": \"testypass\", \"Server\": \"irc.foonetic.net\", \"Port\": 6667, \"Channels\": [\"#testgrounds\"],  \"IgnoreList\": [], \"DatabaseLocation\": \"users.sqlite\" }";
+
         public List<string> IgnoreList { get; set; } = new List<string>();
-        private const string baseConfig =
-               "{ \"Nickname\": \"TestyBot\", \"Realname\": \"SemiViral\", \"Password\": \"testypass\", \"Server\": \"irc.foonetic.net\", \"Port\": 6667, \"Channels\": [\"#testgrounds\"],  \"IgnoreList\": [], \"DatabaseLocation\": \"users.sqlite\" }";
 
         public bool Identified { get; set; }
 
@@ -30,7 +31,7 @@ namespace Eve.Classes {
                 Writer.Log("Configuration file not found, creating.", EventLogEntryType.Information);
 
                 StreamWriter writer = new StreamWriter(stream);
-                writer.Write(baseConfig);
+                writer.Write(BASE_CONFIG);
                 writer.Flush();
             }
         }

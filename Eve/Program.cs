@@ -1,4 +1,4 @@
-﻿#region
+﻿#region usings
 
 using System;
 using System.ComponentModel;
@@ -13,9 +13,7 @@ namespace Eve {
         private static BotConfig config;
 
         private static void ParseAndDo(object sender, DoWorkEventArgs e) {
-            while (Bot.CanExecute) {
-                Bot.ExecuteRuntime();
-            }
+            while (Bot.CanExecute) Bot.ExecuteRuntime();
         }
 
         private static void NonDebugRun() {
@@ -32,9 +30,7 @@ namespace Eve {
         }
 
         private static void DebugRun() {
-            while (Bot.CanExecute) {
-                Bot.ExecuteRuntime();
-            }
+            while (Bot.CanExecute) Bot.ExecuteRuntime();
         }
 
         private static void RunOverlay() {

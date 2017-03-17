@@ -212,7 +212,7 @@
         public const string INFO_REPLY_END = "374";
 
         /// <summary>
-        ///     :- [server] Message of the day -
+        ///     :- [server] Args of the day -
         /// </summary>
         public const string MOTD_START = "375";
 

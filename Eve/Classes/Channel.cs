@@ -1,14 +1,14 @@
 ﻿#region usings
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Eve.Plugin;
 using Eve.References;
 
 #endregion
 
 namespace Eve.Classes {
-    public class Channel {
+    public class Channel : MarshalByRefObject {
         public Channel(string name) {
             Name = name;
             Inhabitants = new List<string>();

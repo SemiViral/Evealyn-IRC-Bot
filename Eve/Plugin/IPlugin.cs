@@ -1,4 +1,4 @@
-﻿#region
+﻿#region usings
 
 using System;
 using System.Collections.Generic;
@@ -32,20 +32,20 @@ namespace Eve.Plugin {
 
     [Serializable]
     public class PluginReturnMessage {
-        public PluginReturnMessage(string protocol, string target, string message) {
+        public PluginReturnMessage(string protocol, string target, string args) {
             Protocol = protocol;
             Target = target;
-            Message = message;
+            Args = args;
         }
 
         public string Protocol { get; set; }
         public string Target { get; set; }
-        public string Message { get; set; }
+        public string Args { get; set; }
     }
 
     [Serializable]
     public class PluginEventArgs {
-        public PluginEventAction EventAction;
+        public PluginActionType ActionType;
         public string ExecutingDomain;
         public string MessageId;
         public PluginEventMessageType MessageType;
@@ -54,10 +54,10 @@ namespace Eve.Plugin {
         public object Result;
 
         public PluginEventArgs(PluginEventMessageType messageType, object result = null,
-            PluginEventAction eventAction = new PluginEventAction()) {
+            PluginActionType actionType = PluginActionType.None) {
             MessageType = messageType;
             Result = result;
-            EventAction = eventAction;
+            ActionType = actionType;
             ExecutingDomain = AppDomain.CurrentDomain.FriendlyName;
             PluginName = Assembly.GetExecutingAssembly().GetName().Name;
         }
@@ -72,8 +72,23 @@ namespace Eve.Plugin {
         }
     }
 
+    [Serializable]
+    public class CommandRegistrarEventArgs : EventArgs {
+        public CommandRegistrarEventArgs(KeyValuePair<string, string> kvp) {
+            Command = kvp;
+        }
+
+        public CommandRegistrarEventArgs(string key, string value) {
+            Command = new KeyValuePair<string, string>(key, value);
+        }
+
+        public KeyValuePair<string, string> Command { get; }
+        public string Key => Command.Key;
+        public string Value => Command.Value;
+    }
+
     public enum PluginEventMessageType {
-        Message = 0, // informational message
+        Message = 0, // informational args
         EventLog, // event that needs to be logged
         Action // action the host application needs to take
     }
@@ -88,20 +103,6 @@ namespace Eve.Plugin {
         UpdatePlugin,
         AddCommand,
         SendMessage
-    }
-
-    public class PluginEventActionList {
-        public List<PluginEventAction> ActionsToTake;
-
-        public PluginEventActionList() {
-            if (ActionsToTake == null) ActionsToTake = new List<PluginEventAction>();
-        }
-    }
-
-    [Serializable]
-    public struct PluginEventAction {
-        public PluginActionType ActionToTake;
-        public PluginAssemblyType TargetPluginAssemblyType;
     }
 
     public enum PluginAssemblyType {

@@ -1,4 +1,4 @@
-﻿#region
+﻿#region usings
 
 using System;
 using System.Collections.Generic;
@@ -8,14 +8,24 @@ using System.Diagnostics;
 
 namespace Eve.Plugin {
     internal class PluginWrapper : MarshalByRefObject {
-        public static Dictionary<string, string> Commands = new Dictionary<string, string>();
+        internal EventHandler<CommandRegistrarEventArgs> CommandRegistrarEventArgsCallback;
+
         public PluginHost PluginHost;
 
-        private static void PluginsCallback(object source, PluginEventArgs e) {
+        private void PluginsCallback(object source, PluginEventArgs e) {
             switch (e.MessageType) {
                 case PluginEventMessageType.Message:
                     if (e.Result is PluginReturnMessage response) {
-                        Writer.SendData(response.Protocol, $"{response.Target} {response.Message}");
+                        Writer.SendData(response.Protocol, $"{response.Target} {response.Args}");
+
+                        //if (response.Protocol != Protocols.PRIVMSG &&
+                        //    !string.IsNullOrEmpty(response.Message))
+                        //{
+                        //    if (response.Message.StartsWith("#"))
+                        //    {
+                        //        Writer.Privmsg(response.Target);
+                        //    }
+                        //}
                         break;
                     }
 
@@ -24,11 +34,22 @@ namespace Eve.Plugin {
                 case PluginEventMessageType.EventLog:
                     break;
                 case PluginEventMessageType.Action:
-                    if (e.EventAction.ActionToTake == PluginActionType.AddCommand) {
-                        if (!(e.Result is KeyValuePair<string, string>)) break;
+                    if (!(e.Result is KeyValuePair<string, string>) &&
+                        !(e.Result is PluginAssemblyType)) break;
 
-                        var temp = (KeyValuePair<string, string>)e.Result;
-                        Commands.Add(temp.Key, temp.Value);
+                    switch (e.ActionType) {
+                        case PluginActionType.AddCommand:
+                            CommandRegistrarCallback(this,
+                                new CommandRegistrarEventArgs((KeyValuePair<string, string>)e.Result));
+                            break;
+                        case PluginActionType.Load:
+                            PluginHost.LoadDomain((PluginAssemblyType)e.Result);
+                            break;
+                        case PluginActionType.Unload:
+                            PluginHost.UnloadDomain((PluginAssemblyType)e.Result);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
                     break;
                 default:
@@ -36,10 +57,15 @@ namespace Eve.Plugin {
             }
         }
 
-        public void Start() {
+        private void CommandRegistrarCallback(object source, CommandRegistrarEventArgs e) {
+            CommandRegistrarEventArgsCallback?.Invoke(this, e);
+        }
+
+        public void Start(EventHandler<CommandRegistrarEventArgs> commandRegistrar) {
             if (PluginHost != null) return;
 
             PluginHost = new PluginHost();
+            CommandRegistrarEventArgsCallback += commandRegistrar;
             PluginHost.PluginCallback += PluginsCallback;
             PluginHost.LoadAllDomains();
             PluginHost.StartAllPlugins();

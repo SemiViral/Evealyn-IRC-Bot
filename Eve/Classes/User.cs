@@ -1,15 +1,20 @@
-﻿#region
+﻿#region usings
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Eve.Plugin;
 
 #endregion
 
 namespace Eve.Classes {
-    public class User {
+    public class User : MarshalByRefObject {
+        public User(int access, string nickname, string realname, DateTime seen, int id = -1) {
+            Access = access;
+            Nickname = nickname;
+            Realname = realname;
+            Seen = seen;
+            Id = id;
+        }
+
         public int Id { get; set; }
         public int Attempts { get; set; }
         public string Nickname { get; set; }
@@ -19,14 +24,6 @@ namespace Eve.Classes {
 
         public List<Message> Messages { get; } = new List<Message>();
         public List<Channel> Channels { get; } = new List<Channel>();
-
-        public User(int access, string nickname, string realname, DateTime seen, int id = -1) {
-            Access = access;
-            Nickname = nickname;
-            Realname = realname;
-            Seen = seen;
-            Id = id;
-        }
 
         /// <summary>
         ///     Updates specified user's `seen` data and sets user to LastSeen
@@ -42,7 +39,7 @@ namespace Eve.Classes {
         }
 
         /// <summary>
-        ///     Adds a Message object to list
+        ///     Adds a Args object to list
         /// </summary>
         /// <param name="m"><see cref="Message" /> to be added</param>
         public bool AddMessage(Message m) {
@@ -74,12 +71,11 @@ namespace Eve.Classes {
         public bool GetTimeout() {
             bool doTimeout = false;
 
-            if (Attempts == 4) {
-                // Check if user's last message happened more than 1 minute ago
+            if (Attempts.Equals(4))
                 if (Seen.AddMinutes(1) < DateTime.UtcNow)
                     Attempts = 0; // if so, reset their attempts to 0
                 else doTimeout = true; // if not, timeout is true
-            } else if (Access > 1)
+            else if (Access > 1)
                 // if user isn't admin/op, increment their attempts
                 Attempts++;
 

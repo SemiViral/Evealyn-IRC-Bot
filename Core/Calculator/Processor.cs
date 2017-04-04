@@ -4,8 +4,8 @@ using System;
 
 #endregion
 
-namespace Eve.Core {
-    public partial class Calculator {
+namespace Eve.Core.Calculator {
+    public partial class InlineCalculator {
         private void Calculate(string op, double op1, double op2) {
             try {
                 double res;
@@ -39,7 +39,7 @@ namespace Eve.Core {
                         throw new ArgumentOutOfRangeException();
                 }
 
-                _operands.Push(PostProcess(res));
+                operands.Push(PostProcess(res));
             } catch (Exception e) {
                 ThrowException(e.Message);
             }
@@ -93,7 +93,7 @@ namespace Eve.Core {
                         throw new ArgumentOutOfRangeException();
                 }
 
-                _operands.Push(PostProcess(res));
+                operands.Push(PostProcess(res));
             } catch (Exception e) {
                 ThrowException(e.Message);
             }

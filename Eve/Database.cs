@@ -15,7 +15,7 @@ namespace Eve {
         /// <summary>
         ///     Initialise connections to database and sets properties
         /// </summary>
-        /// <param name="databaseLocation">Database location to be read from/write to</param>
+        /// <param name="databaseLocation">MainDatabase location to be read from/write to</param>
         public Database(string databaseLocation) {
             Location = databaseLocation;
 
@@ -33,12 +33,12 @@ namespace Eve {
             if (!ReadUsersIntoList(users) ||
                 !ReadMessagesIntoUsers(users)) return false;
 
-            Writer.Log("Database information initialised.", EventLogEntryType.SuccessAudit);
+            Writer.Log("MainDatabase information initialised.", EventLogEntryType.SuccessAudit);
             return true;
         }
 
         private static void CreateDatabase() {
-            Writer.Log("Database not found, creating.", EventLogEntryType.Information);
+            Writer.Log("MainDatabase not found, creating.", EventLogEntryType.Information);
 
             using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                 db.Open();
@@ -58,6 +58,8 @@ namespace Eve {
                     Writer.Log($"Unable to create database: {e}", EventLogEntryType.Error);
                 }
             }
+
+            Connected = true;
         }
 
         private static void CheckUsersTableForEmptyAndFill() {
@@ -82,7 +84,7 @@ namespace Eve {
             }
         }
 
-        private static bool ReadUsersIntoList(List<User> users) {
+        private static bool ReadUsersIntoList(ICollection<User> users) {
             try {
                 using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                     db.Open();
@@ -104,7 +106,7 @@ namespace Eve {
             return true;
         }
 
-        private static bool ReadMessagesIntoUsers(List<User> users) {
+        private static bool ReadMessagesIntoUsers(IReadOnlyCollection<User> users) {
             if (users.Count.Equals(0)) return false;
 
             try {
@@ -135,10 +137,26 @@ namespace Eve {
         }
 
         /// <summary>
-        ///     Execute a query on the default database
+        ///     Execute a query on the database
         /// </summary>
-        /// <param name="query"></param>
-        public static string QueryDefaultDatabase(string query) {
+        /// <param name="comamnd"></param>
+        internal string Query(SQLiteCommand command) {
+            try {
+                using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
+                    db.Open();
+
+                    command.Connection = db;
+                    command.ExecuteNonQuery();
+                }
+
+                return null;
+            } catch (Exception e) {
+                Writer.Log(e.Message, EventLogEntryType.Error);
+                return e.Message;
+            }
+        }
+
+        public string Query(string query) {
             try {
                 using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                     db.Open();
@@ -161,7 +179,7 @@ namespace Eve {
         /// <returns>
         ///     <see cref="int" />
         /// </returns>
-        public int GetLastDatabaseId() {
+        internal int GetLastDatabaseId() {
             int id = -1;
 
             using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {

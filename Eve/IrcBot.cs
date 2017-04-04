@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -17,8 +18,6 @@ namespace Eve {
         private readonly Dictionary<string, string> commands = new Dictionary<string, string>();
         private StreamReader _in;
 
-        //internal EventHandler<CommandRegistrarEventArgs> CommandRegissEventHandler;
-        //internal CommandRegistrarEventArgs CommandRegistrar;
         private ChannelMessageEventArgs channelMessage;
         internal BotConfig Config;
         private TcpClient connection;
@@ -43,7 +42,7 @@ namespace Eve {
 
             Wrapper.Start(CommandRegistrarCallbackEvent);
 
-            Database = new Database(Config.Database);
+            MainDatabase = new Database(Config.Database);
             if (!Database.Initialise(Users)) {
                 CanExecute = false;
                 Initialised = false;
@@ -67,10 +66,10 @@ namespace Eve {
 
         public List<string> Inhabitants => Channels.SelectMany(e => e.Inhabitants).ToList();
         public List<Channel> Channels { get; }
-        public Database Database { get; set; }
+        internal Database MainDatabase { get; set; }
         internal PluginWrapper Wrapper { get; }
 
-        public bool CanExecute { get; }
+        internal bool CanExecute { get; }
 
         /// <summary>
         ///     Dispose of all streams and objects
@@ -79,6 +78,9 @@ namespace Eve {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        public int GetLastDatabaseId() => MainDatabase.GetLastDatabaseId();
+        public string Query(SQLiteCommand command) => MainDatabase.Query(command);
 
         internal void CommandRegistrarCallbackEvent(object source, CommandRegistrarEventArgs e) {
             commands.Add(e.Key, e.Value);
@@ -178,9 +180,9 @@ namespace Eve {
 
             Writer.Log($"Creating database entry for {realname}.", EventLogEntryType.Information);
 
-            id = Database.GetLastDatabaseId() + 1;
+            id = MainDatabase.GetLastDatabaseId() + 1;
 
-            Database.QueryDefaultDatabase(
+            MainDatabase.Query(
                 $"INSERT INTO users VALUES ({id}, '{nickname}', '{realname}', {access}, '{seen}')");
         }
 
@@ -196,6 +198,9 @@ namespace Eve {
         ///     Preprocess ChannelMessage and determine whether to fire OnChannelMessage event
         /// </summary>
         private bool PreprocessAndCheckAbort() {
+            if (channelMessage.Nickname.Equals(Config.Nickname) &&
+                channelMessage.Realname.Equals(Config.Realname)) return true;
+
             switch (channelMessage.Type) {
                 case Protocols.MOTD_REPLY_END:
                     if (Config.Identified) return true;
@@ -211,7 +216,7 @@ namespace Eve {
                     Config.Identified = true;
                     break;
                 case Protocols.NICK:
-                    Database.QueryDefaultDatabase(
+                    MainDatabase.Query(
                         $"UPDATE users SET nickname='{channelMessage.Recipient}' WHERE realname='{channelMessage.Realname}'");
                     break;
                 case Protocols.JOIN:
@@ -222,7 +227,7 @@ namespace Eve {
                     break;
                 case Protocols.PART:
                     Channels.SingleOrDefault(e => e.Name.Equals(channelMessage.Recipient))?
-                        .RemoveUser(channelMessage.Realname);
+                        .Inhabitants.RemoveAll(x => x.Equals(channelMessage.Nickname));
                     break;
                 case Protocols.NAME_REPLY:
                     string channelName = channelMessage.SplitArgs[1];
@@ -282,6 +287,48 @@ namespace Eve {
             connection?.Close();
 
             disposed = true;
+        }
+
+        /// <summary>
+        ///     Updates specified user's `seen` data and sets user to LastSeen
+        /// </summary>
+        /// <param name="user">user object</param>
+        /// <param name="nickname">name to be checked</param>
+        public void UpdateUser(User user, string nickname) {
+            user.Seen = DateTime.UtcNow;
+
+            MainDatabase.Query($"UPDATE users SET seen='{DateTime.UtcNow}' WHERE realname='{user.Realname}'");
+
+            if (nickname != user.Nickname) // checks if nickname has changed
+                MainDatabase.Query($"UPDATE users SET nickname='{nickname}' WHERE realname='{user.Realname}'");
+        }
+
+        /// <summary>
+        ///     Adds a Args object to list
+        /// </summary>
+        /// <param name="user">user object</param>
+        /// <param name="m"><see cref="Message" /> to be added</param>
+        public bool AddMessage(User user, Message m) {
+            if (
+                !string.IsNullOrEmpty(
+                    MainDatabase.Query(
+                        $"INSERT INTO messages VALUES ({user.Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')"))) return false;
+            user.Messages.Add(m);
+            return true;
+        }
+
+        /// <summary>
+        ///     Set new access level for user
+        /// </summary>
+        /// <param name="user">user object</param>
+        /// <param name="access">new access level</param>
+        public bool SetAccess(User user, int access) {
+            if (!string.IsNullOrEmpty(
+                MainDatabase.Query($"UPDATE users SET access={access} WHERE realname='{user.Realname}'")))
+                return false;
+
+            user.Access = access;
+            return true;
         }
 
         /// <summary>

@@ -25,44 +25,7 @@ namespace Eve.Classes {
         public List<Message> Messages { get; } = new List<Message>();
         public List<Channel> Channels { get; } = new List<Channel>();
 
-        /// <summary>
-        ///     Updates specified user's `seen` data and sets user to LastSeen
-        /// </summary>
-        /// <param name="nickname">nickname for user's to be checked against</param>
-        public void UpdateUser(string nickname) {
-            Seen = DateTime.UtcNow;
 
-            Database.QueryDefaultDatabase($"UPDATE users SET seen='{DateTime.UtcNow}' WHERE realname='{Realname}'");
-
-            if (nickname != Nickname) // checks if nickname has changed
-                Database.QueryDefaultDatabase($"UPDATE users SET nickname='{nickname}' WHERE realname='{Realname}'");
-        }
-
-        /// <summary>
-        ///     Adds a Args object to list
-        /// </summary>
-        /// <param name="m"><see cref="Message" /> to be added</param>
-        public bool AddMessage(Message m) {
-            if (
-                !string.IsNullOrEmpty(
-                    Database.QueryDefaultDatabase(
-                        $"INSERT INTO messages VALUES ({Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')"))) return false;
-            Messages.Add(m);
-            return true;
-        }
-
-        /// <summary>
-        ///     Set new access level for user
-        /// </summary>
-        /// <param name="access">new access level</param>
-        public bool SetAccess(int access) {
-            if (!string.IsNullOrEmpty(
-                Database.QueryDefaultDatabase($"UPDATE users SET access={access} WHERE realname='{Realname}'")))
-                return false;
-
-            Access = access;
-            return true;
-        }
 
         /// <summary>
         ///     Discern whether a user has exceeded command-querying limit

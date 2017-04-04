@@ -6,8 +6,8 @@ using System.Text.RegularExpressions;
 
 #endregion
 
-namespace Eve.Core {
-    public partial class Calculator {
+namespace Eve.Core.Calculator {
+    public partial class InlineCalculator {
         public enum CalcMode {
             Numeric,
             Logic
@@ -44,7 +44,7 @@ namespace Eve.Core {
                 SQRT = "sqrt",
                 ROOT = "rt";
 
-            private static readonly string[] BinaryOperators = {
+            private static readonly string[] _binaryOperators = {
                 MULTIPLY,
                 DIVIDE,
                 SUBTRACT,
@@ -55,7 +55,7 @@ namespace Eve.Core {
                 MOD
             };
 
-            private static readonly string[] UnaryOperators = {
+            private static readonly string[] _unaryOperators = {
                 SUBTRACT,
                 SINE,
                 COSINE,
@@ -70,11 +70,11 @@ namespace Eve.Core {
                 SQRT
             };
 
-            private static readonly string[] SpecialOperators = {SENTINEL, END, STORE, NONE, SEPERATOR, P_RIGHT};
+            private static readonly string[] _specialOperators = {SENTINEL, END, STORE, NONE, SEPERATOR, P_RIGHT};
 
-            private static readonly string[] RightSideOperators = {FACTORIAL};
+            private static readonly string[] _rightSideOperators = {FACTORIAL};
 
-            private static readonly string[] FunctionList = {
+            private static readonly string[] _functionList = {
                 SINE,
                 COSINE,
                 TANGENT,
@@ -90,7 +90,7 @@ namespace Eve.Core {
                 ROOT
             };
 
-            private static readonly string[] LastProcessedOperators = {POWER};
+            private static readonly string[] _lastProcessedOperators = {POWER};
 
             private static int Precedence(string op) {
                 if (IsFunction(op)) return 64;
@@ -124,7 +124,7 @@ namespace Eve.Core {
 
             public static int Compare(string op1, string op2) {
                 if (op1.Equals(op2) &&
-                    Contains(op1, LastProcessedOperators))
+                    Contains(op1, _lastProcessedOperators))
                     return -1;
                 return Precedence(op1) >= Precedence(op2) ? 1 : -1;
             }
@@ -154,23 +154,23 @@ namespace Eve.Core {
             #region Is... Functions
 
             public static bool IsBinary(string op) {
-                return Contains(op, BinaryOperators);
+                return Contains(op, _binaryOperators);
             }
 
             public static bool IsUnary(string op) {
-                return Contains(op, UnaryOperators);
+                return Contains(op, _unaryOperators);
             }
 
             public static bool IsRightSide(string op) {
-                return Contains(op, RightSideOperators);
+                return Contains(op, _rightSideOperators);
             }
 
             public static bool IsSpecial(string op) {
-                return Contains(op, SpecialOperators);
+                return Contains(op, _specialOperators);
             }
 
             public static bool IsFunction(string op) {
-                return Contains(op, FunctionList);
+                return Contains(op, _functionList);
             }
 
             public static bool IsName(string token) {

@@ -9,31 +9,31 @@ using System.Text;
 
 #endregion
 
-namespace Eve.Core {
-    public partial class Calculator {
-        private string _expression;
-        private Stack<double> _operands;
-        private Stack<string> _operators;
+namespace Eve.Core.Calculator {
+    public partial class InlineCalculator {
+        private string expression;
+        private Stack<double> operands;
+        private Stack<string> operators;
 
-        private string _token;
-        private int _tokenPos;
+        private string token;
+        private int tokenPos;
 
         public void Clear() {
-            _operands = new Stack<double>();
-            _operators = new Stack<string>();
+            operands = new Stack<double>();
+            operators = new Stack<string>();
 
-            _operators.Push(Token.SENTINEL);
-            _token = Token.NONE;
-            _tokenPos = -1;
+            operators.Push(Token.SENTINEL);
+            token = Token.NONE;
+            tokenPos = -1;
         }
 
         public double Evaluate(string expression) {
             Clear();
             LoadConstants();
 
-            _expression = expression;
+            this.expression = expression;
 
-            if (Normalize(ref _expression)) {
+            if (Normalize(ref this.expression)) {
                 double result = Parse();
                 SetVariable(ANSWER_VAR, result);
                 return result;
@@ -46,39 +46,39 @@ namespace Eve.Core {
         private double Parse() {
             ParseBinary();
             Expect(Token.END);
-            return _operands.Peek();
+            return operands.Peek();
         }
 
         private void ParseBinary() {
             ParsePrimary();
 
-            while (Token.IsBinary(_token)) {
-                PushOperator(_token);
+            while (Token.IsBinary(token)) {
+                PushOperator(token);
                 NextToken();
                 ParsePrimary();
             }
 
-            while (_operators.Peek() != Token.SENTINEL) PopOperator();
+            while (operators.Peek() != Token.SENTINEL) PopOperator();
         }
 
         private void ParsePrimary() {
             while (true) {
-                if (Token.IsDigit(_token)) {
+                if (Token.IsDigit(token)) {
                     ParseDigit();
-                } else if (Token.IsName(_token)) {
+                } else if (Token.IsName(token)) {
                     ParseName();
-                } else if (Token.IsUnary(_token)) {
-                    PushOperator(Token.ConvertOperator(_token));
+                } else if (Token.IsUnary(token)) {
+                    PushOperator(Token.ConvertOperator(token));
                     NextToken();
                     continue;
                 } else {
-                    switch (_token) {
+                    switch (token) {
                         case Token.P_LEFT:
                             NextToken();
-                            _operators.Push(Token.SENTINEL);
+                            operators.Push(Token.SENTINEL);
                             ParseBinary();
                             Expect(Token.P_RIGHT, Token.SEPERATOR);
-                            _operators.Pop();
+                            operators.Pop();
 
                             TryInsertMultiply();
                             TryRightSideOperator();
@@ -98,9 +98,9 @@ namespace Eve.Core {
         private void ParseDigit() {
             StringBuilder tmpNumber = new StringBuilder();
 
-            while (Token.IsDigit(_token)) CollectToken(ref tmpNumber);
+            while (Token.IsDigit(token)) CollectToken(ref tmpNumber);
 
-            _operands.Push(double.Parse(tmpNumber.ToString(), CultureInfo.InvariantCulture));
+            operands.Push(double.Parse(tmpNumber.ToString(), CultureInfo.InvariantCulture));
             TryInsertMultiply();
             TryRightSideOperator();
         }
@@ -108,33 +108,33 @@ namespace Eve.Core {
         private void ParseName() {
             StringBuilder tmpName = new StringBuilder();
 
-            while (Token.IsName(_token)) CollectToken(ref tmpName);
+            while (Token.IsName(token)) CollectToken(ref tmpName);
 
             string name = tmpName.ToString();
 
             if (Token.IsFunction(name)) {
                 PushOperator(name);
                 ParsePrimary();
-            } else if (_token.Equals(Token.STORE)) {
+            } else if (token.Equals(Token.STORE)) {
                 NextToken();
                 SetVariable(name, Parse());
             } else {
-                _operands.Push(GetVariable(name));
+                operands.Push(GetVariable(name));
                 TryInsertMultiply();
                 TryRightSideOperator();
             }
         }
 
         private void TryInsertMultiply() {
-            if (Token.IsBinary(_token) ||
-                Token.IsSpecial(_token) ||
-                Token.IsRightSide(_token)) return;
+            if (Token.IsBinary(token) ||
+                Token.IsSpecial(token) ||
+                Token.IsRightSide(token)) return;
             PushOperator(Token.MULTIPLY);
             ParsePrimary();
         }
 
         private void TryRightSideOperator() {
-            switch (_token) {
+            switch (token) {
                 case Token.FACTORIAL:
                     PushOperator(Token.FACTORIAL);
                     NextToken();
@@ -148,37 +148,37 @@ namespace Eve.Core {
 
         private void PushOperator(string op) {
             if (Token.UNARY_MINUS.Equals(op)) {
-                _operators.Push(op);
+                operators.Push(op);
                 return;
             }
 
-            while (Token.Compare(_operators.Peek(), op) > 0) PopOperator();
+            while (Token.Compare(operators.Peek(), op) > 0) PopOperator();
 
-            _operators.Push(op);
+            operators.Push(op);
         }
 
         private void PopOperator() {
-            if (Token.IsBinary(_operators.Peek())) {
-                double o2 = _operands.Pop();
-                double o1 = _operands.Pop();
-                Calculate(_operators.Pop(), o1, o2);
+            if (Token.IsBinary(operators.Peek())) {
+                double o2 = operands.Pop();
+                double o1 = operands.Pop();
+                Calculate(operators.Pop(), o1, o2);
             } else {
-                Calculate(_operators.Pop(), _operands.Pop());
+                Calculate(operators.Pop(), operands.Pop());
             }
         }
 
         private void NextToken() {
-            if (_token != Token.END)
-                _token = _expression[++_tokenPos].ToString();
+            if (token != Token.END)
+                token = expression[++tokenPos].ToString();
         }
 
         private void CollectToken(ref StringBuilder sb) {
-            sb.Append(_token);
+            sb.Append(token);
             NextToken();
         }
 
         private void Expect(params string[] expectedTokens) {
-            if (expectedTokens.Any(t => _token.Equals(t))) {
+            if (expectedTokens.Any(t => token.Equals(t))) {
                 NextToken();
                 return;
             }
@@ -196,10 +196,10 @@ namespace Eve.Core {
         }
 
         private void ThrowException(string message) {
-            Writer.Log(_token, EventLogEntryType.Error);
-            Writer.Log(_operands.ToString(), EventLogEntryType.Error);
-            Writer.Log(_operators.ToString(), EventLogEntryType.Error);
-            throw new CalculateException(message, _tokenPos);
+            Writer.Log(token, EventLogEntryType.Error);
+            Writer.Log(operands.ToString(), EventLogEntryType.Error);
+            Writer.Log(operators.ToString(), EventLogEntryType.Error);
+            throw new CalculateException(message, tokenPos);
         }
     }
 

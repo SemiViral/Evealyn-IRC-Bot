@@ -14,15 +14,17 @@ namespace Eve.Core {
     public class Core : IPlugin {
         public string Name => "Core";
         public string Author => "SemiViral";
-        public string Version => "3.0.3";
+        public string Version => "3.1.0";
         public string Id => Guid.NewGuid().ToString();
         public bool TerminateRequestRecieved { get; private set; }
 
         public Dictionary<string, string> Commands => new Dictionary<string, string> {
             ["eval"] = "(<expression>) — evaluates given mathematical expression.",
-            ["join"] = "(<channel>) — joins specified channel.",
+            ["join"] = "(<channel> *<message>) — joins specified channel.",
+            ["part"] = "(<channel> *<message>) — parts from specified channel.",
             ["channels"] = "returns a list of connected channels.",
-            ["reload"] = "reloads the plugin domain."
+            ["reload"] = "reloads the plugin domain.",
+            ["getlastid"] = ""
         };
 
         public PluginStatus Status { get; private set; } = PluginStatus.Stopped;
@@ -34,7 +36,7 @@ namespace Eve.Core {
         public void OnChannelMessage(object source, ChannelMessageEventArgs e) {
             Status = PluginStatus.Processing;
 
-            if (!e.MainBot.Inhabitants.Any(f => f.Equals(e.Nickname)) ||
+            if (!e.MainBot.Inhabitants.Any(x => x.Equals(e.Nickname)) ||
                 !Commands.Keys.Contains(e.SplitArgs[1])) return;
 
             switch (e.SplitArgs[1]) {
@@ -47,10 +49,11 @@ namespace Eve.Core {
                 case "join":
                     Join(e);
                     break;
+                case "part":
+                    Part(e);
+                    break;
                 case "channels":
                     Channels(e);
-                    break;
-                default:
                     break;
             }
 
@@ -102,7 +105,7 @@ namespace Eve.Core {
         private void Reload(ChannelMessageEventArgs e) {
             PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, string.Empty);
 
-            if (e.MainBot.Users.Single(f => f.Realname.Equals(e.Realname)).Access > 1) {
+            if (e.MainBot.Users.SingleOrDefault(x => x.Realname.Equals(e.Realname))?.Access > 1) {
                 message.Args = "Insufficient permissions.";
                 DoCallback(PluginEventMessageType.Message, message);
                 return;
@@ -125,6 +128,14 @@ namespace Eve.Core {
             DoCallback(PluginEventMessageType.Message, message);
         }
 
+        private void Quit(ChannelMessageEventArgs e) {
+            // todo this
+        }
+
+        private void GetLastId(ChannelMessageEventArgs e) {
+            DoCallback(PluginEventMessageType.Message, new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, e.MainBot.GetLastDatabaseId().ToString()));
+        }
+
         private void Eval(ChannelMessageEventArgs e) {
             PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, string.Empty);
 
@@ -136,7 +147,7 @@ namespace Eve.Core {
                     e.SplitArgs[2] + e.SplitArgs[3] : e.SplitArgs[2];
 
                 try {
-                    message.Args = new Calculator().Evaluate(evalArgs).ToString(CultureInfo.CurrentCulture);
+                    message.Args = new Calculator.InlineCalculator().Evaluate(evalArgs).ToString(CultureInfo.CurrentCulture);
                 } catch (Exception ex) {
                     message.Args = ex.Message;
                 }
@@ -162,9 +173,35 @@ namespace Eve.Core {
             if (string.IsNullOrEmpty(message.Args)) {
                 DoCallback(PluginEventMessageType.Message,
                     new PluginReturnMessage(Protocols.JOIN, string.Empty, e.SplitArgs[2]));
-                message.Args = $"Joined channel {e.SplitArgs[2]}.";
+                message.Args = $"Successfully joined channel: {e.SplitArgs[2]}.";
             }
 
+            DoCallback(PluginEventMessageType.Message, message);
+        }
+
+        private void Part(ChannelMessageEventArgs e) {
+            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, string.Empty);
+
+            if (e.MainBot.Users.First(x => x.Nickname.Equals(e.Nickname)).Access > 1)
+                message.Args = "Insufficient permissions.";
+            else if (e.SplitArgs.Count < 3)
+                message.Args = "Insufficient parameters. Type 'eve help part' to view ccommand's help index.";
+            else if (!e.SplitArgs[2].StartsWith("#"))
+                message.Args = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
+            else if (e.MainBot.Channels.First(x => x.Name.Equals(e.SplitArgs[2])) == null)
+                message.Args = "I'm not in that channel.";
+
+            if (!string.IsNullOrEmpty(message.Args)) {
+                DoCallback(PluginEventMessageType.Message, message);
+                return;
+            }
+
+            string channel = e.SplitArgs[2].ToLower();
+            e.MainBot.Channels.RemoveAll(x => x.Name.Equals(e.SplitArgs[2]));
+            message.Args = $"Successfully parted channel: {channel}";
+
+            DoCallback(PluginEventMessageType.Message,
+                new PluginReturnMessage(Protocols.PART, string.Empty, $"{channel} Channel part invoked by: {e.Nickname}"));
             DoCallback(PluginEventMessageType.Message, message);
         }
 
@@ -172,7 +209,7 @@ namespace Eve.Core {
             Status = PluginStatus.Running;
             DoCallback(PluginEventMessageType.Message,
                 new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient,
-                    string.Join(", ", e.MainBot.Channels.SelectMany(f => f.Name))));
+                    string.Join(", ", e.MainBot.Channels.Select(x => x.Name).ToList())));
         }
     }
 
@@ -194,30 +231,7 @@ namespace Eve.Core {
     //	};
 
     //	public ChannelMessage OnChannelMessage(ChannelMessage c, PassableMutableObject v) {
-    //		if (!c.SplitArgs[1].CaseEquals(Def.Keys.First()))
-    //			return null;
-
-    //		if (v.CurrentUser.Access > 1)
-    //			c.message = "Insufficient permissions.";
-    //		else if (c.SplitArgs.Count < 3)
-    //			c.message = "Insufficient parameters. Type 'eve help part' to view ccommand's help index.";
-    //		else if (!c.SplitArgs[2].StartsWith("#"))
-    //			c.message = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-    //		else if (v.GetChannel(c.SplitArgs[2].ToLower()) == null)
-    //			c.message = "I'm not in that channel.";
-
-    //		if (!string.IsNullOrEmpty(c.message)) {
-    //			c.Type = Protocols.Privmsg;
-    //			return c;
-    //		}
-
-    //		string channel = c.SplitArgs[2].ToLower();
-    //		v.RemoveChannel(channel);
-
-    //		c.Target = string.Empty;
-    //		c.message = c.SplitArgs.Count > 3 ? $"{channel} {c.SplitArgs[3]}" : channel;
-    //		c.Type = Protocols.Part;
-    //		return c;
+    //		
     //	}
     //}
 

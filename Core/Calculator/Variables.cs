@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace Eve.Core {
-    public partial class Calculator {
+namespace Eve.Core.Calculator {
+    public partial class InlineCalculator {
         public delegate void CalcVariableDelegate(object sender, EventArgs e);
 
         public const string ANSWER_VAR = "r";

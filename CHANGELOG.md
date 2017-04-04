@@ -2,6 +2,19 @@
 
 ## 4.x.x
 
+#### 4.2.0 -- Plugins fully functional, cleaned up code and encapsulation
+ - * a note: I'm horrible at changelogging
+
+ - Plugin events now execute correctly
+
+ - User/ChannelOverlord no longer exist. In place the functions and lists are now in `IrcBot` class
+
+ - `IrcBot` class is now one file.
+
+ - Commands list is now held in `IrcBot` class as well
+
+ - A couple of commands have been added to `Core.cs`, much closer to finishing this off
+
 #### 4.1.2 -- Plugins and commands list functional, more resutructuring/refactoring
 
 - The `Result` field of a `PluginEventArgs` is now of type `object`

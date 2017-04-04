@@ -12,18 +12,16 @@ If you're looking to take this code and learn from it, be wary. It may house man
 
 # Features
 Evealyn offers these various features:
-- User databasing, access values, and a message timeout feature that will ignore messages from a user after so many queries.
-- Modules: any Eve.*.dll file that implements the IModule interface and is placed anywhere inside the Modules folder will be type-loaded as an assembly.
-- An advanced calculator: the calculator takes literal expressions such as 2+2 or 2(2), rather than 2 2 + or another form of it. It processes sine, tan, cos, asine, atan, acos, mod, and factorials.
+- User databasing, dynamic plugin loading/unloading, prebuilt core of useful commands.
 
-# Implementing the IModule interface
-Implementation of the IModule interface is fairly simple. Declare a method called OnChannelMessage, and that will be called on every channel message that meets base params in the Core assembly. You also have to declare a generic 'Dictionary<string, string> def', format being: <name of command or how it is referenced in use, usage and description of command>.
+# Implementing the IPlugin interface
+Implementation of the IPlugin interface is fairly simple. Declare a method called OnChannelMessage, and that will be called on every channel message that meets base params in the Core assembly. You also have to declare a generic 'Dictionary<string, string> def', format being: <name of command or how it is referenced in use, usage and description of command>.
 
 Example: `Dictionary<string, string> def => new Dictionary<string, string> { ["join"] = "(<channel>) - joins specified channel." };`
 
-That is all. Obviously, your whole class (that implements IModule interface) will be loaded, and not single methods. If you don't understand Types and how classes/methods/fields work, you should learn that before trying to change things in this solution or adding modules to it.
+That is all. Obviously, your whole class (that implements IPlugin interface) will be loaded, and not single methods. If you don't understand types and how classes/methods/fields work, you should learn that before trying to change things in this solution or adding modules to it.
 
-It is reccomended (by myself, at least) that you make a different class for each seperate command, as it tends to make everything run smoother (and I don't know if it will mess anything up, but it shouldn't). It's also a lot quicker than a large SWITCH statement.
+It is reccomended (by myself, at least) that you not make a different class for each command. The most cleanly way to implement your methods would as seen in `Core.cs`
 
 # Making use of the users database and good practice
 This project makes use of [System.Data.Sqlite](https://system.data.sqlite.org/) for its database and querying.
@@ -34,4 +32,4 @@ To make use of the users database that is automatigically generated, simply foll
 And if you would like to get the max ID value of the table, just use `IrcBot.GetLastDatabaseId();`. This will return an `Int32`.
 
 # Ending note
-I'm quite bad at doing comprehensive ReadMe's, so if I've missed anything feel free to e-mail me at semiviral@gmail.com, or I can be found on IRC at: irc.foonetic.net/#ministryofsillywalks
+I'm quite bad at doing comprehensive 'ReadMe's, so if I've missed anything feel free to e-mail me at semiviral@gmail.com.

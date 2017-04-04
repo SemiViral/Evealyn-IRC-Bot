@@ -15,7 +15,7 @@ namespace Eve.Classes {
             Modes = new List<IrcMode>();
         }
 
-        public string Name { get; set; }
+        public string Name { get; }
         public string Topic { get; set; }
         internal List<string> Inhabitants { get; }
         public List<IrcMode> Modes { get; }
@@ -32,35 +32,21 @@ namespace Eve.Classes {
         }
 
         /// <summary>
-        ///     Remove a user from a channel's user list
+        ///     Remove a list of users from a channel's user list
         /// </summary>
-        /// <param name="realname">user to remove</param>
-        public bool RemoveUser(string realname) {
-            return Inhabitants.Remove(Inhabitants.Single(e => e.Equals(realname)));
+        /// <param name="nicknames">list of users to remove from channel</param>
+        /// <returns>number of users successfully removed</returns>
+        public int RemoveUser(List<string> nicknames) {
+            return Inhabitants.RemoveAll(nicknames.Contains);
         }
 
-        public bool RemoveUser(User user) {
-            return Inhabitants.RemoveAll(e => e.Equals(user.Realname)) > 0;
+        /// <summary>
+        /// Remove a single user from a channel's user list
+        /// </summary>
+        /// <param name="nickname">user to remove</param>
+        /// <returns>returns true if removal succeeded</returns>
+        public bool RemoveUser(string nickname) {
+            return Inhabitants.Remove(nickname);
         }
     }
-
-    //public class Inhabitant {
-    //    public Inhabitant(string nickname) {
-    //        Nickname = nickname;
-    //    }
-
-    //    public Inhabitant(string nickname, string realname) {
-    //        Nickname = nickname;
-    //        Realname = realname;
-    //    }
-
-    //    public Inhabitant(ChannelMessageEventArgs channelMessage) {
-    //        Nickname = channelMessage.Nickname;
-    //        Realname = channelMessage.Realname;
-    //    }
-
-    //    public IrcMode Mode { get; set; }
-    //    public string Nickname { get; set; }
-    //    public string Realname { get; }
-    //}
 }

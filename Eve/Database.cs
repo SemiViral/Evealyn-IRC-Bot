@@ -22,7 +22,7 @@ namespace Eve {
             if (!File.Exists(Location)) CreateDatabase();
             else CheckUsersTableForEmptyAndFill();
 
-            Writer.Log("Loaded database.", EventLogEntryType.SuccessAudit);
+            Writer.Log("Loaded database.", IrcLogEntryType.System);
         }
 
         internal static string Location { get; private set; }
@@ -33,12 +33,12 @@ namespace Eve {
             if (!ReadUsersIntoList(users) ||
                 !ReadMessagesIntoUsers(users)) return false;
 
-            Writer.Log("MainDatabase information initialised.", EventLogEntryType.SuccessAudit);
+            Writer.Log("MainDatabase information initialised.", IrcLogEntryType.System);
             return true;
         }
 
         private static void CreateDatabase() {
-            Writer.Log("MainDatabase not found, creating.", EventLogEntryType.Information);
+            Writer.Log("MainDatabase not found, creating.", IrcLogEntryType.System);
 
             using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                 db.Open();
@@ -55,7 +55,7 @@ namespace Eve {
                         com2.ExecuteNonQuery();
                     }
                 } catch (Exception e) {
-                    Writer.Log($"Unable to create database: {e}", EventLogEntryType.Error);
+                    Writer.Log($"Unable to create database: {e}", IrcLogEntryType.Error);
                 }
             }
 
@@ -71,7 +71,7 @@ namespace Eve {
                         if (Convert.ToInt32(a.ExecuteScalar()) != 0) return;
 
                         Writer.Log("Inhabitants table in database is empty. Creating initial record.",
-                            EventLogEntryType.Information);
+                            IrcLogEntryType.System);
 
                         using (SQLiteCommand b =
                             new SQLiteCommand($"INSERT INTO users VALUES (0, '0', '0', 9, '{DateTime.UtcNow}')", db)) {
@@ -80,7 +80,7 @@ namespace Eve {
                     }
                 }
             } catch (Exception e) {
-                Writer.Log($"Unable to execute database operation: {e}", EventLogEntryType.Error);
+                Writer.Log($"Unable to execute database operation: {e}", IrcLogEntryType.Error);
             }
         }
 
@@ -98,11 +98,11 @@ namespace Eve {
                     }
                 }
             } catch (Exception e) {
-                Writer.Log($"Unable to execute database operation: {e}", EventLogEntryType.Error);
+                Writer.Log($"Unable to execute database operation: {e}", IrcLogEntryType.Error);
                 return false;
             }
 
-            Writer.Log("User list loaded.", EventLogEntryType.SuccessAudit);
+            Writer.Log("User list loaded.", IrcLogEntryType.System);
             return true;
         }
 
@@ -125,14 +125,14 @@ namespace Eve {
             } catch (NullReferenceException) {
                 Writer.Log(
                     "NullReferenceException occured upon loading messages from database. This most likely means a user record was deleted and the ID cannot be referenced from the message entry.",
-                    EventLogEntryType.Error);
+                    IrcLogEntryType.Error);
                 return false;
             } catch (Exception e) {
-                Writer.Log($"Unable to execute database operation: {e}", EventLogEntryType.Error);
+                Writer.Log($"Unable to execute database operation: {e}", IrcLogEntryType.Error);
                 return false;
             }
 
-            Writer.Log("Messages loaded.", EventLogEntryType.SuccessAudit);
+            Writer.Log("Messages loaded.", IrcLogEntryType.System);
             return true;
         }
 
@@ -151,7 +151,7 @@ namespace Eve {
 
                 return null;
             } catch (Exception e) {
-                Writer.Log(e.Message, EventLogEntryType.Error);
+                Writer.Log(e.Message, IrcLogEntryType.Error);
                 return e.Message;
             }
         }
@@ -168,7 +168,7 @@ namespace Eve {
 
                 return null;
             } catch (Exception e) {
-                Writer.Log(e.Message, EventLogEntryType.Error);
+                Writer.Log(e.Message, IrcLogEntryType.Error);
                 return e.Message;
             }
         }

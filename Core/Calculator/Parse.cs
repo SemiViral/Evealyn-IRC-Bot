@@ -196,9 +196,9 @@ namespace Eve.Core.Calculator {
         }
 
         private void ThrowException(string message) {
-            Writer.Log(token, EventLogEntryType.Error);
-            Writer.Log(operands.ToString(), EventLogEntryType.Error);
-            Writer.Log(operators.ToString(), EventLogEntryType.Error);
+            Writer.Log(token, IrcLogEntryType.Error);
+            Writer.Log(operands.ToString(), IrcLogEntryType.Error);
+            Writer.Log(operators.ToString(), IrcLogEntryType.Error);
             throw new CalculateException(message, tokenPos);
         }
     }

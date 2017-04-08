@@ -19,9 +19,9 @@ namespace Eve {
         private static void NonDebugRun() {
             string input = string.Empty;
 
-            BackgroundWorker backgroundDataParser = new BackgroundWorker();
-            backgroundDataParser.DoWork += ParseAndDo;
-            backgroundDataParser.RunWorkerAsync();
+            BackgroundWorker backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += ParseAndDo;
+            backgroundWorker.RunWorkerAsync();
 
             do {
                 input = Console.ReadLine();
@@ -33,7 +33,7 @@ namespace Eve {
             while (Bot.CanExecute) Bot.ExecuteRuntime();
         }
 
-        private static void RunOverlay() {
+        private static void ExecuteRuntime() {
             using (Bot = new IrcBot(config)) {
 #if DEBUG
                 DebugRun();
@@ -45,12 +45,12 @@ namespace Eve {
 
         private static void Main() {
             config = BotConfig.GetDefaultConfig();
-            Writer.Log("Configuration file loaded.", EventLogEntryType.Information);
+            Writer.Log("Configuration file loaded.", IrcLogEntryType.System);
 
-            RunOverlay();
+            ExecuteRuntime();
 
-            Writer.Log("Bot has shutdown. Press any key to exit program.", EventLogEntryType.Information);
-            Console.ReadLine();
+            Writer.Log("Bot has shutdown. Press any key to exit program.", IrcLogEntryType.System);
+            Console.ReadKey();
         }
     }
 }

@@ -1,10 +1,12 @@
-- Finish up polishing and add in missing basic commands to `Core.cs`
+- Implement some more exciting commands
+- Streamline and further clean the `PluginController` class
+- Implement custom exceptions for more accurate error reporting
+- Add modes that are missing from Modes file
+- ~~Finish up polishing and add in missing basic commands to `Core.cs`~~
 - ~~Allow plugins to access User and Channel lists/static fields~~
 - ~~Restructure a bit more to increase scalability~~
-- Add modes that are missing from Modes file
 - ~~Get simple commands structure functioning~~
 - ~~Implement plugin unloading~~
-- Implement custom exceptions for more accurate error reporting
 - ~~Add handlers for each message type (PRIVMSG, JOIN, PART, 376, etc.)~~
 - ~~Create Enum types for each handler type~~ * abandoned enums
 - ~~Create TranslateHandler method to translate methods into their respective enums, and returning them~~

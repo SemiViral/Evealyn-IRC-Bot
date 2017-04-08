@@ -18,16 +18,13 @@ namespace Eve {
         private readonly Dictionary<string, string> commands = new Dictionary<string, string>();
         private StreamReader _in;
 
-        private ChannelMessageEventArgs channelMessage;
         internal BotConfig Config;
         private TcpClient connection;
         private bool disposed;
         private NetworkStream networkStream;
 
-        private string rawData;
-
         /// <summary>
-        ///     initialises class
+        ///     Initialises class
         /// </summary>
         /// <param name="config">configuration for object variables</param>
         public IrcBot(BotConfig config) {
@@ -41,6 +38,7 @@ namespace Eve {
             if (!(CanExecute = InitializeConnections())) return;
 
             Wrapper.Start(CommandRegistrarCallbackEvent);
+            Wrapper.TerminateBotEvent += delegate { Dispose(); };
 
             MainDatabase = new Database(Config.Database);
             if (!Database.Initialise(Users)) {
@@ -69,7 +67,11 @@ namespace Eve {
         internal Database MainDatabase { get; set; }
         internal PluginWrapper Wrapper { get; }
 
-        internal bool CanExecute { get; }
+        internal bool CanExecute { get; private set; }
+
+        private void Terminate(object sender, EventArgs e) {
+            Dispose();
+        }
 
         /// <summary>
         ///     Dispose of all streams and objects
@@ -77,6 +79,18 @@ namespace Eve {
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool dispose)
+        {
+            if (!dispose || disposed) return;
+
+            networkStream?.Dispose();
+            _in?.Dispose();
+            connection?.Close();
+
+            disposed = true;
+            CanExecute = false;
         }
 
         public int GetLastDatabaseId() => MainDatabase.GetLastDatabaseId();
@@ -103,7 +117,7 @@ namespace Eve {
                         retries <= maxRetries
                             ? "Communication error, attempting to connect again..."
                             : "Communication could not be established with address.",
-                        EventLogEntryType.Error);
+                        IrcLogEntryType.Error);
 
                     retries++;
                 }
@@ -111,58 +125,70 @@ namespace Eve {
             return retries <= maxRetries;
         }
 
+        /// <summary>
+        ///     Default method to execute bot functions
+        /// </summary>
         public void ExecuteRuntime() {
-            ListenToStream();
+            string rawData = ListenToStream();
 
-            if (string.IsNullOrEmpty(rawData)) return;
+            if (string.IsNullOrEmpty(rawData) ||
+                CheckIfPing(rawData)) return;
 
-            if (rawData.StartsWith(Protocols.PING)) {
-                Writer.SendData(Protocols.PONG, rawData.Remove(0, 5)); // removes 'PING ' from string
-                return;
-            }
+            ChannelMessageEventArgs channelMessage = new ChannelMessageEventArgs(this, rawData);
 
-            if (!RefreshCurrentMessage()) return; // end if message refreshing failed
+            if (channelMessage.Type.Equals(Protocols.ABORT)) return;
 
-            if (channelMessage.Recipient.StartsWith("#") &&
-                !Channels.Any(e => e.Name.Equals(channelMessage.Recipient)))
-                Channels.Add(new Channel(channelMessage.Recipient));
+            CheckAddChannel(channelMessage);
+            CheckAddUser(channelMessage);
 
-            MessageRecievedOperations();
+            // PRIVMSG messages are displayed differently to other message types
+            Writer.Log(channelMessage.Type.Equals(Protocols.PRIVMSG) ?
+                    $"<{channelMessage.Recipient} {channelMessage.Nickname}> {channelMessage.Args}" : rawData,
+                IrcLogEntryType.Message);
 
-            if (PreprocessAndCheckAbort()) return;
+            if (PreprocessAndCheckAbort(channelMessage)) return;
 
             Wrapper.PluginHost.TriggerChannelMessageCallback(this, channelMessage);
         }
 
         /// <summary>
-        ///     Reset the currently active message in memeory
+        ///     Recieves input from open stream
         /// </summary>
-        /// <returns>true: </returns>
-        private bool RefreshCurrentMessage() {
-            channelMessage = new ChannelMessageEventArgs(this, rawData);
+        private string ListenToStream() {
+            string data = string.Empty;
+            try {
+                data = _in.ReadLine();
+            } catch (NullReferenceException) {
+                Writer.Log("Stream disconnected. Attempting to reconnect...", IrcLogEntryType.Error);
 
-            if (channelMessage.Type.Equals(Protocols.ABORT)) return false;
+                InitializeConnections();
+            } catch (Exception ex) {
+                Writer.Log(ex.ToString(), IrcLogEntryType.Error);
+            }
 
-            Writer.Log(channelMessage.Type.Equals(Protocols.PRIVMSG) ?
-                    $"<{channelMessage.Recipient} {channelMessage.Nickname}> {channelMessage.Args}" : rawData,
-                EventLogEntryType.Information);
+            return data;
+        }
 
+        /// <summary>
+        ///     Check whether the data recieved is a ping message and reply
+        /// </summary>
+        /// <param name="rawData"></param>
+        /// <returns></returns>
+        private static bool CheckIfPing(string rawData) {
+            if (!rawData.StartsWith(Protocols.PING)) return false;
+
+            Writer.SendData(Protocols.PONG, rawData.Remove(0, 5)); // removes 'PING ' from string
             return true;
         }
 
         /// <summary>
-        ///     Recieves input from open stream
+        ///     Check if message's channel origin should be added to channel list
         /// </summary>
-        public void ListenToStream() {
-            try {
-                rawData = _in.ReadLine();
-            } catch (NullReferenceException) {
-                Writer.Log("Stream disconnected. Attempting to reconnect...", EventLogEntryType.Error);
-
-                InitializeConnections();
-            } catch (Exception ex) {
-                Writer.Log(ex.ToString(), EventLogEntryType.Error);
-            }
+        /// <param name="channelMessage"></param>
+        private void CheckAddChannel(ChannelMessageEventArgs channelMessage) {
+            if (channelMessage.Recipient.StartsWith("#") &&
+                !Channels.Any(e => e.Name.Equals(channelMessage.Recipient)))
+                Channels.Add(new Channel(channelMessage.Recipient));
         }
 
         /// <summary>
@@ -178,7 +204,7 @@ namespace Eve {
 
             Users.Add(new User(access, nickname, realname, seen, id));
 
-            Writer.Log($"Creating database entry for {realname}.", EventLogEntryType.Information);
+            Writer.Log($"Creating database entry for {realname}.", IrcLogEntryType.System);
 
             id = MainDatabase.GetLastDatabaseId() + 1;
 
@@ -186,7 +212,7 @@ namespace Eve {
                 $"INSERT INTO users VALUES ({id}, '{nickname}', '{realname}', {access}, '{seen}')");
         }
 
-        public void MessageRecievedOperations() {
+        public void CheckAddUser(ChannelMessageEventArgs channelMessage) {
             User user = Users.SingleOrDefault(e => e.Realname.Equals(channelMessage.Realname));
 
             if (user == null) return;
@@ -197,7 +223,7 @@ namespace Eve {
         /// <summary>
         ///     Preprocess ChannelMessage and determine whether to fire OnChannelMessage event
         /// </summary>
-        private bool PreprocessAndCheckAbort() {
+        private bool PreprocessAndCheckAbort(ChannelMessageEventArgs channelMessage) {
             if (channelMessage.Nickname.Equals(Config.Nickname) &&
                 channelMessage.Realname.Equals(Config.Realname)) return true;
 
@@ -233,6 +259,9 @@ namespace Eve {
                     string channelName = channelMessage.SplitArgs[1];
 
                     // SplitArgs [2] is always your nickname
+
+                    // in this case, Eve is the only one in the channel
+                    if (channelMessage.SplitArgs.Count < 4) break;
 
                     foreach (string s in channelMessage.SplitArgs[3].Split(' ')) {
                         Channel currentChannel = Channels.SingleOrDefault(e => e.Name.Equals(channelName));
@@ -277,16 +306,6 @@ namespace Eve {
             }
 
             return false;
-        }
-
-        protected virtual void Dispose(bool dispose) {
-            if (!dispose || disposed) return;
-
-            networkStream?.Dispose();
-            _in?.Dispose();
-            connection?.Close();
-
-            disposed = true;
         }
 
         /// <summary>

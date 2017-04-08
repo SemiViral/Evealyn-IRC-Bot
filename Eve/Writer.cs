@@ -13,13 +13,13 @@ namespace Eve {
     public class Writer : MarshalByRefObject {
         private static StringBuilder Backlog { get; } = new StringBuilder();
         private static StreamWriter Output { get; set; }
-        internal static Timer RecursiveBacklogTrigger { get; set; }
+        private static Timer RecursiveBacklogTrigger { get; set; }
 
         /// <summary>
         ///     Initiailises the Writer object with an output stream
         /// </summary>
         /// <message name="stream">object to get stream from</message>
-        public static void Initialise(Stream stream) {
+        protected internal static void Initialise(Stream stream) {
             Output = new StreamWriter(stream);
 
             RecursiveBacklogTrigger = new Timer(5000);
@@ -49,7 +49,7 @@ namespace Eve {
         public static void SendData(string command, string parameters = null) {
             if (Output.BaseStream.Equals(null)) {
                 Log("Output stream is not connected to any endpoint. Call method `Intiailise'.",
-                    EventLogEntryType.Warning);
+                    IrcLogEntryType.Warning);
                 return;
             }
 
@@ -59,11 +59,11 @@ namespace Eve {
                 Output.WriteLine(stringToWrite);
                 Output.Flush();
             } catch (Exception ex) {
-                Log($"Error occured writing to stream: {ex}", EventLogEntryType.Error);
+                Log($"Error occured writing to stream: {ex}", IrcLogEntryType.Error);
                 return;
             }
 
-            Log($" >> {stringToWrite}", EventLogEntryType.Information);
+            Log($" >> {stringToWrite}", IrcLogEntryType.Message);
         }
 
         /// <summary>
@@ -75,32 +75,32 @@ namespace Eve {
             SendData("PRIVMSG", $"{recipient} {message}");
         }
 
-        public static void Log(string message, EventLogEntryType logType, [CallerMemberName] string memberName = "",
+        public static void Log(string message, IrcLogEntryType logType, [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0) {
             string timestamp = DateTime.Now.ToString("dd/MM hh:mm");
 
             string _out =
-                $"[{timestamp} {Enum.GetName(typeof(EventLogEntryType), logType)}] ";
+                $"[{timestamp} {Enum.GetName(typeof(IrcLogEntryType), logType)}]";
 
             switch (logType) {
-                case EventLogEntryType.SuccessAudit:
+                case IrcLogEntryType.System:
                     if (message.StartsWith("PONG")) break;
 
-                    _out += $" >> {message}";
+                    _out += $" {message}";
+
                     Console.WriteLine(_out);
                     break;
-                case EventLogEntryType.FailureAudit:
-                case EventLogEntryType.Warning:
-                case EventLogEntryType.Error:
-                    _out += $"from `{memberName}' at line {lineNumber}";
+                case IrcLogEntryType.Warning:
+                case IrcLogEntryType.Error:
+                    _out += $" from `{memberName}' at line {lineNumber}";
 
                     Console.WriteLine(_out);
 
                     _out = $"\n{_out}\n{message}\n";
 
                     break;
-                case EventLogEntryType.Information:
-                    _out += message;
+                case IrcLogEntryType.Message:
+                    _out += $" {message}";
 
                     Console.WriteLine(_out);
                     break;
@@ -114,5 +114,12 @@ namespace Eve {
 
             Backlog.Append(_out);
         }
+    }
+
+    public enum IrcLogEntryType {
+        Error = 0,
+        System,
+        Message,
+        Warning
     }
 }

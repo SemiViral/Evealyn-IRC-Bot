@@ -24,7 +24,7 @@ namespace Eve.Plugin {
         bool Stop();
         void Call_Die();
         void ProcessEnded();
-        void LogError(string message, EventLogEntryType logType);
+        void LogError(string message, IrcLogEntryType logType);
         void OnChannelMessage(object source, ChannelMessageEventArgs e);
 
         event EventHandler<PluginEventArgs> CallbackEvent;
@@ -103,12 +103,6 @@ namespace Eve.Plugin {
         UpdatePlugin,
         AddCommand,
         SendMessage
-    }
-
-    public enum PluginAssemblyType {
-        None = 0,
-        PrePlugin,
-        Plugin
     }
 
     public enum PluginStatus {

@@ -10,6 +10,8 @@ namespace Eve.Plugin {
     internal class PluginWrapper : MarshalByRefObject {
         internal EventHandler<CommandRegistrarEventArgs> CommandRegistrarEventArgsCallback;
 
+        internal EventHandler TerminateBotEvent;
+
         public PluginHost PluginHost;
 
         private void PluginsCallback(object source, PluginEventArgs e) {
@@ -17,36 +19,42 @@ namespace Eve.Plugin {
                 case PluginEventMessageType.Message:
                     if (e.Result is PluginReturnMessage response) {
                         Writer.SendData(response.Protocol, $"{response.Target} {response.Args}");
-
-                        //if (response.Protocol != Protocols.PRIVMSG &&
-                        //    !string.IsNullOrEmpty(response.Message))
-                        //{
-                        //    if (response.Message.StartsWith("#"))
-                        //    {
-                        //        Writer.Privmsg(response.Target);
-                        //    }
-                        //}
                         break;
                     }
 
-                    Writer.Log(e.Result.ToString(), EventLogEntryType.Information);
+                    Writer.Log(e.Result.ToString(), IrcLogEntryType.Message);
                     break;
                 case PluginEventMessageType.EventLog:
                     break;
                 case PluginEventMessageType.Action:
-                    if (!(e.Result is KeyValuePair<string, string>) &&
-                        !(e.Result is PluginAssemblyType)) break;
-
                     switch (e.ActionType) {
                         case PluginActionType.AddCommand:
-                            CommandRegistrarCallback(this,
-                                new CommandRegistrarEventArgs((KeyValuePair<string, string>)e.Result));
+                            try {
+                                CommandRegistrarCallback(this,
+                                    new CommandRegistrarEventArgs((KeyValuePair<string, string>)e.Result));
+                            } catch (InvalidCastException c) {
+                                Writer.Log(c.Message, IrcLogEntryType.Error);
+                            }
                             break;
                         case PluginActionType.Load:
-                            PluginHost.LoadDomain((PluginAssemblyType)e.Result);
+                            PluginHost.LoadPluginDomain();
                             break;
                         case PluginActionType.Unload:
-                            PluginHost.UnloadDomain((PluginAssemblyType)e.Result);
+                            PluginHost.UnloadPluginDomain();
+                            break;
+                        case PluginActionType.None:
+                            break;
+                        case PluginActionType.RunProcess:
+                            break;
+                        case PluginActionType.TerminateAndUnloadPlugins:
+                            PluginHost.StopPlugins();
+                            TerminateBotEvent?.Invoke(this, EventArgs.Empty);
+                            break;
+                        case PluginActionType.SignalTerminate:
+                            break;
+                        case PluginActionType.UpdatePlugin:
+                            break;
+                        case PluginActionType.SendMessage:
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -67,8 +75,8 @@ namespace Eve.Plugin {
             PluginHost = new PluginHost();
             CommandRegistrarEventArgsCallback += commandRegistrar;
             PluginHost.PluginCallback += PluginsCallback;
-            PluginHost.LoadAllDomains();
-            PluginHost.StartAllPlugins();
+            PluginHost.LoadPluginDomain();
+            PluginHost.StartPlugins();
         }
     }
 }

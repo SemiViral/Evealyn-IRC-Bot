@@ -28,7 +28,7 @@ namespace Eve.Classes {
 
         private static void CreateDefaultConfig() {
             using (FileStream stream = new FileStream(@"config.json", FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
-                Writer.Log("Configuration file not found, creating.", EventLogEntryType.Information);
+                Writer.Log("Configuration file not found, creating.", IrcLogEntryType.System);
 
                 StreamWriter writer = new StreamWriter(stream);
                 writer.Write(BASE_CONFIG);

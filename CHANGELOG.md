@@ -3,6 +3,7 @@
 ## 4.x.x
 
 #### 4.2.0 -- Plugins fully functional, cleaned up code and encapsulation
+
  - * a note: I'm horrible at changelogging
 
  - Plugin events now execute correctly
@@ -15,21 +16,29 @@
 
  - A couple of commands have been added to `Core.cs`, much closer to finishing this off
 
+#####4.2.2 -- Minor code cleaning, optimising
+
+ - `PluginController` and `PluginHost` have been cleaned up.
+
+ - 'Quit' command implemented to the Core plugin, shutting the bot down.
+ 
+ - Implemented new log type, `IrcLogEntryType`, now used in place of `EventLogEntryType`.
+
 #### 4.1.2 -- Plugins and commands list functional, more resutructuring/refactoring
 
-- The `Result` field of a `PluginEventArgs` is now of type `object`
-
-- Plugins can now send back a response class type, called `PluginChannelMessageResponse` (working on the name)
-
-- Command list is now working, and is held inside of `PluginWrapper` as a static dictionary
-
-- VariablesManager/PassableMutableObject/Whatever else I have named it is now gone. In it's place is a `Database.cs` file. The methods related to the User and Channel lists/classes have been moved to their respective classes in GeneralClasses (will restructure this too).
-
-- Utilities no longer exists in the Eve namespace. User/Channel static extension methods have been moved to their respective classes while `CaseEquals` for strings and `AddFrom` for dictionaries has been completely removed. The Utilities class has been moved to the `Core` project, and will be employed when the define and lookup commands are functional.
-
-- `CalcPlugin` and `Core` have been merged into one plugin.
-
-- Split `Runtime()` method into two pieces, `ListenToStream()` and `ExecuteRuntime()`
+ - The `Result` field of a `PluginEventArgs` is now of type `object`
+ 
+ - Plugins can now send back a response class type, called `PluginChannelMessageResponse` (working on the name)
+ 
+ - Command list is now working, and is held inside of `PluginWrapper` as a static dictionary
+ 
+ - VariablesManager/PassableMutableObject/Whatever else I have named it is now gone. In it's place is a `Database.cs` file. The methods related to the User and Channel lists/classes have been moved to their respective classes in GeneralClasses (will restructure this too).
+ 
+ - Utilities no longer exists in the Eve namespace. User/Channel static extension methods have been moved to their respective classes while `CaseEquals` for strings and `AddFrom` for dictionaries has been completely removed. The Utilities class has been moved to the `Core` project, and will be employed when the define and lookup commands are functional.
+ 
+ - `CalcPlugin` and `Core` have been merged into one plugin.
+ 
+ - Split `Runtime()` method into two pieces, `ListenToStream()` and `ExecuteRuntime()`
 
 #### 4.0.0 -- Events, a CHANGELOG
 

@@ -1,6 +1,4 @@
-#This is grossly out-of-date, and will be updated eventually
-
-# Evealyn, a C# IRC bot
+# Evealyn, an C# IRC bot
 Evealyn is an IRC bot that I decided to start as a way to get known with the programming language C#.
 
 If you're looking to take this code and learn from it, be wary. It may house many mistakes. As I become more proficient in C# I will try to come back and improve or refactor the code, but I cannot promise the integrity of her code. As it stands, I'd take Evealyn as a rough guideline for something that you can aim for when creating your own IRC bot, which I highly recommend.

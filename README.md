@@ -6,8 +6,6 @@ If you're looking to take this code and learn from it, be wary. It may house man
 # Implementing the IPlugin interface
 Implementation of the IPlugin interface is fairly simple; use `Core.cs` as a guideline for this.
 
-Example: `Dictionary<string, string> def => new Dictionary<string, string> { ["join"] = "(<channel>) - joins specified channel." };`
-
 That is all. Obviously, your whole class (that implements IPlugin interface) will be loaded, and not single methods. If you don't understand types and how classes/methods/fields work, you should learn that before trying to change things in this solution or adding plugins to it.
 
 It is reccomended (by myself, at least) that you not make a different class for each command. The cleanest method of implemention for your methods would as seen in `Core.cs`.

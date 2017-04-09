@@ -2,16 +2,20 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
+using Eve.Core.Calculator;
 using Eve.Plugin;
 using Eve.References;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
 namespace Eve.Core {
     public class Core : IPlugin {
+        private readonly Regex youtubeRegex = new Regex(@"(?i)http(?:s?)://(?:www\.)?youtu(?:be\.com/watch\?v=|\.be/)(?<ID>[\w\-]+)(&(amp;)?[\w\?=‌​]*)?", RegexOptions.Compiled);
+
         public string Name => "Core";
         public string Author => "SemiViral";
         public string Version => "3.1.1";
@@ -33,30 +37,34 @@ namespace Eve.Core {
             if (!TerminateRequestRecieved) {}
         }
 
-        public void OnChannelMessage(object source, ChannelMessageEventArgs e) {
+        public void OnChannelMessage(object source, ChannelMessage channelMessage) {
             Status = PluginStatus.Processing;
 
-            if (!e.MainBot.Inhabitants.Any(x => x.Equals(e.Nickname)) ||
-                !Commands.Keys.Contains(e.SplitArgs[1])) return;
+            if (!channelMessage.MainBot.Inhabitants.Any(x => x.Equals(channelMessage.Nickname))) return;
 
-            switch (e.SplitArgs[1]) {
+            switch (channelMessage.SplitArgs[0]) {
                 case "reload":
-                    Reload(e);
+                    Reload(channelMessage);
                     break;
                 case "eval":
-                    Eval(e);
+                    Eval(channelMessage);
                     break;
                 case "join":
-                    Join(e);
+                    Join(channelMessage);
                     break;
                 case "part":
-                    Part(e);
+                    Part(channelMessage);
                     break;
                 case "channels":
-                    Channels(e);
+                    Channels(channelMessage);
                     break;
                 case "quit":
-                    Quit(e);
+                    Quit(channelMessage);
+                    break;
+                default:
+                    if (!youtubeRegex.IsMatch(channelMessage.Args)) break;
+
+                    YouTubeLinkResponse(channelMessage);
                     break;
             }
 
@@ -71,8 +79,7 @@ namespace Eve.Core {
         public bool Stop() {
             if (Status.Equals(PluginStatus.Running)) {
                 TerminateRequestRecieved = true;
-                DoCallback(new PluginEventArgs(PluginEventMessageType.Message,
-                    $"Stop called but process is running from: {Name}"));
+                DoCallback(new PluginEventArgs(PluginEventMessageType.Message, $"Stop called but process is running from: {Name}"));
             } else {
                 TerminateRequestRecieved = true;
                 DoCallback(new PluginEventArgs(PluginEventMessageType.Message, $"Stop called from: {Name}"));
@@ -88,8 +95,7 @@ namespace Eve.Core {
 
         public void Call_Die() {
             Status = PluginStatus.Stopped;
-            DoCallback(new PluginEventArgs(PluginEventMessageType.Message,
-                $"Calling die, stopping process, sending unload —— from: {Name}"));
+            DoCallback(PluginEventMessageType.Message, $"Calling die, stopping process, sending unload —— from: {Name}");
             DoCallback(PluginEventMessageType.Action, null, PluginActionType.Unload);
         }
 
@@ -99,15 +105,14 @@ namespace Eve.Core {
             CallbackEvent?.Invoke(this, e);
         }
 
-        public void DoCallback(PluginEventMessageType type, object result,
-            PluginActionType actionType = PluginActionType.None) {
+        public void DoCallback(PluginEventMessageType type, object result, PluginActionType actionType = PluginActionType.None) {
             CallbackEvent?.Invoke(this, new PluginEventArgs(type, result, actionType));
         }
 
-        private void Reload(ChannelMessageEventArgs e) {
-            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, string.Empty);
+        private void Reload(ChannelMessage channelMessage) {
+            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, channelMessage.Recipient, string.Empty);
 
-            if (e.MainBot.Users.SingleOrDefault(x => x.Realname.Equals(e.Realname))?.Access > 1) {
+            if (channelMessage.MainBot.Users.SingleOrDefault(x => x.Realname.Equals(channelMessage.Realname))?.Access > 1) {
                 message.Args = "Insufficient permissions.";
                 DoCallback(PluginEventMessageType.Message, message);
                 return;
@@ -130,27 +135,26 @@ namespace Eve.Core {
             DoCallback(PluginEventMessageType.Message, message);
         }
 
-        private void Quit(ChannelMessageEventArgs e) {
-            DoCallback(PluginEventMessageType.Message, new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, "Shutting down."));
-            DoCallback(PluginEventMessageType.Action, null, PluginActionType.TerminateAndUnloadPlugins);
+        private void Quit(ChannelMessage channelMessage) {
+            DoCallback(PluginEventMessageType.Message, new PluginReturnMessage(Protocols.PRIVMSG, channelMessage.Recipient, "Shutting down."));
+            DoCallback(PluginEventMessageType.Action, null, PluginActionType.SignalTerminate);
         }
 
-        private void GetLastId(ChannelMessageEventArgs e) {
-            DoCallback(PluginEventMessageType.Message, new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, e.MainBot.GetLastDatabaseId().ToString()));
+        private void GetLastId(ChannelMessage channelMessage) {
+            DoCallback(PluginEventMessageType.Message, new PluginReturnMessage(Protocols.PRIVMSG, channelMessage.Recipient, channelMessage.MainBot.GetLastDatabaseId().ToString()));
         }
 
-        private void Eval(ChannelMessageEventArgs e) {
-            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, string.Empty);
+        private void Eval(ChannelMessage channelMessage) {
+            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, channelMessage.Recipient, string.Empty);
 
-            if (e.SplitArgs.Count < 3) message.Args = "Not enough parameters.";
+            if (channelMessage.SplitArgs.Count < 3) message.Args = "Not enough parameters.";
 
             if (string.IsNullOrEmpty(message.Args)) {
                 Status = PluginStatus.Running;
-                string evalArgs = e.SplitArgs.Count > 3 ?
-                    e.SplitArgs[2] + e.SplitArgs[3] : e.SplitArgs[2];
+                string evalArgs = channelMessage.SplitArgs.Count > 3 ? channelMessage.SplitArgs[2] + channelMessage.SplitArgs[3] : channelMessage.SplitArgs[2];
 
                 try {
-                    message.Args = new Calculator.InlineCalculator().Evaluate(evalArgs).ToString(CultureInfo.CurrentCulture);
+                    message.Args = new InlineCalculator().Evaluate(evalArgs).ToString(CultureInfo.CurrentCulture);
                 } catch (Exception ex) {
                     message.Args = ex.Message;
                 }
@@ -159,39 +163,38 @@ namespace Eve.Core {
             DoCallback(PluginEventMessageType.Message, message);
         }
 
-        private void Join(ChannelMessageEventArgs e) {
-            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, string.Empty);
+        private void Join(ChannelMessage channelMessage) {
+            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, channelMessage.Recipient, string.Empty);
 
-            if (e.MainBot.Users.Single(f => f.Realname.Equals(e.Realname)).Access > 1)
+            if (channelMessage.MainBot.Users.Single(f => f.Realname.Equals(channelMessage.Realname)).Access > 1)
                 message.Args = "Insufficient permissions.";
-            else if (e.SplitArgs.Count < 3)
+            else if (channelMessage.SplitArgs.Count < 3)
                 message.Args = "Insufficient parameters. Type 'eve help join' to view command's help index.";
-            else if (!e.SplitArgs[2].StartsWith("#"))
+            else if (!channelMessage.SplitArgs[2].StartsWith("#"))
                 message.Args = "Channel name must start with '#'.";
-            else if (e.MainBot.Channels.Any(f => f.Name.Equals(e.SplitArgs[2].ToLower())))
+            else if (channelMessage.MainBot.Channels.Any(f => f.Name.Equals(channelMessage.SplitArgs[2].ToLower())))
                 message.Args = "I'm already in that channel.";
 
             Status = PluginStatus.Running;
 
             if (string.IsNullOrEmpty(message.Args)) {
-                DoCallback(PluginEventMessageType.Message,
-                    new PluginReturnMessage(Protocols.JOIN, string.Empty, e.SplitArgs[2]));
-                message.Args = $"Successfully joined channel: {e.SplitArgs[2]}.";
+                DoCallback(PluginEventMessageType.Message, new PluginReturnMessage(Protocols.JOIN, string.Empty, channelMessage.SplitArgs[2]));
+                message.Args = $"Successfully joined channel: {channelMessage.SplitArgs[2]}.";
             }
 
             DoCallback(PluginEventMessageType.Message, message);
         }
 
-        private void Part(ChannelMessageEventArgs e) {
-            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient, string.Empty);
+        private void Part(ChannelMessage channelMessage) {
+            PluginReturnMessage message = new PluginReturnMessage(Protocols.PRIVMSG, channelMessage.Recipient, string.Empty);
 
-            if (e.MainBot.Users.First(x => x.Nickname.Equals(e.Nickname)).Access > 1)
+            if (channelMessage.MainBot.Users.First(x => x.Nickname.Equals(channelMessage.Nickname)).Access > 1)
                 message.Args = "Insufficient permissions.";
-            else if (e.SplitArgs.Count < 3)
+            else if (channelMessage.SplitArgs.Count < 3)
                 message.Args = "Insufficient parameters. Type 'eve help part' to view command's help index.";
-            else if (!e.SplitArgs[2].StartsWith("#"))
+            else if (!channelMessage.SplitArgs[2].StartsWith("#"))
                 message.Args = "Channel c._Argsument must be a proper channel name (i.e. starts with '#').";
-            else if (e.MainBot.Channels.First(x => x.Name.Equals(e.SplitArgs[2])) == null)
+            else if (channelMessage.MainBot.Channels.First(x => x.Name.Equals(channelMessage.SplitArgs[2])) == null)
                 message.Args = "I'm not in that channel.";
 
             if (!string.IsNullOrEmpty(message.Args)) {
@@ -199,20 +202,43 @@ namespace Eve.Core {
                 return;
             }
 
-            string channel = e.SplitArgs[2].ToLower();
-            e.MainBot.Channels.RemoveAll(x => x.Name.Equals(e.SplitArgs[2]));
+            string channel = channelMessage.SplitArgs[2].ToLower();
+            channelMessage.MainBot.Channels.RemoveAll(x => x.Name.Equals(channelMessage.SplitArgs[2]));
             message.Args = $"Successfully parted channel: {channel}";
 
-            DoCallback(PluginEventMessageType.Message,
-                new PluginReturnMessage(Protocols.PART, string.Empty, $"{channel} Channel part invoked by: {e.Nickname}"));
-            DoCallback(PluginEventMessageType.Message, message);
+            DoCallback(PluginEventMessageType.Message, new PluginReturnMessage(Protocols.PART, string.Empty, $"{channel} Channel part invoked by: {channelMessage.Nickname}"));
         }
 
-        private void Channels(ChannelMessageEventArgs e) {
+        private void Channels(ChannelMessage channelMessage) {
             Status = PluginStatus.Running;
-            DoCallback(PluginEventMessageType.Message,
-                new PluginReturnMessage(Protocols.PRIVMSG, e.Recipient,
-                    string.Join(", ", e.MainBot.Channels.Select(x => x.Name).ToList())));
+            DoCallback(PluginEventMessageType.Message, new PluginReturnMessage(Protocols.PRIVMSG, channelMessage.Recipient, string.Join(", ", channelMessage.MainBot.Channels.Select(x => x.Name).ToList())));
+        }
+
+        private void YouTubeLinkResponse(ChannelMessage channelMessage) {
+            Status = PluginStatus.Running;
+
+            int maxDescriptionLength = 100;
+
+            string getResponse = Utility.HttpGet($"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={youtubeRegex.Match(channelMessage.Args).Groups["ID"]}&key={channelMessage.MainBot.YouTubeAPIKey}");
+
+            JToken video = JObject.Parse(getResponse)["items"][0]["snippet"];
+            string channel = (string)video["channelTitle"];
+            string title = (string)video["title"];
+            string description = video["description"].ToString().Split('\n')[0];
+            string[] descArray = description.Split(' ');
+
+            if (description.Length > maxDescriptionLength) {
+                description = string.Empty;
+
+                for (int i = 0; description.Length < maxDescriptionLength; i++)
+                    description += $" {descArray[i]}";
+
+                if (!description.EndsWith(" ")) description.Remove(description.LastIndexOf(' '));
+
+                description += "....";
+            }
+
+            DoCallback(PluginEventMessageType.Message, new PluginReturnMessage(Protocols.PRIVMSG, channelMessage.Recipient, $"{title} (by {channel}) — {description}"));
         }
     }
 }

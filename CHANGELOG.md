@@ -24,6 +24,12 @@
  
  - Implemented new log type, `IrcLogEntryType`, now used in place of `EventLogEntryType`.
 
+#####4.2.3 -- Vigorously cleaned various classes
+
+ - `Controller.cs` should be much more readable now.
+
+ - added 'YouTube' functionality
+
 #### 4.1.2 -- Plugins and commands list functional, more resutructuring/refactoring
 
  - The `Result` field of a `PluginEventArgs` is now of type `object`

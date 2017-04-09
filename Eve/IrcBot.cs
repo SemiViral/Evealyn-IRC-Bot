@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -40,10 +39,14 @@ namespace Eve {
             Wrapper.Start(CommandRegistrarCallbackEvent);
             Wrapper.TerminateBotEvent += delegate { Dispose(); };
 
-            MainDatabase = new Database(Config.Database);
-            if (!Database.Initialise(Users)) {
+            try {
+                MainDatabase = new Database(Config.DatabaseLocation);
+                Database.InitialiseUsersIntoList(Users);
+            } catch (Exception ex) {
+                Writer.Log(ex.ToString(), IrcLogEntryType.Error);
+
                 CanExecute = false;
-                Initialised = false;
+                return;
             }
 
             Writer.Initialise(networkStream);
@@ -55,8 +58,7 @@ namespace Eve {
 
         internal bool Initialised { get; }
 
-        public static string Info
-            => "Evealyn is an IRC bot created by SemiViral as a primary learning project for C#. Version 4.1.2";
+        public static string Info => "Evealyn is an IRC bot created by SemiViral as a primary learning project for C#. Version 4.1.2";
 
         public List<string> IgnoreList { get; internal set; } = new List<string>();
 
@@ -69,10 +71,6 @@ namespace Eve {
 
         internal bool CanExecute { get; private set; }
 
-        private void Terminate(object sender, EventArgs e) {
-            Dispose();
-        }
-
         /// <summary>
         ///     Dispose of all streams and objects
         /// </summary>
@@ -81,8 +79,7 @@ namespace Eve {
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool dispose)
-        {
+        protected virtual void Dispose(bool dispose) {
             if (!dispose || disposed) return;
 
             networkStream?.Dispose();
@@ -96,12 +93,16 @@ namespace Eve {
         public int GetLastDatabaseId() => MainDatabase.GetLastDatabaseId();
         public string Query(SQLiteCommand command) => MainDatabase.Query(command);
 
+        private void Terminate(object sender, EventArgs e) {
+            Dispose();
+        }
+
         internal void CommandRegistrarCallbackEvent(object source, CommandRegistrarEventArgs e) {
             commands.Add(e.Key, e.Value);
         }
 
         /// <summary>
-        ///     Method for initialising all data streams
+        ///     Initialises all data streams
         /// </summary>
         public bool InitializeConnections(int maxRetries = 3) {
             int retries = 0;
@@ -113,42 +114,12 @@ namespace Eve {
                     _in = new StreamReader(networkStream);
                     break;
                 } catch (SocketException) {
-                    Writer.Log(
-                        retries <= maxRetries
-                            ? "Communication error, attempting to connect again..."
-                            : "Communication could not be established with address.",
-                        IrcLogEntryType.Error);
+                    Writer.Log(retries <= maxRetries ? "Communication error, attempting to connect again..." : "Communication could not be established with address.", IrcLogEntryType.Error);
 
                     retries++;
                 }
 
             return retries <= maxRetries;
-        }
-
-        /// <summary>
-        ///     Default method to execute bot functions
-        /// </summary>
-        public void ExecuteRuntime() {
-            string rawData = ListenToStream();
-
-            if (string.IsNullOrEmpty(rawData) ||
-                CheckIfPing(rawData)) return;
-
-            ChannelMessageEventArgs channelMessage = new ChannelMessageEventArgs(this, rawData);
-
-            if (channelMessage.Type.Equals(Protocols.ABORT)) return;
-
-            CheckAddChannel(channelMessage);
-            CheckAddUser(channelMessage);
-
-            // PRIVMSG messages are displayed differently to other message types
-            Writer.Log(channelMessage.Type.Equals(Protocols.PRIVMSG) ?
-                    $"<{channelMessage.Recipient} {channelMessage.Nickname}> {channelMessage.Args}" : rawData,
-                IrcLogEntryType.Message);
-
-            if (PreprocessAndCheckAbort(channelMessage)) return;
-
-            Wrapper.PluginHost.TriggerChannelMessageCallback(this, channelMessage);
         }
 
         /// <summary>
@@ -170,6 +141,30 @@ namespace Eve {
         }
 
         /// <summary>
+        ///     Default method to execute bot functions
+        /// </summary>
+        public void ExecuteRuntime() {
+            string rawData = ListenToStream();
+
+            if (string.IsNullOrEmpty(rawData) ||
+                CheckIfPing(rawData)) return;
+
+            ChannelMessage channelMessage = new ChannelMessage(this, rawData);
+
+            if (channelMessage.Type.Equals(Protocols.ABORT)) return;
+
+            CheckAddChannel(channelMessage);
+            CheckAddUser(channelMessage);
+
+            // PRIVMSG messages are displayed differently to other message types
+            Writer.Log(channelMessage.Type.Equals(Protocols.PRIVMSG) ? $"<{channelMessage.Recipient} {channelMessage.Nickname}> {channelMessage.Args}" : rawData, IrcLogEntryType.Message);
+
+            if (PreprocessAndCheckAbort(channelMessage)) return;
+
+            Wrapper.PluginHost.ChannelMessageCallback(this, channelMessage);
+        }
+
+        /// <summary>
         ///     Check whether the data recieved is a ping message and reply
         /// </summary>
         /// <param name="rawData"></param>
@@ -185,7 +180,7 @@ namespace Eve {
         ///     Check if message's channel origin should be added to channel list
         /// </summary>
         /// <param name="channelMessage"></param>
-        private void CheckAddChannel(ChannelMessageEventArgs channelMessage) {
+        private void CheckAddChannel(ChannelMessage channelMessage) {
             if (channelMessage.Recipient.StartsWith("#") &&
                 !Channels.Any(e => e.Name.Equals(channelMessage.Recipient)))
                 Channels.Add(new Channel(channelMessage.Recipient));
@@ -208,11 +203,10 @@ namespace Eve {
 
             id = MainDatabase.GetLastDatabaseId() + 1;
 
-            MainDatabase.Query(
-                $"INSERT INTO users VALUES ({id}, '{nickname}', '{realname}', {access}, '{seen}')");
+            MainDatabase.Query($"INSERT INTO users VALUES ({id}, '{nickname}', '{realname}', {access}, '{seen}')");
         }
 
-        public void CheckAddUser(ChannelMessageEventArgs channelMessage) {
+        public void CheckAddUser(ChannelMessage channelMessage) {
             User user = Users.SingleOrDefault(e => e.Realname.Equals(channelMessage.Realname));
 
             if (user == null) return;
@@ -223,7 +217,7 @@ namespace Eve {
         /// <summary>
         ///     Preprocess ChannelMessage and determine whether to fire OnChannelMessage event
         /// </summary>
-        private bool PreprocessAndCheckAbort(ChannelMessageEventArgs channelMessage) {
+        private bool PreprocessAndCheckAbort(ChannelMessage channelMessage) {
             if (channelMessage.Nickname.Equals(Config.Nickname) &&
                 channelMessage.Realname.Equals(Config.Realname)) return true;
 
@@ -242,23 +236,20 @@ namespace Eve {
                     Config.Identified = true;
                     break;
                 case Protocols.NICK:
-                    MainDatabase.Query(
-                        $"UPDATE users SET nickname='{channelMessage.Recipient}' WHERE realname='{channelMessage.Realname}'");
+                    MainDatabase.Query($"UPDATE users SET nickname='{channelMessage.Recipient}' WHERE realname='{channelMessage.Realname}'");
                     break;
                 case Protocols.JOIN:
                     // todo write code to send messages inside user object to channel
 
-                    Channels.SingleOrDefault(e => !e.Name.Equals(channelMessage.Recipient))?
-                        .AddUser(channelMessage.Recipient);
+                    Channels.SingleOrDefault(e => !e.Name.Equals(channelMessage.Recipient))?.AddUser(channelMessage.Recipient);
                     break;
                 case Protocols.PART:
-                    Channels.SingleOrDefault(e => e.Name.Equals(channelMessage.Recipient))?
-                        .Inhabitants.RemoveAll(x => x.Equals(channelMessage.Nickname));
+                    Channels.SingleOrDefault(e => e.Name.Equals(channelMessage.Recipient))?.Inhabitants.RemoveAll(x => x.Equals(channelMessage.Nickname));
                     break;
                 case Protocols.NAME_REPLY:
                     string channelName = channelMessage.SplitArgs[1];
 
-                    // SplitArgs [2] is always your nickname
+                    // * SplitArgs [2] is always your nickname
 
                     // in this case, Eve is the only one in the channel
                     if (channelMessage.SplitArgs.Count < 4) break;
@@ -274,33 +265,34 @@ namespace Eve {
                     }
                     break;
                 default:
-                    if (!channelMessage.SplitArgs[0].Replace(",", string.Empty).Equals(Config.Nickname.ToLower()) ||
-                        IgnoreList.Contains(channelMessage.Realname)) return true;
+                    if (IgnoreList.Contains(channelMessage.Realname)) return true;
 
-                    if (channelMessage.SplitArgs.Count < 2) {
-                        Writer.Privmsg(channelMessage.Recipient, "Type 'eve help' to view my command list.");
-                        return true;
-                    }
+                    if (channelMessage.SplitArgs[0].Replace(",", string.Empty).Equals(Config.Nickname.ToLower())) {
+                        channelMessage.SplitArgs.RemoveAt(0); // removes 'eve'/'eve,' from the SplitArgs, it should never be necessary
 
-                    // built-in `help' command
-                    if (channelMessage.SplitArgs[1].ToLower().Equals("help")) {
-                        if (channelMessage.SplitArgs.Count.Equals(2)) { // in this case, 'help' is the only text in the string.
-                            Writer.Privmsg(channelMessage.Recipient, $"Active commands: {string.Join(", ", commands.Keys)}");
+                        if (channelMessage.SplitArgs.Count < 2) {
+                            Writer.Privmsg(channelMessage.Recipient, "Type 'eve help' to view my command list.");
                             return true;
                         }
 
-                        KeyValuePair<string, string> queriedCommand = GetCommand(channelMessage.SplitArgs[2]);
+                        // built-in 'help' command
+                        if (channelMessage.SplitArgs[1].ToLower().Equals("help")) {
+                            if (channelMessage.SplitArgs.Count.Equals(2)) { // in this case, 'help' is the only text in the string.
+                                Writer.Privmsg(channelMessage.Recipient, $"Active commands: {string.Join(", ", commands.Keys)}");
+                                return true;
+                            }
 
-                        Writer.Privmsg(channelMessage.Recipient,
-                            queriedCommand.Equals(default(KeyValuePair<string, string>))
-                                ? "Command not found." : $"{queriedCommand.Key}: {queriedCommand.Value}");
+                            KeyValuePair<string, string> queriedCommand = GetCommand(channelMessage.SplitArgs[2]);
 
-                        return true;
-                    }
+                            Writer.Privmsg(channelMessage.Recipient, queriedCommand.Equals(default(KeyValuePair<string, string>)) ? "Command not found." : $"{queriedCommand.Key}: {queriedCommand.Value}");
 
-                    if (!HasCommand(channelMessage.SplitArgs[1].ToLower())) {
-                        Writer.Privmsg(channelMessage.Recipient, "Invalid command. Type 'eve help' to view my command list.");
-                        return true;
+                            return true;
+                        }
+
+                        if (!HasCommand(channelMessage.SplitArgs[1].ToLower())) {
+                            Writer.Privmsg(channelMessage.Recipient, "Invalid command. Type 'eve help' to view my command list.");
+                            return true;
+                        }
                     }
                     break;
             }
@@ -328,10 +320,7 @@ namespace Eve {
         /// <param name="user">user object</param>
         /// <param name="m"><see cref="Message" /> to be added</param>
         public bool AddMessage(User user, Message m) {
-            if (
-                !string.IsNullOrEmpty(
-                    MainDatabase.Query(
-                        $"INSERT INTO messages VALUES ({user.Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')"))) return false;
+            if (!string.IsNullOrEmpty(MainDatabase.Query($"INSERT INTO messages VALUES ({user.Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')"))) return false;
             user.Messages.Add(m);
             return true;
         }
@@ -342,13 +331,14 @@ namespace Eve {
         /// <param name="user">user object</param>
         /// <param name="access">new access level</param>
         public bool SetAccess(User user, int access) {
-            if (!string.IsNullOrEmpty(
-                MainDatabase.Query($"UPDATE users SET access={access} WHERE realname='{user.Realname}'")))
+            if (!string.IsNullOrEmpty(MainDatabase.Query($"UPDATE users SET access={access} WHERE realname='{user.Realname}'")))
                 return false;
 
             user.Access = access;
             return true;
         }
+
+        public string YouTubeAPIKey => Config.YouTubeAPIKey;
 
         /// <summary>
         ///     Returns a specified command from commands list

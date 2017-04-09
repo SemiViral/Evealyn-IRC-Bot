@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace Eve.Plugin {
     [Serializable]
-    public class ChannelMessageEventArgs : EventArgs {
+    public class ChannelMessage : EventArgs {
         // Unused regexs
         // private readonly Regex _argMessageRegex = new Regex(@"^:(?<Arg1>[^\s]+)\s(?<Arg2>[^\s]+)\s(?<Arg3>[^\s]+)\s?:?(?<Arg4>.*)", RegexOptions.Compiled);
         // private static readonly Regex PingRegex = new Regex(@"^PING :(?<Args>.+)", RegexOptions.None);
@@ -31,7 +31,7 @@ namespace Eve.Plugin {
 
         public Dictionary<string, string> Tags = new Dictionary<string, string>();
 
-        public ChannelMessageEventArgs(IrcBot bot, string rawData) {
+        public ChannelMessage(IrcBot bot, string rawData) {
             MainBot = bot;
             RawMessage = rawData.Trim();
             Parse();

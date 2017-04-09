@@ -46,11 +46,9 @@ namespace Eve.Plugin {
                             break;
                         case PluginActionType.RunProcess:
                             break;
-                        case PluginActionType.TerminateAndUnloadPlugins:
-                            PluginHost.StopPlugins();
-                            TerminateBotEvent?.Invoke(this, EventArgs.Empty);
-                            break;
                         case PluginActionType.SignalTerminate:
+                            PluginHost.UnloadPluginDomain();
+                            TerminateBotEvent?.Invoke(this, EventArgs.Empty);
                             break;
                         case PluginActionType.UpdatePlugin:
                             break;

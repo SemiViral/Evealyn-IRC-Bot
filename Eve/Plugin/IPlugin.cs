@@ -25,7 +25,7 @@ namespace Eve.Plugin {
         void Call_Die();
         void ProcessEnded();
         void LogError(string message, IrcLogEntryType logType);
-        void OnChannelMessage(object source, ChannelMessageEventArgs e);
+        void OnChannelMessage(object source, ChannelMessage channelMessage);
 
         event EventHandler<PluginEventArgs> CallbackEvent;
     }
@@ -64,15 +64,6 @@ namespace Eve.Plugin {
     }
 
     [Serializable]
-    public class RegisterEventArgs {
-        public Dictionary<string, string> Definitions;
-
-        public RegisterEventArgs(Dictionary<string, string> definitions) {
-            Definitions = definitions;
-        }
-    }
-
-    [Serializable]
     public class CommandRegistrarEventArgs : EventArgs {
         public CommandRegistrarEventArgs(KeyValuePair<string, string> kvp) {
             Command = kvp;
@@ -98,7 +89,6 @@ namespace Eve.Plugin {
         Load,
         Unload,
         RunProcess,
-        TerminateAndUnloadPlugins,
         SignalTerminate,
         UpdatePlugin,
         AddCommand,

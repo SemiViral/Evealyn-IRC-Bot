@@ -17,12 +17,13 @@ namespace Eve.Classes {
 
         public bool Identified { get; set; }
 
-        public string Server { get; set; }
-        public string[] Channels { get; set; }
-        public string Realname { get; set; }
-        public string Nickname { get; set; }
-        public string Password { get; set; }
-        public string Database { get; set; }
+        public string Server { get; private set; }
+        public string[] Channels { get; private set; }
+        public string Realname { get; private set; }
+        public string Nickname { get; private set; }
+        public string Password { get; private set; }
+        public string DatabaseLocation { get; private set; }
+        public string YouTubeAPIKey { get; private set; }
 
         public int Port { get; set; }
 
@@ -48,15 +49,16 @@ namespace Eve.Classes {
             JObject config = JObject.Parse(File.ReadAllText("config.json"));
 
             return new BotConfig {
-                Nickname = (string)config.SelectToken("Nickname"),
-                Realname = (string)config.SelectToken("Realname"),
-                Password = (string)config.SelectToken("Password"),
-                Port = (int)config.SelectToken("Port"),
-                Server = (string)config.SelectToken("Server"),
-                Channels = config.SelectToken("Channels")
+                Nickname = (string)config.SelectToken(nameof(Nickname)),
+                Realname = (string)config.SelectToken(nameof(Realname)),
+                Password = (string)config.SelectToken(nameof(Password)),
+                Port = (int)config.SelectToken(nameof(Port)),
+                Server = (string)config.SelectToken(nameof(Server)),
+                Channels = config.SelectToken(nameof(Channels))
                     .Select(e => e.ToString())
                     .ToArray(),
-                Database = (string)config.SelectToken("DatabaseLocation")
+                DatabaseLocation = (string)config.SelectToken(nameof(DatabaseLocation)),
+                YouTubeAPIKey = (string)config.SelectToken(nameof(YouTubeAPIKey))
             };
         }
     }

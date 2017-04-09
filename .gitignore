@@ -22,3 +22,4 @@ Thumbs.db    # Having images in the source tree generates those files in Explore
 
 Eve/bin/Debug/logs.txt
 Eve/bin/Debug/users.sqlite
+packages

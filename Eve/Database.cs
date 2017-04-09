@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Eve.Classes;
@@ -28,13 +27,12 @@ namespace Eve {
         internal static string Location { get; private set; }
         internal static bool Connected { get; private set; }
 
-        internal static bool Initialise(List<User> users) {
+        internal static void InitialiseUsersIntoList(List<User> users) {
             CheckUsersTableForEmptyAndFill();
-            if (!ReadUsersIntoList(users) ||
-                !ReadMessagesIntoUsers(users)) return false;
+            ReadUsersIntoList(users);
+            ReadMessagesIntoUsers(users);
 
-            Writer.Log("MainDatabase information initialised.", IrcLogEntryType.System);
-            return true;
+            Writer.Log("Users successfully loaded from database.", IrcLogEntryType.System);
         }
 
         private static void CreateDatabase() {
@@ -42,20 +40,12 @@ namespace Eve {
 
             using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                 db.Open();
+                using (SQLiteCommand com = new SQLiteCommand("CREATE TABLE users (id int, nickname string, realname string, access int, seen string)", db)) {
+                    com.ExecuteNonQuery();
+                }
 
-                try {
-                    using (SQLiteCommand com = new SQLiteCommand(
-                        "CREATE TABLE users (id int, nickname string, realname string, access int, seen string)", db)) {
-                        com.ExecuteNonQuery();
-                    }
-
-                    using (SQLiteCommand com2 =
-                        new SQLiteCommand("CREATE TABLE messages (id int, sender string, message string, datetime string)",
-                            db)) {
-                        com2.ExecuteNonQuery();
-                    }
-                } catch (Exception e) {
-                    Writer.Log($"Unable to create database: {e}", IrcLogEntryType.Error);
+                using (SQLiteCommand com2 = new SQLiteCommand("CREATE TABLE messages (id int, sender string, message string, datetime string)", db)) {
+                    com2.ExecuteNonQuery();
                 }
             }
 
@@ -63,77 +53,50 @@ namespace Eve {
         }
 
         private static void CheckUsersTableForEmptyAndFill() {
-            try {
-                using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
-                    db.Open();
+            using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
+                db.Open();
 
-                    using (SQLiteCommand a = new SQLiteCommand("SELECT COUNT(id) FROM users", db)) {
-                        if (Convert.ToInt32(a.ExecuteScalar()) != 0) return;
+                using (SQLiteCommand a = new SQLiteCommand("SELECT COUNT(id) FROM users", db)) {
+                    if (Convert.ToInt32(a.ExecuteScalar()) != 0) return;
 
-                        Writer.Log("Inhabitants table in database is empty. Creating initial record.",
-                            IrcLogEntryType.System);
+                    Writer.Log("Inhabitants table in database is empty. Creating initial record.", IrcLogEntryType.System);
 
-                        using (SQLiteCommand b =
-                            new SQLiteCommand($"INSERT INTO users VALUES (0, '0', '0', 9, '{DateTime.UtcNow}')", db)) {
-                            b.ExecuteNonQuery();
-                        }
+                    using (SQLiteCommand b = new SQLiteCommand($"INSERT INTO users VALUES (0, '0', '0', 9, '{DateTime.UtcNow}')", db)) {
+                        b.ExecuteNonQuery();
                     }
                 }
-            } catch (Exception e) {
-                Writer.Log($"Unable to execute database operation: {e}", IrcLogEntryType.Error);
             }
         }
 
-        private static bool ReadUsersIntoList(ICollection<User> users) {
-            try {
-                using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
-                    db.Open();
+        private static void ReadUsersIntoList(ICollection<User> users) {
+            using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
+                db.Open();
 
-                    using (SQLiteDataReader userEntry = new SQLiteCommand("SELECT * FROM users", db).ExecuteReader()) {
-                        while (userEntry.Read())
-                            users.Add(new User((int)userEntry["access"], (string)userEntry["nickname"],
-                                (string)userEntry["realname"],
-                                DateTime.Parse((string)userEntry["seen"]),
-                                (int)userEntry["id"]));
-                    }
+                using (SQLiteDataReader userEntry = new SQLiteCommand("SELECT * FROM users", db).ExecuteReader()) {
+                    while (userEntry.Read())
+                        users.Add(new User((int)userEntry["access"], (string)userEntry["nickname"], (string)userEntry["realname"], DateTime.Parse((string)userEntry["seen"]), (int)userEntry["id"]));
                 }
-            } catch (Exception e) {
-                Writer.Log($"Unable to execute database operation: {e}", IrcLogEntryType.Error);
-                return false;
             }
 
             Writer.Log("User list loaded.", IrcLogEntryType.System);
-            return true;
         }
 
-        private static bool ReadMessagesIntoUsers(IReadOnlyCollection<User> users) {
-            if (users.Count.Equals(0)) return false;
+        private static void ReadMessagesIntoUsers(IReadOnlyCollection<User> users) {
+            if (users.Count.Equals(0)) return;
+            using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
+                db.Open();
 
-            try {
-                using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
-                    db.Open();
-
-                    using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", db).ExecuteReader()) {
-                        while (m.Read())
-                            users.Single(e => e.Id.Equals(Convert.ToInt32(m["id"]))).Messages.Add(new Message {
-                                Sender = (string)m["sender"],
-                                Contents = (string)m["message"],
-                                Date = DateTime.Parse((string)m["datetime"])
-                            });
-                    }
+                using (SQLiteDataReader m = new SQLiteCommand("SELECT * FROM messages", db).ExecuteReader()) {
+                    while (m.Read())
+                        users.Single(e => e.Id.Equals(Convert.ToInt32(m["id"]))).Messages.Add(new Message {
+                            Sender = (string)m["sender"],
+                            Contents = (string)m["message"],
+                            Date = DateTime.Parse((string)m["datetime"])
+                        });
                 }
-            } catch (NullReferenceException) {
-                Writer.Log(
-                    "NullReferenceException occured upon loading messages from database. This most likely means a user record was deleted and the ID cannot be referenced from the message entry.",
-                    IrcLogEntryType.Error);
-                return false;
-            } catch (Exception e) {
-                Writer.Log($"Unable to execute database operation: {e}", IrcLogEntryType.Error);
-                return false;
             }
 
             Writer.Log("Messages loaded.", IrcLogEntryType.System);
-            return true;
         }
 
         /// <summary>

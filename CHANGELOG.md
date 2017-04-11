@@ -13,7 +13,7 @@
 
  - API can now be added to the config file and referenced.
 
-   * ChannelMessage now inherits MarshalByRefObj. This will probably change, as it is only a temporary fix for a minor bug.
+ * ChannelMessage now inherits MarshalByRefObj. This will probably change, as it is only a temporary fix for a minor bug.
 
 ### 4.2.0 -- Plugins fully functional, cleaned up code and encapsulation
 

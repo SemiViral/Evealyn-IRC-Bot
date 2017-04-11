@@ -2,7 +2,19 @@
 
 ## 4.x.x
 
-#### 4.2.0 -- Plugins fully functional, cleaned up code and encapsulation
+### 4.3.0 -- New Plugins system, new Core features, cleaner code
+
+ - Code is once again cleaner, hopefully more readable.
+
+ - The plguins system has been revised, and I think this iteration is much more versatile. It allows for a method to subscribe to any `Protocols` type, which is a boon in and of itself.
+
+ - Config file is now deserialised directly into a `BotConfig`. This got rid of a lot of boilerplate code.
+
+ - API can now be added to the config file and referenced.
+
+   * ChannelMessage now inherits MarshalByRefObj. This will probably change, as it is only a temporary fix for a minor bug.
+
+### 4.2.0 -- Plugins fully functional, cleaned up code and encapsulation
 
  - * a note: I'm horrible at changelogging
 
@@ -16,7 +28,7 @@
 
  - A couple of commands have been added to `Core.cs`, much closer to finishing this off
 
-#####4.2.2 -- Minor code cleaning, optimising
+####4.2.2 -- Minor code cleaning, optimising
 
  - `PluginController` and `PluginHost` have been cleaned up.
 
@@ -24,13 +36,13 @@
  
  - Implemented new log type, `IrcLogEntryType`, now used in place of `EventLogEntryType`.
 
-#####4.2.3 -- Vigorously cleaned various classes
+####4.2.3 -- Vigorously cleaned various classes
 
  - `Controller.cs` should be much more readable now.
 
  - added 'YouTube' functionality
 
-#### 4.1.2 -- Plugins and commands list functional, more resutructuring/refactoring
+### 4.1.2 -- Plugins and commands list functional, more resutructuring/refactoring
 
  - The `Result` field of a `PluginEventArgs` is now of type `object`
  
@@ -46,7 +58,7 @@
  
  - Split `Runtime()` method into two pieces, `ListenToStream()` and `ExecuteRuntime()`
 
-#### 4.0.0 -- Events, a CHANGELOG
+### 4.0.0 -- Events, a CHANGELOG
 
  - Added a changelog. I think I should've done this a while ago.
 

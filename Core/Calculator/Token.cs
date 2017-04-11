@@ -44,56 +44,21 @@ namespace Eve.Core.Calculator {
                 SQRT = "sqrt",
                 ROOT = "rt";
 
-            private static readonly string[] _binaryOperators = {
-                MULTIPLY,
-                DIVIDE,
-                SUBTRACT,
-                ADD,
-                POWER,
-                LOG,
-                ROOT,
-                MOD
-            };
+            private static readonly string[] _binaryOperators = {MULTIPLY, DIVIDE, SUBTRACT, ADD, POWER, LOG, ROOT, MOD};
 
-            private static readonly string[] _unaryOperators = {
-                SUBTRACT,
-                SINE,
-                COSINE,
-                TANGENT,
-                A_SINE,
-                A_COSINE,
-                A_TANGENT,
-                LOG10,
-                LN,
-                EXP,
-                ABS,
-                SQRT
-            };
+            private static readonly string[] _unaryOperators = {SUBTRACT, SINE, COSINE, TANGENT, A_SINE, A_COSINE, A_TANGENT, LOG10, LN, EXP, ABS, SQRT};
 
             private static readonly string[] _specialOperators = {SENTINEL, END, STORE, NONE, SEPERATOR, P_RIGHT};
 
             private static readonly string[] _rightSideOperators = {FACTORIAL};
 
-            private static readonly string[] _functionList = {
-                SINE,
-                COSINE,
-                TANGENT,
-                A_SINE,
-                A_COSINE,
-                A_TANGENT,
-                LOG,
-                LOG10,
-                LN,
-                EXP,
-                ABS,
-                SQRT,
-                ROOT
-            };
+            private static readonly string[] _functionList = {SINE, COSINE, TANGENT, A_SINE, A_COSINE, A_TANGENT, LOG, LOG10, LN, EXP, ABS, SQRT, ROOT};
 
             private static readonly string[] _lastProcessedOperators = {POWER};
 
             private static int Precedence(string op) {
-                if (IsFunction(op)) return 64;
+                if (IsFunction(op))
+                    return 64;
 
                 switch (op) {
                     case SUBTRACT:
@@ -126,7 +91,9 @@ namespace Eve.Core.Calculator {
                 if (op1.Equals(op2) &&
                     Contains(op1, _lastProcessedOperators))
                     return -1;
-                return Precedence(op1) >= Precedence(op2) ? 1 : -1;
+                return Precedence(op1) >= Precedence(op2)
+                    ? 1
+                    : -1;
             }
 
             public static string ConvertOperator(string op) {

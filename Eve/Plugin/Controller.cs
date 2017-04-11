@@ -5,84 +5,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 #endregion
 
 namespace Eve.Plugin {
-    internal class PluginHost : MarshalByRefObject {
-        private const string DOMAIN_NAME_PLUGINS = "DOM_PLUGINS";
-
-        private PluginController pluginController;
-
-        private AppDomain pluginDomain;
-
-        public PluginHost() {
-            Initialise();
-        }
-
-        public event EventHandler<PluginEventArgs> PluginCallback;
-
-        /// <summary>
-        ///     This event is fires into the plugins themselves
-        /// </summary>
-        public event EventHandler<ChannelMessage> ChannelMessageCallbackEvent;
-
-        /// <summary>
-        ///     Intermediary method for activating PluginCallback
-        /// </summary>
-        private void PluginsCallback(object sender, PluginEventArgs e) {
-            PluginCallback?.Invoke(this, e);
-        }
-
-        public void ChannelMessageCallback(object source, ChannelMessage channelMessage) {
-            try {
-                ChannelMessageCallbackEvent?.Invoke(this, channelMessage);
-            } catch (Exception ex) {
-                Writer.Log(ex.ToString(), IrcLogEntryType.Error);
-            }
-        }
-
-        public void Initialise() {
-            if (pluginDomain == null) pluginDomain = AppDomain.CreateDomain(DOMAIN_NAME_PLUGINS);
-        }
-
-        public void LoadPluginDomain() {
-            Initialise();
-            InitialiseController();
-
-            ChannelMessageCallbackEvent += pluginController.OnChannelMessageCallback;
-        }
-
-        public void UnloadPluginDomain() {
-            if (pluginDomain.Equals(null)) return;
-
-            StopPlugins();
-
-            AppDomain.Unload(pluginDomain);
-            pluginDomain = null;
-        }
-
-        private void InitialiseController() {
-            pluginController = (PluginController)pluginDomain.CreateInstanceAndUnwrap(typeof(PluginController).Assembly.FullName, typeof(PluginController).FullName);
-
-            pluginController.Callback += PluginsCallback;
-            pluginController.LoadPlugins();
-        }
-
-        public void StartPlugins() {
-            pluginController?.StartPlugins();
-        }
-
-        public void StopPlugins() {
-            Writer.Log($"<{DOMAIN_NAME_PLUGINS}> UNLOAD ALL RECIEVED — shutting down.", IrcLogEntryType.System);
-
-            if (pluginController.Equals(null)) return;
-
-            pluginController.IsShuttingDown = true;
-            pluginController.StopPlugins();
-        }
-    }
-
     internal class PluginController : MarshalByRefObject {
         private const string PLUGIN_MASK = "Eve.*.dll";
 
@@ -94,24 +21,26 @@ namespace Eve.Plugin {
 
         public bool IsShuttingDown { get; set; }
         public event EventHandler<ChannelMessage> ChannelMessageCallback;
-        public event EventHandler<PluginEventArgs> Callback;
+        public event EventHandler<PluginReturnActionEventArgs> PluginsCallback;
 
         public void OnChannelMessageCallback(object source, ChannelMessage e) {
             ChannelMessageCallback?.Invoke(this, e);
         }
 
         private void Initialise() {
-            if (Plugins == null) Plugins = new List<PluginInstance>();
+            if (Plugins == null)
+                Plugins = new List<PluginInstance>();
         }
 
         /// <summary>
         ///     Loads all plugins
         /// </summary>
         public void LoadPlugins() {
+            // array of all filepaths that are found to match the PLUGIN_MASK
             string[] pluginMatchAddresses = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, PLUGIN_MASK, SearchOption.AllDirectories);
 
             if (pluginMatchAddresses.Length.Equals(0)) {
-                Writer.Log("No plugins to load.", IrcLogEntryType.System);
+                Log(IrcLogEntryType.System, "No plugins to load.");
                 return;
             }
 
@@ -121,15 +50,17 @@ namespace Eve.Plugin {
                 try {
                     AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(plugin));
                     pluginInstance = GetPluginInstance(plugin);
+                } catch (ReflectionTypeLoadException ex) {
+                    foreach (Exception loaderException in ex.LoaderExceptions)
+                        Log(IrcLogEntryType.Error, loaderException.ToString());
+
+                    continue;
                 } catch (Exception ex) {
-                    Writer.Log(ex.ToString(), IrcLogEntryType.Error);
+                    Log(IrcLogEntryType.Error, ex.ToString());
                     continue;
                 }
 
                 pluginInstance.CallbackEvent += PluginInstanceCallback;
-                ChannelMessageCallback += pluginInstance.OnChannelMessage;
-
-                LoadCommands(pluginInstance);
 
                 AddPlugin(pluginInstance, false);
             }
@@ -144,20 +75,11 @@ namespace Eve.Plugin {
             try {
                 Plugins.Add(new PluginInstance(plugin, PluginStatus.Stopped));
 
-                if (autoStart) plugin.Start();
+                if (autoStart)
+                    plugin.Start();
             } catch (Exception ex) {
-                Writer.Log($"Error adding plugin: {ex.Message}", IrcLogEntryType.Error);
+                Log(IrcLogEntryType.Error, $"Error adding plugin: {ex.Message}");
             }
-        }
-
-        /// <summary>
-        ///     Loads command into internal list from plugin instance
-        /// </summary>
-        /// <param name="pluginInstance"></param>
-        private void LoadCommands(IPlugin pluginInstance) {
-            // this adds the commands from the plugin to the master list in IrcBot
-            foreach (KeyValuePair<string, string> kvp in pluginInstance.Commands)
-                Callback?.Invoke(this, new PluginEventArgs(PluginEventMessageType.Action, kvp, PluginActionType.AddCommand));
         }
 
         /// <summary>
@@ -192,16 +114,22 @@ namespace Eve.Plugin {
         /// <summary>
         ///     This method is triggered when the plugin instance invokes its callback event
         /// </summary>
-        private void PluginInstanceCallback(object source, PluginEventArgs e) {
-            Callback?.Invoke(this, e);
+        private void PluginInstanceCallback(object source, PluginReturnActionEventArgs e) {
+            PluginsCallback?.Invoke(this, e);
         }
 
         public void StartPlugins() {
-            foreach (PluginInstance pluginInstance in Plugins) pluginInstance.Instance.Start();
+            foreach (PluginInstance pluginInstance in Plugins)
+                pluginInstance.Instance.Start();
         }
 
         public void StopPlugins() {
-            foreach (PluginInstance pluginInstance in Plugins) pluginInstance.Instance.Stop();
+            foreach (PluginInstance pluginInstance in Plugins)
+                pluginInstance.Instance.Stop();
+        }
+
+        private void Log(IrcLogEntryType entryType, string message, [CallerMemberName] string memeberName = "", [CallerLineNumber] int lineNumber = 0) {
+            PluginsCallback?.Invoke(this, new PluginReturnActionEventArgs(PluginActionType.Log, new LogEntry(entryType, message, memeberName, lineNumber)));
         }
     }
 

@@ -35,7 +35,9 @@ namespace Eve.Core.Calculator {
         }
 
         public double GetVariable(string name) {
-            return Variables.ContainsKey(name) ? Variables[name] : 0;
+            return Variables.ContainsKey(name)
+                ? Variables[name]
+                : 0;
         }
     }
 }

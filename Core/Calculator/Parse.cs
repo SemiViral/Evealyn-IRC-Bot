@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -12,6 +11,8 @@ using System.Text;
 namespace Eve.Core.Calculator {
     public partial class InlineCalculator {
         private string expression;
+
+        public EventHandler<LogEntry> LogEntryEventHandler;
         private Stack<double> operands;
         private Stack<string> operators;
 
@@ -58,7 +59,8 @@ namespace Eve.Core.Calculator {
                 ParsePrimary();
             }
 
-            while (operators.Peek() != Token.SENTINEL) PopOperator();
+            while (operators.Peek() != Token.SENTINEL)
+                PopOperator();
         }
 
         private void ParsePrimary() {
@@ -98,7 +100,8 @@ namespace Eve.Core.Calculator {
         private void ParseDigit() {
             StringBuilder tmpNumber = new StringBuilder();
 
-            while (Token.IsDigit(token)) CollectToken(ref tmpNumber);
+            while (Token.IsDigit(token))
+                CollectToken(ref tmpNumber);
 
             operands.Push(double.Parse(tmpNumber.ToString(), CultureInfo.InvariantCulture));
             TryInsertMultiply();
@@ -108,7 +111,8 @@ namespace Eve.Core.Calculator {
         private void ParseName() {
             StringBuilder tmpName = new StringBuilder();
 
-            while (Token.IsName(token)) CollectToken(ref tmpName);
+            while (Token.IsName(token))
+                CollectToken(ref tmpName);
 
             string name = tmpName.ToString();
 
@@ -128,7 +132,8 @@ namespace Eve.Core.Calculator {
         private void TryInsertMultiply() {
             if (Token.IsBinary(token) ||
                 Token.IsSpecial(token) ||
-                Token.IsRightSide(token)) return;
+                Token.IsRightSide(token))
+                return;
             PushOperator(Token.MULTIPLY);
             ParsePrimary();
         }
@@ -152,7 +157,8 @@ namespace Eve.Core.Calculator {
                 return;
             }
 
-            while (Token.Compare(operators.Peek(), op) > 0) PopOperator();
+            while (Token.Compare(operators.Peek(), op) > 0)
+                PopOperator();
 
             operators.Push(op);
         }
@@ -189,23 +195,24 @@ namespace Eve.Core.Calculator {
         private bool Normalize(ref string s) {
             s = s.Replace(" ", "").Replace("\t", " ").ToLower() + Token.END;
 
-            if (s.Length < 2) return false;
+            if (s.Length < 2)
+                return false;
 
             NextToken();
             return true;
         }
 
         private void ThrowException(string message) {
-            Writer.Log(token, IrcLogEntryType.Error);
-            Writer.Log(operands.ToString(), IrcLogEntryType.Error);
-            Writer.Log(operators.ToString(), IrcLogEntryType.Error);
+            LogEntryEventHandler.Invoke(this, new LogEntry(IrcLogEntryType.Error, token));
+            LogEntryEventHandler.Invoke(this, new LogEntry(IrcLogEntryType.Error, operands.ToString()));
+            LogEntryEventHandler.Invoke(this, new LogEntry(IrcLogEntryType.Error, operators.ToString()));
             throw new CalculateException(message, tokenPos);
         }
     }
 
+    [Serializable]
     public class CalculateException : Exception {
-        public CalculateException(string message, int position)
-            : base($"Error at position: {position}, {message}") {
+        public CalculateException(string message, int position) : base($"Error at position: {position}, {message}") {
             TokenPosition = position;
         }
 

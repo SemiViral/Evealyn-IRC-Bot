@@ -9,13 +9,16 @@
         //
         // Eve will probably only use general mode specs,
         // +v, +o, etc. that are the same across most servers.
-        // ====================================
+        // 
         // Notes on mode
+        // =============
+        //
         // A lot of general and important modes are missing.
         // I'll add them... eventually.
         //
-        // Mode functionality beyond user recognition 
-        // is not very important.
+        // Mode functionality beyond per-basis user recognition 
+        // isn't very important.
+        //
         // todo add modes that are missing
 
         public static IrcMode Ban = new IrcMode('b', "MODE %c +b %n!%i@%h");

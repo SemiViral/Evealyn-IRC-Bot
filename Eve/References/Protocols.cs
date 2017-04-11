@@ -1,40 +1,40 @@
 ﻿namespace Eve.References {
     public class Protocols {
-        public const string DEFAULT = "",
-            ABORT = "ABORT",
-            USER = "USER",
-            NICK = "NICK",
-            QUIT = "QUIT",
-            JOIN = "JOIN",
-            PART = "PART",
-            PRIVMSG = "PRIVMSG",
-            MODE = "MODE",
-            TOPIC = "TOPIC",
-            KICK = "KICK",
-            NOTICE = "NOTICE",
-            NAMES = "NAMES",
-            LIST = "LIST",
-            MOTD = "MOTD",
-            VERSION = "VERSION",
-            STATS = "STATS",
-            LINKS = "LINKS",
-            TIME = "TIME",
-            CONNECT = "CONNECT",
-            ADMIN = "ADMIN",
-            INFO = "INFO",
-            SERVLIST = "SERVERLIST",
-            WHO = "WHO",
-            WHOIS = "WHOIS",
-            WHOWAS = "WHOWAS",
-            KILL = "KILL",
-            PING = "PING",
-            PONG = "PONG",
-            ERROR = "ERROR",
-            AWAY = "AWAY",
-            REHASH = "REHASH",
-            USERS = "USERS",
-            USERHOST = "USERHOST",
-            ISON = "ISON";
+        public const string DEFAULT = "";
+        public const string ABORT = "ABORT";
+        public const string USER = "USER";
+        public const string NICK = "NICK";
+        public const string QUIT = "QUIT";
+        public const string JOIN = "JOIN";
+        public const string PART = "PART";
+        public const string PRIVMSG = "PRIVMSG";
+        public const string MODE = "MODE";
+        public const string TOPIC = "TOPIC";
+        public const string KICK = "KICK";
+        public const string NOTICE = "NOTICE";
+        public const string NAMES = "NAMES";
+        public const string LIST = "LIST";
+        public const string MOTD = "MOTD";
+        public const string VERSION = "VERSION";
+        public const string STATS = "STATS";
+        public const string LINKS = "LINKS";
+        public const string TIME = "TIME";
+        public const string CONNECT = "CONNECT";
+        public const string ADMIN = "ADMIN";
+        public const string INFO = "INFO";
+        public const string SERVLIST = "SERVERLIST";
+        public const string WHO = "WHO";
+        public const string WHOIS = "WHOIS";
+        public const string WHOWAS = "WHOWAS";
+        public const string KILL = "KILL";
+        public const string PING = "PING";
+        public const string PONG = "PONG";
+        public const string ERROR = "ERROR";
+        public const string AWAY = "AWAY";
+        public const string REHASH = "REHASH";
+        public const string USERS = "USERS";
+        public const string USERHOST = "USERHOST";
+        public const string ISON = "ISON";
 
         /// <summary>
         ///     [nick]![user]@[host]
@@ -174,12 +174,12 @@
         /// <summary>
         ///     ( "=" / "*" / "@" ) [channel] :[ "@" / "+" ] [nick] *( " " [ "@" / "+" ] [nick] )
         /// </summary>
-        public const string NAME_REPLY = "353";
+        public const string NAMES_REPLY = "353";
 
         /// <summary>
         ///     [channel] :End of NAMES list
         /// </summary>
-        public const string NAMES_REPLY_END = "366";
+        public const string NAME_REPLY_END = "366";
 
         /// <summary>
         ///     [mask] [server] :[hopcount] [server info]
@@ -202,7 +202,7 @@
         public const string BAN_LIST_REPLY_END = "368";
 
         /// <summary>
-        ///     :[string]
+        ///     :[const string]
         /// </summary>
         public const string INFO_REPLY = "371";
 
@@ -267,7 +267,7 @@
         public const string STATS_ONLINE = "243";
 
         /// <summary>
-        ///     [user mode string]
+        ///     [user mode const string]
         /// </summary>
         public const string USER_MODE_IS_REPLY = "221";
 

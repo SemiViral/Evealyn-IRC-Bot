@@ -5,38 +5,41 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Eve.Classes;
 
 #endregion
 
 namespace Eve {
     public class Database {
-        /// <summary>
-        ///     Initialise connections to database and sets properties
-        /// </summary>
-        /// <param name="databaseLocation">MainDatabase location to be read from/write to</param>
-        public Database(string databaseLocation) {
-            Location = databaseLocation;
-
-            if (!File.Exists(Location)) CreateDatabase();
-            else CheckUsersTableForEmptyAndFill();
-
-            Writer.Log("Loaded database.", IrcLogEntryType.System);
-        }
-
+        internal EventHandler<LogEntry> LogEntryEventHandler;
         internal static string Location { get; private set; }
         internal static bool Connected { get; private set; }
 
-        internal static void InitialiseUsersIntoList(List<User> users) {
+        /// <summary>
+        ///     Initialise connections to database and sets properties
+        /// </summary>
+        internal void Initialise(string databaseLocation) {
+            Location = databaseLocation;
+
+            if (!File.Exists(Location))
+                CreateDatabase();
+            else
+                CheckUsersTableForEmptyAndFill();
+
+            Log(IrcLogEntryType.System, "Loaded database.");
+        }
+
+        internal void InitialiseUsersIntoList(List<User> users) {
             CheckUsersTableForEmptyAndFill();
             ReadUsersIntoList(users);
             ReadMessagesIntoUsers(users);
 
-            Writer.Log("Users successfully loaded from database.", IrcLogEntryType.System);
+            Log(IrcLogEntryType.System, "Users successfully loaded from database.");
         }
 
-        private static void CreateDatabase() {
-            Writer.Log("MainDatabase not found, creating.", IrcLogEntryType.System);
+        private void CreateDatabase() {
+            Log(IrcLogEntryType.System, "MainDatabase not found, creating.");
 
             using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                 db.Open();
@@ -52,14 +55,15 @@ namespace Eve {
             Connected = true;
         }
 
-        private static void CheckUsersTableForEmptyAndFill() {
+        private void CheckUsersTableForEmptyAndFill() {
             using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                 db.Open();
 
                 using (SQLiteCommand a = new SQLiteCommand("SELECT COUNT(id) FROM users", db)) {
-                    if (Convert.ToInt32(a.ExecuteScalar()) != 0) return;
+                    if (Convert.ToInt32(a.ExecuteScalar()) != 0)
+                        return;
 
-                    Writer.Log("Inhabitants table in database is empty. Creating initial record.", IrcLogEntryType.System);
+                    Log(IrcLogEntryType.System, "Inhabitants table in database is empty. Creating initial record.");
 
                     using (SQLiteCommand b = new SQLiteCommand($"INSERT INTO users VALUES (0, '0', '0', 9, '{DateTime.UtcNow}')", db)) {
                         b.ExecuteNonQuery();
@@ -68,7 +72,7 @@ namespace Eve {
             }
         }
 
-        private static void ReadUsersIntoList(ICollection<User> users) {
+        private void ReadUsersIntoList(ICollection<User> users) {
             using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                 db.Open();
 
@@ -78,11 +82,12 @@ namespace Eve {
                 }
             }
 
-            Writer.Log("User list loaded.", IrcLogEntryType.System);
+            Log(IrcLogEntryType.System, "User list loaded.");
         }
 
-        private static void ReadMessagesIntoUsers(IReadOnlyCollection<User> users) {
-            if (users.Count.Equals(0)) return;
+        private void ReadMessagesIntoUsers(IReadOnlyCollection<User> users) {
+            if (users.Count.Equals(0))
+                return;
             using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
                 db.Open();
 
@@ -96,52 +101,34 @@ namespace Eve {
                 }
             }
 
-            Writer.Log("Messages loaded.", IrcLogEntryType.System);
+            Log(IrcLogEntryType.System, "Messages loaded.");
         }
 
         /// <summary>
         ///     Execute a query on the database
         /// </summary>
-        /// <param name="comamnd"></param>
-        internal string Query(SQLiteCommand command) {
-            try {
-                using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
-                    db.Open();
+        internal void Query(SQLiteCommand command) {
+            using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
+                db.Open();
 
-                    command.Connection = db;
-                    command.ExecuteNonQuery();
-                }
-
-                return null;
-            } catch (Exception e) {
-                Writer.Log(e.Message, IrcLogEntryType.Error);
-                return e.Message;
+                command.Connection = db;
+                command.ExecuteNonQuery();
             }
         }
 
-        public string Query(string query) {
-            try {
-                using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
-                    db.Open();
+        public void Query(string query) {
+            using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
+                db.Open();
 
-                    using (SQLiteCommand com = new SQLiteCommand(query, db)) {
-                        com.ExecuteNonQuery();
-                    }
+                using (SQLiteCommand com = new SQLiteCommand(query, db)) {
+                    com.ExecuteNonQuery();
                 }
-
-                return null;
-            } catch (Exception e) {
-                Writer.Log(e.Message, IrcLogEntryType.Error);
-                return e.Message;
             }
         }
 
         /// <summary>
         ///     Returns int value of last ID in default database
         /// </summary>
-        /// <returns>
-        ///     <see cref="int" />
-        /// </returns>
         internal int GetLastDatabaseId() {
             int id = -1;
 
@@ -149,11 +136,16 @@ namespace Eve {
                 db.Open();
 
                 using (SQLiteDataReader r = new SQLiteCommand("SELECT MAX(id) FROM users", db).ExecuteReader()) {
-                    while (r.Read()) id = Convert.ToInt32(r.GetValue(0));
+                    while (r.Read())
+                        id = Convert.ToInt32(r.GetValue(0));
                 }
             }
 
             return id;
+        }
+
+        private void Log(IrcLogEntryType entryType, string message, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) {
+            LogEntryEventHandler.Invoke(this, new LogEntry(entryType, message, memberName, lineNumber));
         }
     }
 }

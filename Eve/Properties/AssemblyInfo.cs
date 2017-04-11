@@ -13,9 +13,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Eve")]
 [assembly: AssemblyDescription("Utility IRC bot with modular capabilities.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Really Grrrrreat Company Inc.")]
+[assembly: AssemblyCompany("Really rrrrrCompany Inc.")]
 [assembly: AssemblyProduct("Eve")]
-[assembly: AssemblyCopyright("Copyright © 2017")]
+[assembly: AssemblyCopyright("Copyright © 2017 Really Grrrrreat Company Inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -40,6 +40,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("4.2.0.0")]
-[assembly: AssemblyFileVersion("4.2.0.0")]
+[assembly: AssemblyVersion("4.3.0.0")]
+[assembly: AssemblyFileVersion("4.3.0.0")]
 [assembly: NeutralResourcesLanguage("en-US")]

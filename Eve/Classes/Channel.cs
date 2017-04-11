@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Eve.References;
 
 #endregion
@@ -25,7 +24,8 @@ namespace Eve.Classes {
         /// </summary>
         /// <param name="nickname">user to be added to list</param>
         public bool AddUser(string nickname) {
-            if (Inhabitants.Contains(nickname)) return false;
+            if (Inhabitants.Contains(nickname))
+                return false;
 
             Inhabitants.Add(nickname);
             return true;
@@ -41,7 +41,7 @@ namespace Eve.Classes {
         }
 
         /// <summary>
-        /// Remove a single user from a channel's user list
+        ///     Remove a single user from a channel's user list
         /// </summary>
         /// <param name="nickname">user to remove</param>
         /// <returns>returns true if removal succeeded</returns>

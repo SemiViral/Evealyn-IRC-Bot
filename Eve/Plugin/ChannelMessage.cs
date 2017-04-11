@@ -8,31 +8,18 @@ using System.Text.RegularExpressions;
 #endregion
 
 namespace Eve.Plugin {
-    [Serializable]
-    public class ChannelMessage : EventArgs {
-        // Unused regexs
-        // private readonly Regex _argMessageRegex = new Regex(@"^:(?<Arg1>[^\s]+)\s(?<Arg2>[^\s]+)\s(?<Arg3>[^\s]+)\s?:?(?<Arg4>.*)", RegexOptions.Compiled);
-        // private static readonly Regex PingRegex = new Regex(@"^PING :(?<Args>.+)", RegexOptions.None);
-
+    public class ChannelMessage : MarshalByRefObject {
         // Regex for parsing RawMessage messages
-        private static readonly Regex _messageRegex =
-            new Regex(@"^:(?<Sender>[^\s]+)\s(?<Type>[^\s]+)\s(?<Recipient>[^\s]+)\s?:?(?<Args>.*)", RegexOptions.Compiled);
+        private static readonly Regex _messageRegex = new Regex(@"^:(?<Sender>[^\s]+)\s(?<Type>[^\s]+)\s(?<Recipient>[^\s]+)\s?:?(?<Args>.*)", RegexOptions.Compiled);
 
-        private static readonly Regex _senderRegex = new Regex(
-            @"^(?<Nickname>[^\s]+)!(?<Realname>[^\s]+)@(?<Hostname>[^\s]+)",
-            RegexOptions.Compiled);
+        private static readonly Regex _senderRegex = new Regex(@"^(?<Nickname>[^\s]+)!(?<Realname>[^\s]+)@(?<Hostname>[^\s]+)", RegexOptions.Compiled);
 
-        private static readonly string[] _shortIgnoreList = {
-            "nickserv",
-            "chanserv"
-        };
-
-        public IrcBot MainBot;
+        [NonSerialized] public IrcBot MainBotRef;
 
         public Dictionary<string, string> Tags = new Dictionary<string, string>();
 
-        public ChannelMessage(IrcBot bot, string rawData) {
-            MainBot = bot;
+        public ChannelMessage(IrcBot botRef, string rawData) {
+            MainBotRef = botRef;
             RawMessage = rawData.Trim();
             Parse();
         }
@@ -41,23 +28,19 @@ namespace Eve.Plugin {
 
         public string RawMessage { get; }
 
-        /// <summary>
-        ///     Represents whether the realname processed was contained in the specified identifier list (ChanServ, NickServ)
-        /// </summary>
-        public bool IsRealUser { get; private set; }
-
         public DateTime Timestamp { get; private set; }
 
         public string Nickname { get; private set; }
         public string Realname { get; private set; }
         public string Hostname { get; private set; }
         public string Recipient { get; private set; }
-        public string Type { get; set; }
+        public string Type { get; private set; }
         public string Args { get; private set; }
         public List<string> SplitArgs { get; private set; } = new List<string>();
 
         private void ParseTagsPrefix() {
-            if (!RawMessage.StartsWith("@")) return;
+            if (!RawMessage.StartsWith("@"))
+                return;
 
             IsIRCv3Message = true;
 
@@ -69,7 +52,8 @@ namespace Eve.Plugin {
         }
 
         public void Parse() {
-            if (!_messageRegex.IsMatch(RawMessage)) return;
+            if (!_messageRegex.IsMatch(RawMessage))
+                return;
 
             ParseTagsPrefix();
 
@@ -92,15 +76,16 @@ namespace Eve.Plugin {
 
             // splits the first 5 sections of the message for parsing
             SplitArgs = Args?.Trim().Split(new[] {' '}, 4).ToList();
-            // IsRealUser = false;
 
-            if (!sMatch.Success) return;
+            if (!sMatch.Success)
+                return;
 
             string realname = sMatch.Groups["Realname"].Value;
             Nickname = sMatch.Groups["Nickname"].Value;
-            Realname = realname.StartsWith("~") ? realname.Substring(1) : realname;
+            Realname = realname.StartsWith("~")
+                ? realname.Substring(1)
+                : realname;
             Hostname = sMatch.Groups["Hostname"].Value;
-            // IsRealUser = !ShortIgnoreList.Contains(Realname.ToLower());
         }
     }
 }

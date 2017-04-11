@@ -109,6 +109,8 @@
     <Compile Include="IrcBot.cs" />
     <Compile Include="Plugin\ChannelMessage.cs" />
     <Compile Include="Plugin\Controller.cs" />
+    <Compile Include="Plugin\Host.cs" />
+    <Compile Include="Plugin\PluginRegistrarEventArgs.cs" />
     <Compile Include="Plugin\Wrapper.cs" />
     <Compile Include="References\Modes.cs" />
     <Compile Include="References\Protocols.cs" />

@@ -1,9 +1,8 @@
 ﻿#region usings
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 #endregion
 
@@ -16,23 +15,19 @@ namespace Eve.Plugin {
         string Author { get; }
         string Version { get; }
         string Id { get; }
-        bool TerminateRequestRecieved { get; }
-        Dictionary<string, string> Commands { get; }
         PluginStatus Status { get; }
 
-        bool Start();
-        bool Stop();
+        void Start();
+        void Stop();
         void Call_Die();
-        void ProcessEnded();
-        void LogError(string message, IrcLogEntryType logType);
-        void OnChannelMessage(object source, ChannelMessage channelMessage);
+        void Log(IrcLogEntryType logType, string message, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0);
 
-        event EventHandler<PluginEventArgs> CallbackEvent;
+        event EventHandler<PluginReturnActionEventArgs> CallbackEvent;
     }
 
     [Serializable]
-    public class PluginReturnMessage {
-        public PluginReturnMessage(string protocol, string target, string args) {
+    public class PluginSimpleReturnMessage {
+        public PluginSimpleReturnMessage(string protocol, string target, string args) {
             Protocol = protocol;
             Target = target;
             Args = args;
@@ -44,18 +39,15 @@ namespace Eve.Plugin {
     }
 
     [Serializable]
-    public class PluginEventArgs {
+    public class PluginReturnActionEventArgs : EventArgs {
         public PluginActionType ActionType;
         public string ExecutingDomain;
         public string MessageId;
-        public PluginEventMessageType MessageType;
         public string PluginId;
         public string PluginName;
         public object Result;
 
-        public PluginEventArgs(PluginEventMessageType messageType, object result = null,
-            PluginActionType actionType = PluginActionType.None) {
-            MessageType = messageType;
+        public PluginReturnActionEventArgs(PluginActionType actionType, object result = null) {
             Result = result;
             ActionType = actionType;
             ExecutingDomain = AppDomain.CurrentDomain.FriendlyName;
@@ -63,36 +55,15 @@ namespace Eve.Plugin {
         }
     }
 
-    [Serializable]
-    public class CommandRegistrarEventArgs : EventArgs {
-        public CommandRegistrarEventArgs(KeyValuePair<string, string> kvp) {
-            Command = kvp;
-        }
-
-        public CommandRegistrarEventArgs(string key, string value) {
-            Command = new KeyValuePair<string, string>(key, value);
-        }
-
-        public KeyValuePair<string, string> Command { get; }
-        public string Key => Command.Key;
-        public string Value => Command.Value;
-    }
-
-    public enum PluginEventMessageType {
-        Message = 0, // informational args
-        EventLog, // event that needs to be logged
-        Action // action the host application needs to take
-    }
-
     public enum PluginActionType {
         None = 0,
+        Log,
         Load,
         Unload,
+        RegisterMethod,
+        SendMessage,
         RunProcess,
-        SignalTerminate,
-        UpdatePlugin,
-        AddCommand,
-        SendMessage
+        SignalTerminate
     }
 
     public enum PluginStatus {

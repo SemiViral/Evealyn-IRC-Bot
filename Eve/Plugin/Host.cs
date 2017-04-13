@@ -1,6 +1,12 @@
-﻿using System;
+﻿#region usings
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Eve.Types;
+using Eve.Types.Irc;
+
+#endregion
 
 namespace Eve.Plugin {
     internal class PluginHost : MarshalByRefObject {
@@ -18,14 +24,14 @@ namespace Eve.Plugin {
 
         private Dictionary<string, List<PluginMethodWrapper>> PluginEvents { get; set; }
 
-        public event EventHandler<PluginReturnActionEventArgs> PluginCallback;
+        public event EventHandler<ActionEventArgs> PluginCallback;
 
         public Dictionary<string, string> GetCommands() => Commands;
 
         /// <summary>
         ///     Intermediary method for activating PluginCallback
         /// </summary>
-        private void PluginsCallback(object sender, PluginReturnActionEventArgs e) {
+        private void PluginsCallback(object sender, ActionEventArgs e) {
             PluginCallback?.Invoke(this, e);
         }
 
@@ -82,19 +88,22 @@ namespace Eve.Plugin {
                 pluginRegistrar.Invoke(this, channelMessage);
         }
 
-        public void RegisterMethod(PluginRegistrarEventArgs pluginRegistrar) {
-            if (!PluginEvents.ContainsKey(pluginRegistrar.ProtocolType))
-                PluginEvents.Add(pluginRegistrar.ProtocolType, new List<PluginMethodWrapper>());
+        public void RegisterMethod(PluginRegistrar pluginRegistrar) {
+            if (!PluginEvents.ContainsKey(pluginRegistrar.CommandType))
+                PluginEvents.Add(pluginRegistrar.CommandType, new List<PluginMethodWrapper>());
 
             // check whether commands exist and add to list
             if (!pluginRegistrar.Definition.Equals(default(KeyValuePair<string, string>)))
-                Commands.Add(pluginRegistrar.Definition.Key, pluginRegistrar.Definition.Value);
+                if (Commands.ContainsKey(pluginRegistrar.Definition.Key))
+                    Log(IrcLogEntryType.Warning, $"'{pluginRegistrar.Definition.Key}' command already exists, skipping entry.");
+                else
+                    Commands.Add(pluginRegistrar.Definition.Key, pluginRegistrar.Definition.Value);
 
-            PluginEvents[pluginRegistrar.ProtocolType].Add(pluginRegistrar.Method);
+            PluginEvents[pluginRegistrar.CommandType].Add(pluginRegistrar.Method);
         }
 
         private void Log(IrcLogEntryType entryType, string message, [CallerMemberName] string memeberName = "", [CallerLineNumber] int lineNumber = 0) {
-            PluginsCallback(this, new PluginReturnActionEventArgs(PluginActionType.Log, new LogEntry(entryType, message, memeberName, lineNumber)));
+            PluginsCallback(this, new ActionEventArgs(PluginActionType.Log, new LogEntry(entryType, message, memeberName, lineNumber)));
         }
     }
 }

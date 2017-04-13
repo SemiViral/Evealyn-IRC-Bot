@@ -6,15 +6,15 @@ using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Eve.Classes;
+using Eve.Types.Irc;
 
 #endregion
 
-namespace Eve {
+namespace Eve.Types {
     public class Database {
-        internal EventHandler<LogEntry> LogEntryEventHandler;
         internal static string Location { get; private set; }
         internal static bool Connected { get; private set; }
+        internal event EventHandler<LogEntry> LogEntryEventHandler;
 
         /// <summary>
         ///     Initialise connections to database and sets properties
@@ -30,7 +30,7 @@ namespace Eve {
             Log(IrcLogEntryType.System, "Loaded database.");
         }
 
-        internal void InitialiseUsersIntoList(List<User> users) {
+        internal void InitialiseUsersIntoList(ICollection<User> users) {
             CheckUsersTableForEmptyAndFill();
             ReadUsersIntoList(users);
             ReadMessagesIntoUsers(users);
@@ -85,7 +85,7 @@ namespace Eve {
             Log(IrcLogEntryType.System, "User list loaded.");
         }
 
-        private void ReadMessagesIntoUsers(IReadOnlyCollection<User> users) {
+        private void ReadMessagesIntoUsers(ICollection<User> users) {
             if (users.Count.Equals(0))
                 return;
             using (SQLiteConnection db = new SQLiteConnection($"Data Source={Location};Version=3;")) {
@@ -145,7 +145,7 @@ namespace Eve {
         }
 
         private void Log(IrcLogEntryType entryType, string message, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) {
-            LogEntryEventHandler.Invoke(this, new LogEntry(entryType, message, memberName, lineNumber));
+            LogEntryEventHandler?.Invoke(this, new LogEntry(entryType, message, memberName, lineNumber));
         }
     }
 }

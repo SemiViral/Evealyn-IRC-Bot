@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 #endregion
 
-namespace Eve.Plugin {
+namespace Eve.Types.Irc {
     public class ChannelMessage : MarshalByRefObject {
         // Regex for parsing RawMessage messages
         private static readonly Regex _messageRegex = new Regex(@"^:(?<Sender>[^\s]+)\s(?<Type>[^\s]+)\s(?<Recipient>[^\s]+)\s?:?(?<Args>.*)", RegexOptions.Compiled);
@@ -36,7 +36,7 @@ namespace Eve.Plugin {
         public string Recipient { get; private set; }
         public string Type { get; private set; }
         public string Args { get; private set; }
-        public List<string> SplitArgs { get; private set; } = new List<string>();
+        public List<string> SplitArgs { get; private set; }
 
         private void ParseTagsPrefix() {
             if (!RawMessage.StartsWith("@"))
@@ -75,7 +75,7 @@ namespace Eve.Plugin {
             Args = mVal.Groups["Args"].Value;
 
             // splits the first 5 sections of the message for parsing
-            SplitArgs = Args?.Trim().Split(new[] {' '}, 4).ToList();
+            SplitArgs = Args.Split(new[] {' '}, 4).Select(arg => arg.Trim()).ToList();
 
             if (!sMatch.Success)
                 return;

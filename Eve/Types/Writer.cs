@@ -9,7 +9,7 @@ using Eve.Plugin;
 
 #endregion
 
-namespace Eve {
+namespace Eve.Types {
     internal class Writer : IDisposable {
         /// <summary>
         ///     Initiailises the Writer object with an output stream
@@ -47,8 +47,8 @@ namespace Eve {
             }
         }
 
-        public void SendDataEvent(object source, PluginSimpleReturnMessage returnMessage) {
-            SendData(returnMessage.Protocol, $"{returnMessage.Target} {returnMessage.Args}");
+        public void SendDataEvent(object source, SimpleMessageEventArgs messageEventArgs) {
+            SendData(messageEventArgs.Protocol, $"{messageEventArgs.Target} {messageEventArgs.Args}");
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Eve {
     }
 
     [Serializable]
-    public class LogEntry {
+    public class LogEntry : EventArgs {
         public LogEntry(IrcLogEntryType entryType, string logMessage, string memberName = "", int lineNumber = 0) {
             EntryType = entryType;
             Message = logMessage;

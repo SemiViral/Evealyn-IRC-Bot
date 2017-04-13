@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Eve.Types;
 
 #endregion
 
@@ -12,7 +13,7 @@ namespace Eve.Core.Calculator {
     public partial class InlineCalculator {
         private string expression;
 
-        public EventHandler<LogEntry> LogEntryEventHandler;
+        public event EventHandler<LogEntry> LogEntryEventHandler;
         private Stack<double> operands;
         private Stack<string> operators;
 

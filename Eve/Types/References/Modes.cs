@@ -1,4 +1,4 @@
-﻿namespace Eve.References {
+﻿namespace Eve.Types.References {
     public static class Modes {
         // Several modes mean different things on
         // seperate servers, so this may require some

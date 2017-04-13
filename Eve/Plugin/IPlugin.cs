@@ -3,6 +3,7 @@
 using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Eve.Types;
 
 #endregion
 
@@ -22,12 +23,12 @@ namespace Eve.Plugin {
         void Call_Die();
         void Log(IrcLogEntryType logType, string message, [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0);
 
-        event EventHandler<PluginReturnActionEventArgs> CallbackEvent;
+        event EventHandler<ActionEventArgs> CallbackEvent;
     }
 
     [Serializable]
-    public class PluginSimpleReturnMessage {
-        public PluginSimpleReturnMessage(string protocol, string target, string args) {
+    public class SimpleMessageEventArgs : EventArgs {
+        public SimpleMessageEventArgs(string protocol, string target, string args) {
             Protocol = protocol;
             Target = target;
             Args = args;
@@ -39,15 +40,13 @@ namespace Eve.Plugin {
     }
 
     [Serializable]
-    public class PluginReturnActionEventArgs : EventArgs {
+    public class ActionEventArgs : EventArgs {
         public PluginActionType ActionType;
         public string ExecutingDomain;
-        public string MessageId;
-        public string PluginId;
         public string PluginName;
         public object Result;
 
-        public PluginReturnActionEventArgs(PluginActionType actionType, object result = null) {
+        public ActionEventArgs(PluginActionType actionType, object result = null) {
             Result = result;
             ActionType = actionType;
             ExecutingDomain = AppDomain.CurrentDomain.FriendlyName;

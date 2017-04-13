@@ -2,13 +2,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using Eve.Classes;
+using Eve.ComponentModel;
 using Eve.Plugin;
-using Eve.References;
+using Eve.Types;
+using Eve.Types.Irc;
+using Eve.Types.References;
 using Newtonsoft.Json;
 
 #endregion
@@ -29,8 +33,10 @@ namespace Eve {
         public IrcBot() {
             InitialiseConfig();
 
-            Users = new List<User>();
-            Channels = new List<Channel>();
+            users = new ObservableCollection<User>();
+            users.CollectionChanged += UserAdded;
+
+            channels = new List<Channel>();
             Wrapper = new PluginWrapper();
 
             // check if connection is established, don't execute if not
@@ -39,8 +45,8 @@ namespace Eve {
 
             logger = new Writer(networkStream);
 
-            InitailisePluginWrapper();
             InitializeDatabase();
+            InitailisePluginWrapper();
 
             logger.SendData(Protocols.USER, $"{Config.Nickname} 0 * {Config.Realname}");
             logger.SendData(Protocols.NICK, Config.Nickname);
@@ -50,22 +56,20 @@ namespace Eve {
             Initialised = true;
         }
 
-
-        #region Non-Critical Variables
+        #region non-critical variables
 
         private Database MainDatabase { get; set; }
         private PluginWrapper Wrapper { get; }
+
+        private readonly ObservableCollection<User> users;
+        private readonly List<Channel> channels;
 
         internal bool Initialised { get; }
 
         public static string Info => "Evealyn is an IRC bot created by SemiViral as a primary learning project for C#. Version 4.1.2";
 
         public List<string> IgnoreList { get; internal set; } = new List<string>();
-
-        public List<User> Users { get; }
-
-        public List<string> Inhabitants => Channels.SelectMany(e => e.Inhabitants).ToList();
-        public List<Channel> Channels { get; }
+        public List<string> Inhabitants => channels.SelectMany(e => e.Inhabitants).ToList();
 
         internal bool CanExecute { get; private set; }
 
@@ -73,8 +77,7 @@ namespace Eve {
 
         #endregion
 
-
-        #region End-process
+        #region disposing
 
         /// <summary>
         ///     Dispose of all streams and objects
@@ -106,8 +109,7 @@ namespace Eve {
 
         #endregion
 
-
-        #region Initializations
+        #region initializations
 
         private void InitialiseConfig() {
             Config = new BotConfig();
@@ -119,7 +121,7 @@ namespace Eve {
             }
 
             Config = JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText("config.json"));
-            Console.WriteLine("Configuration file loaded.");
+            Console.WriteLine("Configuration file loaded.\n");
         }
 
         /// <summary>
@@ -134,15 +136,28 @@ namespace Eve {
                     networkStream = connection.GetStream();
                     _in = new StreamReader(networkStream);
                     break;
-                } catch (SocketException) {
-                    logger.Log(IrcLogEntryType.Error, retries <= maxRetries
+                } catch (Exception) {
+                    Console.WriteLine(retries <= maxRetries
                         ? "Communication error, attempting to connect again..."
-                        : "Communication could not be established with address.");
+                        : "Communication could not be established with address.\n");
 
                     retries++;
                 }
 
             return retries <= maxRetries;
+        }
+
+        private void InitializeDatabase() {
+            try {
+                MainDatabase = new Database();
+                MainDatabase.LogEntryEventHandler += logger.LogEvent;
+                MainDatabase.Initialise(Config.DatabaseLocation);
+                MainDatabase.InitialiseUsersIntoList(users);
+            } catch (Exception ex) {
+                logger.Log(IrcLogEntryType.Error, ex.ToString());
+
+                CanExecute = false;
+            }
         }
 
         private void InitailisePluginWrapper() {
@@ -152,41 +167,28 @@ namespace Eve {
             Wrapper.Start();
         }
 
-        private void InitializeDatabase() {
-            try {
-                MainDatabase = new Database();
-                MainDatabase.LogEntryEventHandler += logger.LogEvent;
-                MainDatabase.Initialise(Config.DatabaseLocation);
-                MainDatabase.InitialiseUsersIntoList(Users);
-            } catch (Exception ex) {
-                logger.Log(IrcLogEntryType.Error, ex.ToString());
-
-                CanExecute = false;
-            }
-        }
-
         /// <summary>
         ///     Register all methods
         /// </summary>
         private void RegisterMethods() {
-            Wrapper.PluginHost.RegisterMethod(new PluginRegistrarEventArgs(Protocols.MOTD_REPLY_END, MotdReplyEnd));
-            Wrapper.PluginHost.RegisterMethod(new PluginRegistrarEventArgs(Protocols.NICK, Nick));
-            Wrapper.PluginHost.RegisterMethod(new PluginRegistrarEventArgs(Protocols.JOIN, Join));
-            Wrapper.PluginHost.RegisterMethod(new PluginRegistrarEventArgs(Protocols.PART, Part));
-            Wrapper.PluginHost.RegisterMethod(new PluginRegistrarEventArgs(Protocols.NAMES_REPLY, NamesReply));
-            Wrapper.PluginHost.RegisterMethod(new PluginRegistrarEventArgs(Protocols.PRIVMSG, Privmsg));
+            Wrapper.PluginHost.RegisterMethod(new PluginRegistrar(Protocols.MOTD_REPLY_END, MotdReplyEnd));
+            Wrapper.PluginHost.RegisterMethod(new PluginRegistrar(Protocols.NICK, Nick));
+            Wrapper.PluginHost.RegisterMethod(new PluginRegistrar(Protocols.JOIN, Join));
+            Wrapper.PluginHost.RegisterMethod(new PluginRegistrar(Protocols.PART, Part));
+            Wrapper.PluginHost.RegisterMethod(new PluginRegistrar(Protocols.NAMES_REPLY, NamesReply));
+            Wrapper.PluginHost.RegisterMethod(new PluginRegistrar(Protocols.PRIVMSG, Privmsg));
         }
 
         #endregion
 
-
-        #region Runtime
+        #region runtime
 
         /// <summary>
         ///     Recieves input from open stream
         /// </summary>
         private string ListenToStream() {
             string data = string.Empty;
+
             try {
                 data = _in.ReadLine();
             } catch (NullReferenceException) {
@@ -195,6 +197,8 @@ namespace Eve {
                 InitializeNetworkStream();
             } catch (Exception ex) {
                 logger.Log(IrcLogEntryType.Error, ex.ToString());
+
+                InitializeNetworkStream();
             }
 
             return data;
@@ -212,7 +216,8 @@ namespace Eve {
 
             ChannelMessage channelMessage = new ChannelMessage(this, rawData);
 
-            if (channelMessage.Type.Equals(Protocols.ABORT))
+            if (string.IsNullOrEmpty(channelMessage.Type) ||
+                channelMessage.Type.Equals(Protocols.ABORT))
                 return;
 
             CheckAddChannel(channelMessage);
@@ -229,52 +234,29 @@ namespace Eve {
                 channelMessage.Realname.Equals(Config.Realname))
                 return;
 
-            Wrapper.PluginHost.InvokeMethods(channelMessage);
+            try {
+                Wrapper.PluginHost.InvokeMethods(channelMessage);
+            } catch (Exception ex) {
+                logger.Log(IrcLogEntryType.Error, ex.ToString());
+            }
         }
 
         #endregion
 
+        #region general methods
 
-        #region Checks, Creates, Adds
+        public int RemoveChannels(string channelName) {
+            int count = 0;
 
-        /// <summary>
-        ///     Updates specified user's `seen` data and sets user to LastSeen
-        /// </summary>
-        /// <param name="user">user object</param>
-        /// <param name="nickname">name to be checked</param>
-        public void UpdateUser(User user, string nickname) {
-            user.Seen = DateTime.UtcNow;
+            foreach (Channel channel in channels) {
+                if (!channel.Name.Equals(channelName))
+                    continue;
 
-            MainDatabase.Query($"UPDATE users SET seen='{DateTime.UtcNow}' WHERE realname='{user.Realname}'");
+                channels.Remove(channel);
+                count++;
+            }
 
-            if (nickname != user.Nickname) // checks if nickname has changed
-                MainDatabase.Query($"UPDATE users SET nickname='{nickname}' WHERE realname='{user.Realname}'");
-        }
-
-        /// <summary>
-        ///     Adds a Args object to list
-        /// </summary>
-        /// <param name="user">user object</param>
-        /// <param name="m"><see cref="Message" /> to be added</param>
-        public void AddMessage(User user, Message m) {
-            if (!Users.Contains(user))
-                return;
-
-            MainDatabase.Query($"INSERT INTO messages VALUES ({user.Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')");
-            user.Messages.Add(m);
-        }
-
-        /// <summary>
-        ///     Set new access level for user
-        /// </summary>
-        /// <param name="user">user object</param>
-        /// <param name="access">new access level</param>
-        public void SetAccess(User user, int access) {
-            if (!Users.Contains(user))
-                return;
-
-            MainDatabase.Query($"UPDATE users SET access={access} WHERE realname='{user.Realname}'");
-            user.Access = access;
+            return count;
         }
 
         /// <summary>
@@ -308,14 +290,56 @@ namespace Eve {
             return true;
         }
 
+        #endregion
+
+        #region channel methods
+
         /// <summary>
         ///     Check if message's channel origin should be added to channel list
         /// </summary>
         /// <param name="channelMessage"></param>
         private void CheckAddChannel(ChannelMessage channelMessage) {
             if (channelMessage.Recipient.StartsWith("#") &&
-                !Channels.Any(e => e.Name.Equals(channelMessage.Recipient)))
-                Channels.Add(new Channel(channelMessage.Recipient));
+                !channels.Any(e => e.Name.Equals(channelMessage.Recipient)))
+                channels.Add(new Channel(channelMessage.Recipient));
+        }
+
+        public bool ChannelExists(string channelName) => channels.Any(channel => channel.Name.Equals(channelName));
+
+        public List<string> GetAllChannels() => channels.Select(channel => channel.Name).ToList();
+
+        #endregion
+
+        #region user methods
+
+        protected virtual void UserAdded(object source, NotifyCollectionChangedEventArgs e) {
+            if (!e.Action.Equals(NotifyCollectionChangedAction.Add))
+                return;
+
+            foreach (object item in e.NewItems) {
+                if (!(item is User))
+                    continue;
+
+                ((User)item).PropertyChanged += AutoUpdateUsers;
+            }
+        }
+
+        private void AutoUpdateUsers(object source, PropertyChangedEventArgs e) {
+            if (!(e is SpecialPropertyChangedEventArgs))
+                return;
+
+            SpecialPropertyChangedEventArgs castedArgs = (SpecialPropertyChangedEventArgs)e;
+
+            MainDatabase.Query($"UPDATE users SET {castedArgs.PropertyName}='{castedArgs.NewValue}' WHERE realname='{castedArgs.Name}'");
+        }
+
+        public void CheckAddUser(ChannelMessage channelMessage) {
+            User user = users.SingleOrDefault(e => e.Realname.Equals(channelMessage.Realname));
+
+            if (user == null)
+                return;
+
+            CreateUser(3, channelMessage.Nickname, channelMessage.Realname, channelMessage.Timestamp);
         }
 
         /// <summary>
@@ -327,10 +351,10 @@ namespace Eve {
         /// <param name="seen">last time user was seen</param>
         /// <param name="id">id of user</param>
         public void CreateUser(int access, string nickname, string realname, DateTime seen, int id = -1) {
-            if (Users.Any(e => e.Realname.Equals(realname)))
+            if (users.Any(e => e.Realname.Equals(realname)))
                 return;
 
-            Users.Add(new User(access, nickname, realname, seen, id));
+            users.Add(new User(access, nickname, realname, seen, id));
 
             logger.Log(IrcLogEntryType.System, $"Creating database entry for {realname}.");
 
@@ -339,20 +363,26 @@ namespace Eve {
             MainDatabase.Query($"INSERT INTO users VALUES ({id}, '{nickname}', '{realname}', {access}, '{seen}')");
         }
 
-        public void CheckAddUser(ChannelMessage channelMessage) {
-            User user = Users.SingleOrDefault(e => e.Realname.Equals(channelMessage.Realname));
+        public List<string> GetAllUsernames() => users.Select(user => user.Realname).ToList();
+        public User GetUser(string userName) => users.SingleOrDefault(user => user.Realname.Equals(userName));
+        public bool UserExists(string userName) => users.Any(user => user.Realname.Equals(userName));
 
-            if (user == null)
+        /// <summary>
+        ///     Adds a Args object to list
+        /// </summary>
+        /// <param name="user">user object</param>
+        /// <param name="m"><see cref="Message" /> to be added</param>
+        public void AddMessage(User user, Message m) {
+            if (!users.Contains(user))
                 return;
 
-            CreateUser(3, channelMessage.Nickname, channelMessage.Realname, channelMessage.Timestamp);
+            MainDatabase.Query($"INSERT INTO messages VALUES ({user.Id}, '{m.Sender}', '{m.Contents}', '{m.Date}')");
+            user.Messages.Add(m);
         }
 
         #endregion
- 
 
-
-        #region RegisterMethods
+        #region register methods
 
         private void MotdReplyEnd(object source, ChannelMessage channelMessage) {
             if (Config.Identified)
@@ -363,7 +393,7 @@ namespace Eve {
 
             foreach (string channel in Config.Channels) {
                 logger.SendData(Protocols.JOIN, channel);
-                Channels.Add(new Channel(channel));
+                channels.Add(new Channel(channel));
             }
 
             Config.Identified = true;
@@ -374,11 +404,11 @@ namespace Eve {
         }
 
         private void Join(object source, ChannelMessage channelMessage) {
-            Channels.SingleOrDefault(e => !e.Name.Equals(channelMessage.Recipient))?.AddUser(channelMessage.Recipient);
+            channels.SingleOrDefault(e => !e.Name.Equals(channelMessage.Recipient))?.AddUser(channelMessage.Recipient);
         }
 
         private void Part(object source, ChannelMessage channelMessage) {
-            Channels.SingleOrDefault(e => e.Name.Equals(channelMessage.Recipient))?.Inhabitants.RemoveAll(x => x.Equals(channelMessage.Nickname));
+            channels.SingleOrDefault(e => e.Name.Equals(channelMessage.Recipient))?.Inhabitants.RemoveAll(x => x.Equals(channelMessage.Nickname));
         }
 
         private void NamesReply(object source, ChannelMessage channelMessage) {
@@ -391,13 +421,13 @@ namespace Eve {
                 return;
 
             foreach (string s in channelMessage.SplitArgs[3].Split(' ')) {
-                Channel currentChannel = Channels.SingleOrDefault(e => e.Name.Equals(channelName));
+                Channel currentChannel = channels.SingleOrDefault(e => e.Name.Equals(channelName));
 
                 if (currentChannel == null ||
                     currentChannel.Inhabitants.Contains(s))
                     continue;
 
-                Channels.Single(e => e.Name.Equals(channelName)).Inhabitants.Add(s);
+                channels.Single(e => e.Name.Equals(channelName)).Inhabitants.Add(s);
             }
         }
 
@@ -416,7 +446,9 @@ namespace Eve {
             // built-in 'help' command
             if (channelMessage.SplitArgs[1].ToLower().Equals("help")) {
                 if (channelMessage.SplitArgs.Count.Equals(2)) { // in this case, 'help' is the only text in the string.
-                    logger.SendData(Protocols.PRIVMSG, $"{channelMessage.Recipient} Active commands: {string.Join(", ", Wrapper.PluginHost.GetCommands().Keys)}");
+                    logger.SendData(Protocols.PRIVMSG, Wrapper.PluginHost.GetCommands().Count == 0
+                        ? $"{channelMessage.Recipient} No commands currently active."
+                        : $"{channelMessage.Recipient} Active commands: {string.Join(", ", Wrapper.PluginHost.GetCommands().Keys)}");
                     return;
                 }
 
@@ -426,7 +458,7 @@ namespace Eve {
                     ? "Command not found."
                     : $"{queriedCommand.Key}: {queriedCommand.Value}";
 
-                logger.SendData($"{channelMessage.Recipient} {valueToSend}");
+                logger.SendData(Protocols.PRIVMSG, $"{channelMessage.Recipient} {valueToSend}");
 
                 return;
             }

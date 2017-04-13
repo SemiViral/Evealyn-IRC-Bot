@@ -1,23 +1,25 @@
 ﻿#region usings
 
 using System;
+using Eve.Types;
 
 #endregion
 
 namespace Eve.Plugin {
     internal class PluginWrapper : MarshalByRefObject {
-        internal EventHandler<LogEntry> LogEntryEventHandler;
         internal PluginHost PluginHost;
-        internal EventHandler<PluginSimpleReturnMessage> SimpleMessageEventHandler;
 
-        internal EventHandler TerminateBotEvent;
+        internal event EventHandler TerminateBotEvent;
+        internal event EventHandler<LogEntry> LogEntryEventHandler;
+        internal event EventHandler<SimpleMessageEventArgs> SimpleMessageEventHandler;
 
-        private void PluginsCallback(object source, PluginReturnActionEventArgs e) {
+        private void PluginsCallback(object source, ActionEventArgs e) {
             switch (e.ActionType) {
                 case PluginActionType.Load:
                     PluginHost.LoadPluginDomain();
                     break;
                 case PluginActionType.Unload:
+                    PluginHost.UnloadPluginDomain();
                     break;
                 case PluginActionType.None:
                     break;
@@ -28,22 +30,22 @@ namespace Eve.Plugin {
                     TerminateBotEvent?.Invoke(this, EventArgs.Empty);
                     break;
                 case PluginActionType.RegisterMethod:
-                    if (!(e.Result is PluginRegistrarEventArgs))
+                    if (!(e.Result is PluginRegistrar))
                         break;
 
-                    PluginHost.RegisterMethod((PluginRegistrarEventArgs)e.Result);
+                    PluginHost.RegisterMethod((PluginRegistrar)e.Result);
                     break;
                 case PluginActionType.SendMessage:
-                    if (!(e.Result is PluginSimpleReturnMessage))
+                    if (!(e.Result is SimpleMessageEventArgs))
                         break;
 
-                    SimpleMessageEventHandler.Invoke(this, (PluginSimpleReturnMessage)e.Result);
+                    SimpleMessageEventHandler?.Invoke(this, (SimpleMessageEventArgs)e.Result);
                     break;
                 case PluginActionType.Log:
                     if (!(e.Result is LogEntry))
                         break;
 
-                    LogEntryEventHandler.Invoke(this, (LogEntry)e.Result);
+                    LogEntryEventHandler?.Invoke(this, (LogEntry)e.Result);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

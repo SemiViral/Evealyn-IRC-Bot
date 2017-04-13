@@ -5,9 +5,9 @@ using System.IO;
 
 #endregion
 
-namespace Eve.Classes {
+namespace Eve.Types {
     public class BotConfig {
-        public const string BASE_CONFIG = "{ \"Nickname\": \"TestyBot\", \"Realname\": \"SemiViral\", \"Password\": \"testypass\", \"Server\": \"irc.foonetic.net\", \"Port\": 6667, \"Channels\": [\"#testgrounds\"],  \"IgnoreList\": [], \"DatabaseLocation\": \"users.sqlite\", \"ApiKeys\": [{\"Youtube\": \"\", \"Dictionary\": \"\"}]}";
+        public const string BASE_CONFIG = "{\r\n  \"Nickname\": \"Eve\",\r\n  \"Realname\": \"Evealyn\",\r\n  \"Password\": \"evepass\",\r\n  \"Server\": \"irc.foonetic.net\",\r\n  \"Port\": 6667,\r\n  \"Channels\": [ \"#testgrounds\" ],\r\n  \"IgnoreList\": [],\r\n  \"DatabaseLocation\": \"users.sqlite\",\r\n  \"ApiKeys\": {\r\n    \"YouTube\": \"\",\r\n    \"Dictionary\": \"\"\r\n  }\r\n}";
 
         public List<string> IgnoreList { get; set; } = new List<string>();
         public Dictionary<string, string> ApiKeys { get; set; } = new Dictionary<string, string>();

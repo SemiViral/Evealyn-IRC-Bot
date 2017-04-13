@@ -2,11 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using Eve.References;
+using Eve.Types.References;
 
 #endregion
 
-namespace Eve.Classes {
+namespace Eve.Types.Irc {
     public class Channel : MarshalByRefObject {
         public Channel(string name) {
             Name = name;
@@ -48,5 +48,7 @@ namespace Eve.Classes {
         public bool RemoveUser(string nickname) {
             return Inhabitants.Remove(nickname);
         }
+
+        public static implicit operator string(Channel channel) => channel.Name;
     }
 }

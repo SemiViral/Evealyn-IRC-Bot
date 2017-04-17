@@ -1,3 +1,6 @@
+#### I am no longer developing Evealyn. She is now the basis for [Convex](https://github.com/SemiViral/Convex-IRC-Library).
+
+
 # Evealyn, an C# IRC bot
 Evealyn is an IRC bot that I decided to start as a way to get known with the programming language C#.
 
